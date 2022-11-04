@@ -34,11 +34,14 @@ public class Person extends Base {
     @Column(name = "phone_number")
     private int phoneNumber;
 
+    @Column(name = "facebook_url")
+    private String facebookUrl;
+
     @ManyToOne
     @JoinColumn(name = "position_ID")
     private Position position;
 
-    public Person(String creation_Date, String createdById, String updateDate, String updatedById, boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, Position position) {
+    public Person(String creation_Date, String createdById, String updateDate, String updatedById, boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;
@@ -47,6 +50,7 @@ public class Person extends Base {
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.facebookUrl = facebookUrl;
         this.position = position;
     }
 }
