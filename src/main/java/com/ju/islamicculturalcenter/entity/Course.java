@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Table
 @Entity
 @Getter
@@ -45,7 +47,7 @@ public class Course extends Base {
     private String lectureTime;    
 
     @Column(name = "days_of_week")
-    private String []daysOfWeek;
+    private String daysOfWeek;
     
     @Column(name = "category")
     private String category;
@@ -79,36 +81,28 @@ public class Course extends Base {
 
     @Column(name ="last_reg_day")
     private String lastRegDay;
-	
-	
-	public Course(String creation_Date, String createdById, String updateDate, String updatedById, boolean active,
-			long courseId, String name, String description, double duration, String startDate, String endDate,
-			String lectureTime, String[] daysOfWeek, String category, int maxParticipants, boolean isPreRecorded,
-			boolean isOnline, boolean isFree, double price, String classroom, String semester, int year,
-			String teams_link, String lastRegDay) {
-		super(creation_Date, createdById, updateDate, updatedById, active);
-		this.courseId = courseId;
-		this.name = name;
-		this.description = description;
-		this.duration = duration;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.lectureTime = lectureTime;
-		this.daysOfWeek = daysOfWeek;
-		this.category = category;
-		this.maxParticipants = maxParticipants;
-		this.isPreRecorded = isPreRecorded;
-		this.isOnline = isOnline;
-		this.isFree = isFree;
-		this.price = price;
-		this.classroom = classroom;
-		this.semester = semester;
-		this.year = year;
-		this.teams_link = teams_link;
-		this.lastRegDay = lastRegDay;
-	}
 
 
-
-
+    public Course(String creation_Date, String createdById, String updateDate, String updatedById, boolean active, long courseId, String name, String description, double duration, String startDate, String endDate, String lectureTime, String daysOfWeek, String category, int maxParticipants, boolean isPreRecorded, boolean isOnline, boolean isFree, double price, String classroom, String semester, int year, String teams_link, String lastRegDay) {
+        super(creation_Date, createdById, updateDate, updatedById, active);
+        this.courseId = courseId;
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.lectureTime = lectureTime;
+        this.daysOfWeek = daysOfWeek;
+        this.category = category;
+        this.maxParticipants = maxParticipants;
+        this.isPreRecorded = isPreRecorded;
+        this.isOnline = isOnline;
+        this.isFree = isFree;
+        this.price = price;
+        this.classroom = classroom;
+        this.semester = semester;
+        this.year = year;
+        this.teams_link = teams_link;
+        this.lastRegDay = lastRegDay;
+    }
 }
