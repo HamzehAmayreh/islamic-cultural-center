@@ -1,12 +1,12 @@
 package com.ju.islamicculturalcenter.entity;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import java.sql.Timestamp;
 
 
 @MappedSuperclass
@@ -15,23 +15,22 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 public class Base {
 
-    @Column(name = "creation_date")
-    protected String creation_Date;
+    @Column(name = "creation_date", nullable = false)
+    protected Timestamp creation_Date;
 
-    @Column(name = "created_by_id")
-    protected String createdById;
+    @Column(name = "created_by_id", nullable = false)
+    protected Long createdById;
 
-    @Column(name = "update_date")
-    protected String updateDate;
+    @Column(name = "update_date", nullable = false)
+    protected Timestamp updateDate;
 
-    @Column(name = "updated_by_id")
-    protected String updatedById;
+    @Column(name = "updated_by_id", nullable = false)
+    protected Long updatedById;
 
-    @Column(name = "active")
-    protected boolean active;
+    @Column(name = "active", nullable = false)
+    protected Boolean active;
 
-
-    public Base(String creation_Date, String createdById, String updateDate, String updatedById, boolean active) {
+    public Base(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
         this.creation_Date = creation_Date;
         this.createdById = createdById;
         this.updateDate = updateDate;

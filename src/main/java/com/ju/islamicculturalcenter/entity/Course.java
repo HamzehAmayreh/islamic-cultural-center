@@ -1,89 +1,86 @@
 package com.ju.islamicculturalcenter.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-
-import lombok.AllArgsConstructor;
+import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
-@Table
+
+@Table(name = "course")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Course extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
-    private long courseId;
-    
-    @Column(name = "course_name")
+    private Long courseId;
+
+    @Column(name = "course_name", nullable = false, unique = true)
     private String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="durtaion")
-    private double duration;
+    @Column(name = "durtaion", nullable = false)
+    private Double duration;
 
-    @Column(name="start_date")
-    private String startDate;
-    
-    @Column(name="end_date")
-    private String endDate;
+    @Column(name = "start_date")
+    private Date startDate;
 
-    @Column(name="lecture_time")
-    private String lectureTime;    
+    @Column(name = "end_date")
+    private Date endDate;
+
+    @Column(name = "lecture_time")
+    private String lectureTime;
 
     @Column(name = "days_of_week")
-    private String daysOfWeek;
-    
-    @Column(name = "category")
+    @ElementCollection
+    private List<DaysOfWeek> daysOfWeek;
+
+    @Column(name = "category", nullable = false)
     private String category;
-    
-    @Column(name = "max_participants")
-    private int maxParticipants;
-    
+
+    @Column(name = "max_participants", nullable = false)
+    private Integer maxParticipants;
+
     @Column(name = "is_prerecorded")
-    private boolean isPreRecorded;
+    private Boolean isPreRecorded;
 
     @Column(name = "is_online")
-    private boolean isOnline;
+    private Boolean isOnline;
 
-    @Column(name = "is_free")
-    private boolean isFree;
-    
-    @Column(name = "price")
-    private double price;
-    
+    @Column(name = "is_free", nullable = false)
+    private Boolean isFree;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
+
     @Column(name = "classroom")
     private String classroom;
-    
+
     @Column(name = "semester")
-    private String semester ;
-    
-    @Column(name = "year")
-    private int year;
+    private String semester;
+
+    @Column(name = "year", nullable = false)
+    private Integer year;
 
     @Column(name = "teams_link")
     private String teams_link;
 
-    @Column(name ="last_reg_day")
+    @Column(name = "last_reg_day", nullable = false)
     private String lastRegDay;
 
-
-    public Course(String creation_Date, String createdById, String updateDate, String updatedById, boolean active, long courseId, String name, String description, double duration, String startDate, String endDate, String lectureTime, String daysOfWeek, String category, int maxParticipants, boolean isPreRecorded, boolean isOnline, boolean isFree, double price, String classroom, String semester, int year, String teams_link, String lastRegDay) {
+    @Builder
+    public Course(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long courseId, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teams_link, String lastRegDay) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.courseId = courseId;
         this.name = name;

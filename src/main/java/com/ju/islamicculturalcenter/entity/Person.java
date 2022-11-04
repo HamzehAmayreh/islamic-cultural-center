@@ -1,14 +1,17 @@
 package com.ju.islamicculturalcenter.entity;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Person extends Base {
 
     @Id
@@ -41,7 +44,7 @@ public class Person extends Base {
     @JoinColumn(name = "position_ID")
     private Position position;
 
-    public Person(String creation_Date, String createdById, String updateDate, String updatedById, boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position) {
+    public Person(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;
