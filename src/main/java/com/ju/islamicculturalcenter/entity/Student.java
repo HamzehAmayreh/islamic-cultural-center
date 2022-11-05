@@ -9,13 +9,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table
+@Table(name = "student")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Student extends Person{
+public class Student extends Person {
 
     @Column(name = "date_of_birth")
     private String dateOfBirth;
@@ -25,7 +25,6 @@ public class Student extends Person{
 
     @Column(name = "is_verified")
     private Boolean isVerified;
-
 
 
 }

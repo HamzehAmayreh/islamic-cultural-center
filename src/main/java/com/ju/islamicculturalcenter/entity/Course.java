@@ -21,8 +21,8 @@ public class Course extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_id")
-    private Long courseId;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "course_name", nullable = false, unique = true)
     private String name;
@@ -80,9 +80,9 @@ public class Course extends Base {
     private String lastRegDay;
 
     @Builder
-    public Course(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long courseId, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teams_link, String lastRegDay) {
+    public Course(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teams_link, String lastRegDay) {
         super(creation_Date, createdById, updateDate, updatedById, active);
-        this.courseId = courseId;
+        this.id = id;
         this.name = name;
         this.description = description;
         this.duration = duration;

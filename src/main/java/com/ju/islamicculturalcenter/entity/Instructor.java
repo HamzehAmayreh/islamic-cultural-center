@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
-@Table
+@Table(name = "instructor")
 @Entity
 @Getter
 @Setter
@@ -23,10 +23,22 @@ public class Instructor extends Person {
     @Column(name = "is_volunteer", nullable = false)
     private String isVolunteer;
 
+    @Column(name = "salary")
+    private Double salary;
+
+    @Column(name = "cv_url")
+    private String cvUrl;
+
+    @Column(name = "sub_number", nullable = false)
+    private String subNumber;
+
     @Builder
-    public Instructor(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position, String imageUrl, String isVolunteer) {
+    public Instructor(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.imageUrl = imageUrl;
         this.isVolunteer = isVolunteer;
+        this.salary = salary;
+        this.cvUrl = cvUrl;
+        this.subNumber = subNumber;
     }
 }
