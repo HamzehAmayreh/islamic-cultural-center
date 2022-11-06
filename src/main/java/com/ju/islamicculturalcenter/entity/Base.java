@@ -27,14 +27,14 @@ public class Base {
     @Column(name = "updated_by_id", nullable = false)
     protected Long updatedById;
 
-    @Column(name = "active", nullable = false)
-    protected Boolean active;
+    @Column(name = "is_active", nullable = false)
+    protected Boolean isActive;
 
     public Base(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
         this.creation_Date = creation_Date;
         this.createdById = createdById;
         this.updateDate = updateDate;
         this.updatedById = updatedById;
-        this.active = active;
+        this.isActive = active;
     }
 }

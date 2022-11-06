@@ -2,5 +2,8 @@ package com.ju.islamicculturalcenter.repos;
 
 import com.ju.islamicculturalcenter.entity.Course;
 
-public interface CourseRepo extends BaseRepo<Course, Long>{
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CourseRepo extends BaseRepo<Course, Long> {
 }

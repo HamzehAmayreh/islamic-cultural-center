@@ -2,5 +2,8 @@ package com.ju.islamicculturalcenter.repos;
 
 import com.ju.islamicculturalcenter.entity.Position;
 
-public interface PositionRepo extends BaseRepo<Position,Long> {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface PositionRepo extends BaseRepo<Position, Long> {
 }
