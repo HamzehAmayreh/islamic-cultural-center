@@ -1,59 +1,58 @@
 package com.ju.islamicculturalcenter.service;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.ju.islamicculturalcenter.entity.Student;
+import com.ju.islamicculturalcenter.repos.StudentRepo;
+import com.ju.islamicculturalcenter.service.iservice.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ju.islamicculturalcenter.entity.Student;
-import com.ju.islamicculturalcenter.repos.StudentRepo;
+import java.util.List;
+
+import static java.util.Objects.nonNull;
 
 @Service
 public class StudentServiceImp implements StudentService {
 
-	private StudentRepo studentRepo;
-	
-	@Autowired
-	public StudentServiceImp(StudentRepo theStudentRepo) {
-		studentRepo = theStudentRepo;
-	}
-	
-	@Override
-	public List<Student> findAll(){
-	
-		return studentRepo.findAll();
-	}
+    private final StudentRepo studentRepo;
 
-	@Override
-	public Student findById(int theId) {
-		Student st = null;
-		
-		Optional <Student> res = studentRepo.findById(theId);
-		if(res.isPresent()) {
-			st = res.get();
-		}
-		else {
-			throw new RuntimeException("Did not find Student id -"+ theId);
-		}
-		return st;
-		
-	}
+    @Autowired
+    public StudentServiceImp(StudentRepo theStudentRepo) {
+        studentRepo = theStudentRepo;
+    }
 
-	@Override	
-	public void save(Student theStudent) {
-		// TODO Auto-generated method stub
-		studentRepo.save(theStudent);
-		
-	}
+    @Override
+    public List<Student> findAll() {
 
-	@Override
-	public void deleteById(int theId) {
-		
-		studentRepo.deleteById(theId);
-		
-	}
-	
-	
-	
+        return studentRepo.findAllByIsActive(true);
+    }
+
+    @Override
+    public Student findById(Long theId) {
+        Student st = null;
+
+        Student res = studentRepo.findByIdAndIsActive(theId, true);
+        if (nonNull(res)) {
+            st = res;
+        } else {
+            throw new RuntimeException("Did not find Student id -" + theId);
+        }
+        return st;
+
+    }
+
+    @Override
+    public void save(Student theStudent) {
+        // TODO Auto-generated method stub
+        studentRepo.save(theStudent);
+
+    }
+
+    @Override
+    public void deleteById(Long theId) {
+
+        studentRepo.deleteById(theId);
+
+    }
+
+
 }

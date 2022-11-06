@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.service;
+package com.ju.islamicculturalcenter.service.iservice;
 
 import java.util.List;
 
@@ -8,11 +8,11 @@ public interface StudentService {
 
 	public List<Student> findAll();
 	
-	public Student findById(int theId);
+	public Student findById(Long theId);
 	
 	public void save(Student theStudent);
 	
-	public void deleteById(int theId);
+	public void deleteById(Long theId);
 	
 
 

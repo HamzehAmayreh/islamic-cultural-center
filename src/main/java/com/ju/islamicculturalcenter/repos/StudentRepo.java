@@ -1,9 +1,9 @@
 package com.ju.islamicculturalcenter.repos;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.ju.islamicculturalcenter.entity.Student;
+import org.springframework.stereotype.Repository;
 
-public interface StudentRepo extends JpaRepository<Student, Integer> {
+@Repository
+public interface StudentRepo extends BaseRepo<Student, Long> {
 
 }
