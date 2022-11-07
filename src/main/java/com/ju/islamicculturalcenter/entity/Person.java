@@ -34,7 +34,7 @@ public class Person extends Base {
     private String password;
 
     @Column(name = "phone_number")
-    private int phoneNumber;
+    private Integer phoneNumber;
 
     @Column(name = "facebook_url")
     private String facebookUrl;
