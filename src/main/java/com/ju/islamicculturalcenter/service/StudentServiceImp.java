@@ -1,14 +1,17 @@
 package com.ju.islamicculturalcenter.service;
 
 import com.ju.islamicculturalcenter.dto.request.AdminReqStudentDto;
+import com.ju.islamicculturalcenter.dto.response.AdminResStudentDto;
 import com.ju.islamicculturalcenter.entity.Student;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
 import com.ju.islamicculturalcenter.service.iservice.StudentService;
 import com.ju.islamicculturalcenter.service.mapper.AdminStudentMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
 
@@ -23,9 +26,10 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public List<Student> findAll() {
+    public List<AdminResStudentDto> findAll() {
 
-        return studentRepo.findAllByIsActive(true);
+    return      studentRepo.findAllByIsActive(true).stream().map(student -> AdminStudentMapper.mapStudentToDto(student)).collect(Collectors.toList());
+
     }
 
     @Override

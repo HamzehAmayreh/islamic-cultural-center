@@ -3,6 +3,7 @@ package com.ju.islamicculturalcenter.restcontrollers;
 import java.util.List;
 
 import com.ju.islamicculturalcenter.dto.request.AdminReqStudentDto;
+import com.ju.islamicculturalcenter.dto.response.AdminResStudentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class StudentRestController {
 	}
 
 	@GetMapping("/students")
-	public List<Student> getStudents() {
+	public List<AdminResStudentDto> getStudents() {
 		return dao.findAll();
 	}
 
