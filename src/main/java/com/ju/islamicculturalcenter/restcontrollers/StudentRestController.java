@@ -2,16 +2,15 @@ package com.ju.islamicculturalcenter.restcontrollers;
 
 import java.util.List;
 
-import com.ju.islamicculturalcenter.dto.request.AdminReqStudentDto;
-import com.ju.islamicculturalcenter.dto.response.AdminResStudentDto;
+import com.ju.islamicculturalcenter.dto.request.admin.AdminStudentRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ju.islamicculturalcenter.entity.Student;
-import com.ju.islamicculturalcenter.service.StudentServiceImp;
+import com.ju.islamicculturalcenter.service.impl.StudentServiceImp;
 
 @RestController
 public class StudentRestController {
@@ -24,12 +23,12 @@ public class StudentRestController {
 	}
 
 	@GetMapping("/students")
-	public List<AdminResStudentDto> getStudents() {
+	public List<AdminStudentResponseDto> getStudents() {
 		return dao.findAll();
 	}
 
 	@PostMapping("/students")
-	public void createDto(@RequestBody AdminReqStudentDto adminReqStudentDto) {
+	public void createDto(@RequestBody AdminStudentRequestDto adminReqStudentDto) {
 		dao.save(adminReqStudentDto);
 	}
 	

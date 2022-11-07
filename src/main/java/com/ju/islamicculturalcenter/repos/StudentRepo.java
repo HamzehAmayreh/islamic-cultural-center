@@ -1,9 +1,9 @@
 package com.ju.islamicculturalcenter.repos;
 
-import com.ju.islamicculturalcenter.entity.Student;
+import com.ju.islamicculturalcenter.entity.StudentEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StudentRepo extends BaseRepo<Student, Long> {
+public interface StudentRepo extends BaseRepo<StudentEntity, Long> {
 
 }

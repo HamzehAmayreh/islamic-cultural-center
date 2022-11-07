@@ -1,9 +1,7 @@
-package com.ju.islamicculturalcenter.dto.response;
+package com.ju.islamicculturalcenter.dto.response.student;
 
-import com.ju.islamicculturalcenter.dto.BaseDto;
 import lombok.*;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -12,19 +10,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminResStudentDto extends BaseDto {
+public class StudentRegistrationResponseDto {
 
     private Long id;
-
-    private Timestamp creationDate;
-
-    private Long createdById;
-
-    private Timestamp updateDate;
-
-    private Long updatedById;
-
-    private Boolean isActive;
 
     private String firstName;
 
@@ -41,8 +29,5 @@ public class AdminResStudentDto extends BaseDto {
     private Date dateOfBirth;
 
     private Integer courseCount;
-
-    private Boolean isVerified;
-
 
 }

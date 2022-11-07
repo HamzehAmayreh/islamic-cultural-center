@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CertificateInvoice extends Base {
+public class CertificateInvoiceEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +29,18 @@ public class CertificateInvoice extends Base {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id", referencedColumnName = "id")
-    private Instructor instructor;
+    private InstructorEntity instructor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
-    private Course course;
+    private CourseEntity course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
+    private StudentEntity student;
 
     @Builder
-    public CertificateInvoice(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String link, CertificateInvoiceTypes type, Instructor instructor, Course course, Student student) {
+    public CertificateInvoiceEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String link, CertificateInvoiceTypes type, InstructorEntity instructor, CourseEntity course, StudentEntity student) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.link = link;

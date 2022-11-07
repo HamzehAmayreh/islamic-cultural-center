@@ -1,15 +1,14 @@
-package com.ju.islamicculturalcenter.dto.request;
+package com.ju.islamicculturalcenter.dto.request.instructor;
 
+import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class RegReqInstructorDto {
+public class InstructorRegistrationRequestDto extends BaseRequestDto {
     private String firstName;
 
     private String lastName;

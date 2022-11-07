@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InstructorCourses extends Base {
+public class InstructorCoursesEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +22,14 @@ public class InstructorCourses extends Base {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
-    private Course course;
+    private CourseEntity course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id", referencedColumnName = "id")
-    private Instructor instructor;
+    private InstructorEntity instructor;
 
     @Builder
-    public InstructorCourses(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, Course course, Instructor instructor) {
+    public InstructorCoursesEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, CourseEntity course, InstructorEntity instructor) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.course = course;

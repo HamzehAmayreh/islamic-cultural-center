@@ -1,5 +1,6 @@
-package com.ju.islamicculturalcenter.dto.request;
+package com.ju.islamicculturalcenter.dto.request.student;
 
+import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.*;
 
 import java.util.Date;
@@ -9,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminReqStudentDto {
+public class StudentRegistrationRequestDto extends BaseRequestDto {
 
     private String firstName;
 
@@ -22,6 +23,5 @@ public class AdminReqStudentDto {
     private String facebookUrl;
 
     private Date dateOfBirth;
-
 
 }

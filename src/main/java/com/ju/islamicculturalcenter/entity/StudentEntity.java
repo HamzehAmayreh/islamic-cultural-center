@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Student extends Person {
+public class StudentEntity extends PersonEntity {
 
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
@@ -25,7 +25,7 @@ public class Student extends Person {
     private Boolean isVerified;
 
     @Builder
-    public Student(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position, Date dateOfBirth, Integer courseCount, Boolean isVerified) {
+    public StudentEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position, Date dateOfBirth, Integer courseCount, Boolean isVerified) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.dateOfBirth = dateOfBirth;
         this.courseCount = courseCount;

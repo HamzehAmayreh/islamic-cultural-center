@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Admin extends Person {
+public class AdminEntity extends PersonEntity {
 
     @Column(name = "role")
     private AdminRoles role;
@@ -28,7 +28,7 @@ public class Admin extends Person {
     private String iban;
 
     @Builder
-    public Admin(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position, AdminRoles role, String address, String iban) {
+    public AdminEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position, AdminRoles role, String address, String iban) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.role = role;
         this.address = address;

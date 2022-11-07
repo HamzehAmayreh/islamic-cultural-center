@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Material extends Base{
+public class MaterialEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +27,14 @@ public class Material extends Base{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id",referencedColumnName = "id")
-    private Instructor instructor;
+    private InstructorEntity instructor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id",referencedColumnName = "id")
-    private Course course;
+    private CourseEntity course;
 
     @Builder
-    public Material(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String url, Date year, Instructor instructor, Course course) {
+    public MaterialEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String url, Date year, InstructorEntity instructor, CourseEntity course) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.url = url;

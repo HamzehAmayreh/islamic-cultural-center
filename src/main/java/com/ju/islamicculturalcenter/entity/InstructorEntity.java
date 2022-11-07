@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Instructor extends Person {
+public class InstructorEntity extends PersonEntity {
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -33,7 +33,7 @@ public class Instructor extends Person {
     private String subNumber;
 
     @Builder
-    public Instructor(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber) {
+    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.imageUrl = imageUrl;
         this.isVolunteer = isVolunteer;

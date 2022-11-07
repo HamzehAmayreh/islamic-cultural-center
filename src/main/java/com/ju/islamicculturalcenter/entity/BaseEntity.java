@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Base {
+public class BaseEntity {
 
     @Column(name = "creation_date", nullable = false)
     protected Timestamp creation_Date;
@@ -30,7 +30,7 @@ public class Base {
     @Column(name = "is_active", nullable = false)
     protected Boolean isActive;
 
-    public Base(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
+    public BaseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
         this.creation_Date = creation_Date;
         this.createdById = createdById;
         this.updateDate = updateDate;

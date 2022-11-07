@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Position extends Base {
+public class PositionEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Position extends Base {
     private String name;
 
     @Builder
-    public Position(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name) {
+    public PositionEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.name = name;

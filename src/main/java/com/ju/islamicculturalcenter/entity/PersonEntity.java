@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Person extends Base {
+public class PersonEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,9 +41,9 @@ public class Person extends Base {
 
     @ManyToOne
     @JoinColumn(name = "position_ID")
-    private Position position;
+    private PositionEntity position;
 
-    public Person(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, Position position) {
+    public PersonEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;

@@ -1,9 +1,9 @@
 package com.ju.islamicculturalcenter.repos;
 
-import com.ju.islamicculturalcenter.entity.Admin;
+import com.ju.islamicculturalcenter.entity.AdminEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AdminRepo extends BaseRepo<Admin, Long> {
+public interface AdminRepo extends BaseRepo<AdminEntity, Long> {
 
 }

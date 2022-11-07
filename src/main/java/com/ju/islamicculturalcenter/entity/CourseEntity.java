@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Course extends Base {
+public class CourseEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +80,7 @@ public class Course extends Base {
     private String lastRegDay;
 
     @Builder
-    public Course(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teams_link, String lastRegDay) {
+    public CourseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teams_link, String lastRegDay) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.name = name;
