@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.instructor;
+package com.ju.islamicculturalcenter.dto.request.admin;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InstructorRegistrationRequestDto extends BaseRequestDto {
+public class AdminInstructorRequestDto extends BaseRequestDto {
+
     private String firstName;
 
     private String lastName;
@@ -27,6 +28,7 @@ public class InstructorRegistrationRequestDto extends BaseRequestDto {
 
     private String isVolunteer;
 
-    private String cvUrl;
+    private Double salary;
 
+    private String cvUrl;
 }
