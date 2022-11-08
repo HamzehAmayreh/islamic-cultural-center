@@ -1,8 +1,8 @@
-package com.ju.islamicculturalcenter.dto.request.admin;
+package com.ju.islamicculturalcenter.dto.response.admin;
 
-import com.ju.islamicculturalcenter.dto.BaseRequestDto;
+import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
+import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class AdminCourseRequestDto implements BaseRequestDto {
+public class AdminCourseResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String name;
 
@@ -51,4 +50,8 @@ public class AdminCourseRequestDto implements BaseRequestDto {
     private String teams_link;
 
     private String lastRegDay;
+
+    private List<AdminStudentListResponseDto> students;
+
+    private List<AdminInstructorListResponseDto> instructors;
 }

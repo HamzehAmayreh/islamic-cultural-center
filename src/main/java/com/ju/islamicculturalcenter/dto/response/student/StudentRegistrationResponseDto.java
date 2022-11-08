@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.student;
 
+import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;
 
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StudentRegistrationResponseDto {
+public class StudentRegistrationResponseDto implements BaseResponseDto {
 
     private Long id;
 
@@ -29,5 +30,4 @@ public class StudentRegistrationResponseDto {
     private Date dateOfBirth;
 
     private Integer courseCount;
-
 }

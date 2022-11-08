@@ -1,5 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.admin;
-
+package com.ju.islamicculturalcenter.dto.request.instructor;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;
@@ -11,9 +10,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminInstructorCourseRequestDto implements BaseRequestDto {
+public class InstructorStudentCourseRequestDto implements BaseRequestDto {
+
+    private Long studentId;
 
     private Long courseId;
 
-    private Long instructorId;
+    private Boolean paid;
 }

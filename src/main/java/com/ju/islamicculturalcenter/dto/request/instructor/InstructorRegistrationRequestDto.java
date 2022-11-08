@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InstructorRegistrationRequestDto extends BaseRequestDto {
+public class InstructorRegistrationRequestDto implements BaseRequestDto {
     private String firstName;
 
     private String lastName;

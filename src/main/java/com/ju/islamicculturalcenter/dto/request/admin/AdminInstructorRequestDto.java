@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminInstructorRequestDto extends BaseRequestDto {
+public class AdminInstructorRequestDto implements BaseRequestDto {
 
     private String firstName;
 

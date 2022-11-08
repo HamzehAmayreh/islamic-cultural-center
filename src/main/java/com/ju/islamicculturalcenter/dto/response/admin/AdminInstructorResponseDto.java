@@ -1,17 +1,12 @@
-package com.ju.islamicculturalcenter.dto.response.instructor;
+package com.ju.islamicculturalcenter.dto.response.admin;
 
+import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.PositionEntity;
-import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class InstructorRegistrationResponseDto implements BaseResponseDto {
+import java.util.List;
 
-    private Long id;
+public class AdminInstructorResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String firstName;
 
@@ -36,4 +31,6 @@ public class InstructorRegistrationResponseDto implements BaseResponseDto {
     private String cvUrl;
 
     private String subNumber;
+
+    private List<AdminCourseListResponseDto> courses;
 }

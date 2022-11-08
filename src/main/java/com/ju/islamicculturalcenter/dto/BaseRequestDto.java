@@ -1,4 +1,4 @@
 package com.ju.islamicculturalcenter.dto;
 
-public class BaseRequestDto {
+public interface BaseRequestDto {
 }

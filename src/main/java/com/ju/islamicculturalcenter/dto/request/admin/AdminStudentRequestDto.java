@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdminStudentRequestDto extends BaseRequestDto {
+public class AdminStudentRequestDto implements BaseRequestDto {
 
     private String firstName;
 

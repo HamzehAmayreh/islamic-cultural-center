@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminRequestDto extends BaseRequestDto {
+public class AdminRequestDto implements BaseRequestDto {
 
     private String firstName;
 

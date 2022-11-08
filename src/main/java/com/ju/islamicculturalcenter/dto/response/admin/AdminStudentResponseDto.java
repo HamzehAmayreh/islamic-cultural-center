@@ -1,17 +1,19 @@
 package com.ju.islamicculturalcenter.dto.response.admin;
 
+import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminStudentResponseDto extends BaseResponseDto {
+public class AdminStudentResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String firstName;
 
@@ -31,8 +33,10 @@ public class AdminStudentResponseDto extends BaseResponseDto {
 
     private Boolean isVerified;
 
+    private List<AdminCourseListResponseDto> courses;
+
     @Builder
-    public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, Integer phoneNumber, String facebookUrl, Date dateOfBirth, Integer courseCount, Boolean isVerified) {
+    public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, Integer phoneNumber, String facebookUrl, Date dateOfBirth, Integer courseCount, Boolean isVerified, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, editedById, creationDate, editedDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,5 +47,6 @@ public class AdminStudentResponseDto extends BaseResponseDto {
         this.dateOfBirth = dateOfBirth;
         this.courseCount = courseCount;
         this.isVerified = isVerified;
+        this.courses = courses;
     }
 }
