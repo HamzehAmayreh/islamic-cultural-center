@@ -5,31 +5,28 @@ import java.util.List;
 import com.ju.islamicculturalcenter.dto.request.admin.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.ju.islamicculturalcenter.service.impl.StudentServiceImp;
+import com.ju.islamicculturalcenter.service.impl.AdminStudentServiceImp;
 
 @RestController
+@RequestMapping("/students")
 public class StudentRestController {
 
-	private StudentServiceImp dao;
+	private AdminStudentServiceImp adminStudentServiceImp;
 
-	@Autowired
-	public StudentRestController(StudentServiceImp the) {
-		dao = the;
+	public StudentRestController(AdminStudentServiceImp adminStudentServiceImp) {
+		this.adminStudentServiceImp = adminStudentServiceImp;
 	}
 
-	@GetMapping("/students")
+	@RequestMapping(method = RequestMethod.GET)
 	public List<AdminStudentResponseDto> getStudents() {
-		return dao.findAll();
+		return adminStudentServiceImp.findAllByActive(true);
 	}
 
-	@PostMapping("/students")
+	@RequestMapping(method = RequestMethod.POST)
 	public void createDto(@RequestBody AdminStudentRequestDto adminReqStudentDto) {
-		dao.save(adminReqStudentDto);
+		adminStudentServiceImp.save(adminReqStudentDto);
 	}
 	
 

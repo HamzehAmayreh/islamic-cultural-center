@@ -6,15 +6,15 @@ import com.ju.islamicculturalcenter.entity.BaseEntity;
 
 import java.util.List;
 
-public interface IBaseService<T extends BaseEntity, R extends BaseRequestDto, S extends BaseResponseDto, ID> {
+public interface IBaseService<T extends BaseEntity, R extends BaseRequestDto, S extends BaseResponseDto> {
 
     List<S> findAllByActive(Boolean active);
 
-    S findById(ID Id);
+    S findById(Long id, Boolean active);
 
-    void save(R obj);
+    void save(R dto);
 
-    S update(R obj);
+    S update(R dto);
 
-    void deleteById(ID Id);
+    void deleteById(Long id);
 }
