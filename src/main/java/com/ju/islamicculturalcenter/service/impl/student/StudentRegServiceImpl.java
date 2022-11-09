@@ -9,16 +9,19 @@ import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.iservice.student.StudentRegService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StudentRegServiceImpl extends BaseServiceImpl<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto> implements StudentRegService {
 
     private final StudentRepo studentRepo;
-    private final StudentRegistrationMapper studentRegistrationMapper ;
+    private final StudentRegistrationMapper studentRegistrationMapper;
 
-    public StudentRegServiceImpl(StudentRepo studentRepo){
+    public StudentRegServiceImpl(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
         studentRegistrationMapper = new StudentRegistrationMapper();
     }
+
     @Override
     public BaseRepo<StudentEntity, Long> getRepo() {
         return studentRepo;
