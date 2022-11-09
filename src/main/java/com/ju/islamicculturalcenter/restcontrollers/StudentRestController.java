@@ -4,10 +4,9 @@ import java.util.List;
 
 import com.ju.islamicculturalcenter.dto.request.admin.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.ju.islamicculturalcenter.service.impl.AdminStudentServiceImp;
+import com.ju.islamicculturalcenter.service.impl.admin.AdminStudentServiceImp;
 
 @RestController
 @RequestMapping("/students")

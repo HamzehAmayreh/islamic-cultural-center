@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.service.iservice;
+package com.ju.islamicculturalcenter.service.iservice.admin;
 
 import com.ju.islamicculturalcenter.dto.request.admin.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;

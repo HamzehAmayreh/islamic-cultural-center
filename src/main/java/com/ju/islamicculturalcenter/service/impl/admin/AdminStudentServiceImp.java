@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.service.impl;
+package com.ju.islamicculturalcenter.service.impl.admin;
 
 import com.ju.islamicculturalcenter.dto.request.admin.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
@@ -8,7 +8,7 @@ import com.ju.islamicculturalcenter.mappers.admin.AdminStudentMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
-import com.ju.islamicculturalcenter.service.iservice.AdminStudentService;
+import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentService;
 import org.springframework.stereotype.Service;
 
 @Service

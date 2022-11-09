@@ -17,11 +17,11 @@ public class BaseAdminResponse {
 
     private Long createdById;
 
-    private Long editedById;
+    private Long updatedById;
 
     private Timestamp creationDate;
 
-    private Timestamp editedDate;
+    private Timestamp updateDate;
 
     private Boolean isActive;
 }
