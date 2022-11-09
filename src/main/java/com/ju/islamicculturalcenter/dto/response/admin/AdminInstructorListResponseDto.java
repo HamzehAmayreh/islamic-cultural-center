@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AdminInstructorListResponseDto implements BaseResponseDto {
 
     private Long id;
@@ -21,4 +20,14 @@ public class AdminInstructorListResponseDto implements BaseResponseDto {
     private Integer phoneNumber;
 
     private String imageUrl;
+
+    @Builder
+    public AdminInstructorListResponseDto(Long id, Long firstName, Long lastName, String email, Integer phoneNumber, String imageUrl) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.imageUrl = imageUrl;
+    }
 }

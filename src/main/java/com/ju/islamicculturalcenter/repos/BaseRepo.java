@@ -17,6 +17,6 @@ public interface BaseRepo<T extends BaseEntity, ID> extends JpaRepository<T, ID>
     T findByIdAndIsActive(Long id, Boolean isActive);
 
     @Modifying
-    @Query("UPDATE #{#entityName} t SET t.isActive = true WHERE t.id = :id")
+    @Query("UPDATE #{#entityName} t SET t.isActive = false WHERE t.id = :id")
     void softDelete(@Param("id") Long id);
 }
