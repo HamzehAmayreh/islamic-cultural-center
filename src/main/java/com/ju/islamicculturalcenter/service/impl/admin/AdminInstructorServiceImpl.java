@@ -15,7 +15,7 @@ import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorServic
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto> implements AdminInstructorService {
+public class    AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto> implements AdminInstructorService {
 
     private final InstructorRepo instructorRepo;
     private final AdminInstructorMapper adminInstructorMapper;
