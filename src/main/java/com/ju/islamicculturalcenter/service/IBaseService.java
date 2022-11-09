@@ -7,6 +7,7 @@ import com.ju.islamicculturalcenter.entity.BaseEntity;
 import java.util.List;
 
 public interface IBaseService<T extends BaseEntity, R extends BaseRequestDto, S extends BaseResponseDto> {
+    //BASE SERVICE WHICH TAKES 3 TYPES [ENTITY, REQUEST DTO, RESPONSE DTO] FOR ANY IMPLEMENTATION SERVICE
 
     List<S> findAllByActive(Boolean active);
 

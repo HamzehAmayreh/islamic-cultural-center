@@ -13,8 +13,9 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
 
     @Override
     public List<S> findAllByActive(Boolean active) {
-        return getRepo().findAllByIsActive(active).stream()
-                .map(getMapper()::mapEntityToDto).collect(Collectors.toList());
+        return getRepo().findAllByIsActive(active).stream() //stream is like for loop but is faster having parallel loops and return the element in collection
+                .map(getMapper()::mapEntityToDto)// map method loops through every element of the return type
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -38,7 +39,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
         getRepo().softDelete(id);
     }
 
-    public abstract BaseRepo<T,Long> getRepo();
+    public abstract BaseRepo<T,Long> getRepo(); // to be implemented by every class that extends this class [return the repo of the entity the service implements]
 
-    public abstract BaseMapper<T,R,S> getMapper();
+    public abstract BaseMapper<T,R,S> getMapper(); // to be implemented by every class that extends this class [return the mapper of the dto's the service implements]
 }

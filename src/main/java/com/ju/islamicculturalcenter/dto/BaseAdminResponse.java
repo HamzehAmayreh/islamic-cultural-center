@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseAdminResponse {
+public class BaseAdminResponse { // HAS ALL THE ATTRIBUTES COMMON FOR ALL ADMIN RESPONSES
 
     private Long id;
 
