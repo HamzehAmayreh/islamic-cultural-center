@@ -8,13 +8,14 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @NoRepositoryBean
 public interface BaseRepo<T extends BaseEntity, ID> extends JpaRepository<T, ID> {
 
     List<T> findAllByIsActive(Boolean isActive);
 
-    T findByIdAndIsActive(Long id, Boolean isActive);
+    Optional<T> findByIdAndIsActive(Long id, Boolean isActive);
 
     @Modifying
     @Query("UPDATE #{#entityName} t SET t.isActive = false WHERE t.id = :id")

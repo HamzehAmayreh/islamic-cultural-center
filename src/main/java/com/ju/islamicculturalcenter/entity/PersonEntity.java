@@ -27,7 +27,7 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password")

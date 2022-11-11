@@ -3,6 +3,7 @@ package com.ju.islamicculturalcenter.service;
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.BaseEntity;
+import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
 
@@ -20,7 +21,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
 
     @Override
     public S findById(Long id, Boolean active) {
-        return getMapper().mapEntityToDto(getRepo().findByIdAndIsActive(id,active));
+        return getMapper().mapEntityToDto(getRepo().findByIdAndIsActive(id,active)
+                .orElseThrow(() -> new NotFoundException("No Entity Found with ID: " + id)));
     }
 
     @Override
