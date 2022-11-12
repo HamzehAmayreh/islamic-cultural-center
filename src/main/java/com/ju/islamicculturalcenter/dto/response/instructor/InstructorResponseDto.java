@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InstructorRegistrationResponseDto implements BaseResponseDto {
+public class InstructorResponseDto implements BaseResponseDto {
 
     private Long id;
 

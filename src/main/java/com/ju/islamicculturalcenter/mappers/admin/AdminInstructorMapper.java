@@ -9,6 +9,7 @@ import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 
 import java.sql.Timestamp;
+import java.util.Random;
 
 public class AdminInstructorMapper implements BaseMapper<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto> {
 
@@ -26,6 +27,7 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
                 .isVolunteer(adminInstructorRequestDto.getIsVolunteer())
                 .salary(adminInstructorRequestDto.getSalary())
                 .cvUrl(adminInstructorRequestDto.getCvUrl())
+                .subNumber(adminInstructorRequestDto.getSubNumber())
                 .createdById(-1L)
                 .updatedById(-1L)
                 .active(true)

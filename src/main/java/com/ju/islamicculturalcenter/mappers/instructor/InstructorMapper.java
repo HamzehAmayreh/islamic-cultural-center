@@ -1,16 +1,16 @@
 package com.ju.islamicculturalcenter.mappers.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRegistrationRequestDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorRegistrationResponseDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 
 import java.sql.Timestamp;
 
 
-public class InstructorMapper implements BaseMapper<InstructorEntity, InstructorRegistrationRequestDto, InstructorRegistrationResponseDto> {
+public class InstructorMapper implements BaseMapper<InstructorEntity, InstructorRequestDto, InstructorResponseDto> {
 
-    public InstructorEntity mapDtoToEntity(InstructorRegistrationRequestDto requestDto) {
+    public InstructorEntity mapDtoToEntity(InstructorRequestDto requestDto) {
         return InstructorEntity.builder().
                 firstName(requestDto.getFirstName())
                 .lastName(requestDto.getLastName())
@@ -31,8 +31,8 @@ public class InstructorMapper implements BaseMapper<InstructorEntity, Instructor
     }
 
 
-    public InstructorRegistrationResponseDto mapEntityToDto(InstructorEntity instructorEntity) {
-        return InstructorRegistrationResponseDto.builder()
+    public InstructorResponseDto mapEntityToDto(InstructorEntity instructorEntity) {
+        return InstructorResponseDto.builder()
                 .id(instructorEntity.getId())
                 .firstName(instructorEntity.getFirstName())
                 .lastName(instructorEntity.getLastName())
