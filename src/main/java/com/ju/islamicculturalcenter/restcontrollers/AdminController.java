@@ -1,10 +1,10 @@
 package com.ju.islamicculturalcenter.restcontrollers;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminInstructorRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.AdminRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.AdminResetPasswordRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdatePasswordRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdateRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminResponseDto;
-import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +17,14 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-    private final AdminInstructorService adminInstructorService;
 
-    public AdminController(AdminService adminService, AdminInstructorService adminInstructorService) {
+    public AdminController(AdminService adminService) {
         this.adminService = adminService;
-        this.adminInstructorService = adminInstructorService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> createAdmin(@RequestBody AdminRequestDto requestDto) {
+    public ResponseEntity<Void> createAdmin(@RequestBody AdminRequestDto requestDto) { //TODO ONLY SUPER ADMINS CAN CREATE
         adminService.save(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.POST, path = "createInstructor")
-    public ResponseEntity<Void> createInstructor(@RequestBody AdminInstructorRequestDto requestDto) {
-        adminInstructorService.save(requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -46,13 +38,26 @@ public class AdminController {
         return new ResponseEntity<>(adminService.findById(id, true), HttpStatus.OK);
     }
 
-//    public ResponseEntity<AdminResponseDto> deleteAdmin(@PathVariable Long id){//TODO ONLY SUPER ADMINS CAN DELETE
-//        return new ResponseEntity<>(adminService.findById(id, true), HttpStatus.OK);
-//    }
+    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
+    public ResponseEntity<AdminResponseDto> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) {
+        return new ResponseEntity<>(adminService.update(id, requestDto), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) { //TODO ONLY SUPER ADMINS CAN DELETE
+        adminService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.PATCH, path = "/reset")
     public ResponseEntity<Void> resetPassword(@RequestBody AdminResetPasswordRequestDto requestDto) {
         adminService.resetPassword(requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH, path = "/updatePassword")
+    public ResponseEntity<Void> updatePassword(@RequestBody AdminUpdatePasswordRequestDto requestDto) {
+        adminService.updatePassword(requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

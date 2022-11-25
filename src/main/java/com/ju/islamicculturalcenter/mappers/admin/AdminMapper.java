@@ -25,7 +25,6 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .facebookUrl(adminRequestDto.getFacebookUrl())
                 .address(adminRequestDto.getAddress())
                 .iban(adminRequestDto.getIban())
-                .role(adminRequestDto.getRole())
                 .build();
     }
 

@@ -1,20 +1,18 @@
 package com.ju.islamicculturalcenter.dto.request.admin;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
-import com.ju.islamicculturalcenter.entity.enums.AdminRoles;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class AdminRequestDto implements BaseRequestDto {
+public class AdminUpdateRequestDto implements BaseRequestDto {
 
     private String firstName;
 
     private String lastName;
-
-    private String email;
 
     private Integer phoneNumber;
 

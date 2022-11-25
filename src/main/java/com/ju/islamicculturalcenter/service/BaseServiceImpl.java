@@ -10,7 +10,7 @@ import com.ju.islamicculturalcenter.repos.BaseRepo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseRequestDto, S extends BaseResponseDto> implements IBaseService<T,R,S>{
+public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseRequestDto, S extends BaseResponseDto, U extends BaseRequestDto> implements IBaseService<T,R,S,U>{
 
     @Override
     public List<S> findAllByActive(Boolean active) {
@@ -27,13 +27,18 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
 
     @Override
     public void save(R dto) {
+        preSave(dto);
         getRepo().save(getMapper().mapDtoToEntity(dto));
     }
 
     @Override
-    public S update(R dto) {
-        //TODO
-        return null;
+    public S update(Long id, U dto) {
+        T t = getRepo().findByIdAndIsActive(id, true)
+                .orElseThrow(() -> new NotFoundException("No Entity Found with ID: " + id));
+
+        T save = getRepo().save(updateEntity(t, dto));
+
+        return getMapper().mapEntityToDto(save);
     }
 
     @Override
@@ -41,7 +46,17 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
         getRepo().softDelete(id);
     }
 
+    public abstract T updateEntity(T entity, U dto);
+
     public abstract BaseRepo<T,Long> getRepo(); // to be implemented by every class that extends this class [return the repo of the entity the service implements]
 
     public abstract BaseMapper<T,R,S> getMapper(); // to be implemented by every class that extends this class [return the mapper of the dto's the service implements]
+
+    public void preSave(R requestDto){
+
+    }
+
+    public void postSave(T entity){
+
+    }
 }
