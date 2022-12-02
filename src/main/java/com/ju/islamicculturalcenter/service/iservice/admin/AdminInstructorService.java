@@ -5,5 +5,5 @@ import com.ju.islamicculturalcenter.dto.response.admin.AdminInstructorResponseDt
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 
-public interface AdminInstructorService extends IBaseService<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto> {
+public interface AdminInstructorService extends IBaseService<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto,AdminInstructorRequestDto> {
 }

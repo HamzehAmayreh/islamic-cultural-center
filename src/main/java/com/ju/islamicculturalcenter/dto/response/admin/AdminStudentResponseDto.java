@@ -23,7 +23,7 @@ public class AdminStudentResponseDto extends BaseAdminResponse implements BaseRe
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 
@@ -36,7 +36,7 @@ public class AdminStudentResponseDto extends BaseAdminResponse implements BaseRe
     private List<AdminCourseListResponseDto> courses;
 
     @Builder
-    public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, Integer phoneNumber, String facebookUrl, Date dateOfBirth, Integer courseCount, Boolean isVerified, List<AdminCourseListResponseDto> courses) {
+    public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, Date dateOfBirth, Integer courseCount, Boolean isVerified, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, editedById, creationDate, editedDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;

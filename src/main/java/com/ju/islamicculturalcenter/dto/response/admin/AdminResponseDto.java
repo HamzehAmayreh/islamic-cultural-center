@@ -2,8 +2,11 @@ package com.ju.islamicculturalcenter.dto.response.admin;
 
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
-import com.ju.islamicculturalcenter.entity.enums.AdminRoles;
-import lombok.*;
+import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 
@@ -20,18 +23,18 @@ public class AdminResponseDto extends BaseAdminResponse implements BaseResponseD
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 
-    private AdminRoles role;
+    private UserRoleEntity role;
 
     private String address;
 
     private String iban;
 
     @Builder
-    public AdminResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, Integer phoneNumber, String facebookUrl, AdminRoles role, String address, String iban) {
+    public AdminResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, UserRoleEntity role, String address, String iban) {
         super(id, createdById, updatedById, creationDate, updateDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;

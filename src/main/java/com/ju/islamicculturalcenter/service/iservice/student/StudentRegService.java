@@ -5,7 +5,7 @@ import com.ju.islamicculturalcenter.dto.response.student.StudentRegistrationResp
 import com.ju.islamicculturalcenter.entity.StudentEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 
-public interface StudentRegService extends IBaseService<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto> {
+public interface StudentRegService extends IBaseService<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto, StudentRegistrationRequestDto> {
 
 
 }

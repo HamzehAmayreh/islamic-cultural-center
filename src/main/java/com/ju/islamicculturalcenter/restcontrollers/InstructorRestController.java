@@ -17,7 +17,7 @@ import java.util.Objects;
 @RequestMapping("/Instructor")
 public class InstructorRestController {
 
-    private InstructorServiceImpl instructorService;
+    private final InstructorServiceImpl instructorService;
 
     public InstructorRestController(InstructorServiceImpl instructorService) {
         this.instructorService = instructorService;

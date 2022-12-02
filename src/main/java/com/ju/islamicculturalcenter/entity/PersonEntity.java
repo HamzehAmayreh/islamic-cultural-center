@@ -34,7 +34,7 @@ public class PersonEntity extends BaseEntity {
     private String password;
 
     @Column(name = "phone_number")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "facebook_url")
     private String facebookUrl;
@@ -43,7 +43,7 @@ public class PersonEntity extends BaseEntity {
     @JoinColumn(name = "position_ID")
     private PositionEntity position;
 
-    public PersonEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position) {
+    public PersonEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;

@@ -12,7 +12,7 @@ import com.ju.islamicculturalcenter.service.iservice.student.StudentRegService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentRegServiceImpl extends BaseServiceImpl<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto> implements StudentRegService {
+public class StudentRegServiceImpl extends BaseServiceImpl<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto, StudentRegistrationRequestDto> implements StudentRegService {
 
     private final StudentRepo studentRepo;
     private final StudentRegistrationMapper studentRegistrationMapper;
@@ -20,6 +20,11 @@ public class StudentRegServiceImpl extends BaseServiceImpl<StudentEntity, Studen
     public StudentRegServiceImpl(StudentRepo studentRepo) {
         this.studentRepo = studentRepo;
         studentRegistrationMapper = new StudentRegistrationMapper();
+    }
+
+    @Override
+    public StudentEntity updateEntity(StudentEntity entity, StudentRegistrationRequestDto dto) {
+        return null;
     }
 
     @Override

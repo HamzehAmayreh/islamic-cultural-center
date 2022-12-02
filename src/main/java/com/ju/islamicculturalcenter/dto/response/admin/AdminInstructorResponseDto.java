@@ -18,7 +18,7 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 
@@ -37,7 +37,7 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
     private List<AdminCourseListResponseDto> courses;
 
     @Builder
-    public AdminInstructorResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, Integer phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber, List<AdminCourseListResponseDto> courses) {
+    public AdminInstructorResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, updatedById, creationDate, updateDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;

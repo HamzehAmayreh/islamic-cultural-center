@@ -8,7 +8,7 @@ import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDt
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 
-public interface InstructorService extends IBaseService<InstructorEntity, InstructorRequestDto, InstructorResponseDto> {
+public interface InstructorService extends IBaseService<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorUpdateDto> {
 
     public void resetPassword(InstructorResetPasswordRequestDto requestDto);
 

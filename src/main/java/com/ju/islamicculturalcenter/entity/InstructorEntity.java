@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.entity;
 
+import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,10 +33,14 @@ public class InstructorEntity extends PersonEntity {
     @Column(name = "sub_number", nullable = false)
     private String subNumber;
 
+    @Column(name = "role")
+    private UserRoleEntity role;
+
     @Builder
-    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber) {
+    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position, UserRoleEntity role, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.imageUrl = imageUrl;
+        this.role = role;
         this.isVolunteer = isVolunteer;
         this.salary = salary;
         this.cvUrl = cvUrl;

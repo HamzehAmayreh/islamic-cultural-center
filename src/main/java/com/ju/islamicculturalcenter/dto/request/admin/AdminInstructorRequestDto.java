@@ -18,7 +18,7 @@ public class AdminInstructorRequestDto implements BaseRequestDto {
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 

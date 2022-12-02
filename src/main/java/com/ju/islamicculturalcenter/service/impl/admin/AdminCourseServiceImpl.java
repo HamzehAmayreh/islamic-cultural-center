@@ -12,7 +12,7 @@ import com.ju.islamicculturalcenter.service.iservice.admin.AdminCourseService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminCourseRequestDto, AdminCourseResponseDto> implements AdminCourseService {
+public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminCourseRequestDto, AdminCourseResponseDto, AdminCourseRequestDto> implements AdminCourseService {
 
     private final CourseRepo courseRepo;
     private final AdminCourseMapper adminCourseMapper;
@@ -20,6 +20,11 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
     public AdminCourseServiceImpl(CourseRepo courseRepo) {
         this.courseRepo = courseRepo;
         this.adminCourseMapper = new AdminCourseMapper();
+    }
+
+    @Override
+    public CourseEntity updateEntity(CourseEntity entity, AdminCourseRequestDto dto) {
+        return null;
     }
 
     @Override

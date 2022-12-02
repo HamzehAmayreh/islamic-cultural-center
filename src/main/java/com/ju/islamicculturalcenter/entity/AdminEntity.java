@@ -1,6 +1,6 @@
 package com.ju.islamicculturalcenter.entity;
 
-import com.ju.islamicculturalcenter.entity.enums.AdminRoles;
+import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 public class AdminEntity extends PersonEntity {
 
     @Column(name = "role")
-    private AdminRoles role;
+    private UserRoleEntity role;
 
     @Column(name = "address")
     private String address;
@@ -28,7 +28,7 @@ public class AdminEntity extends PersonEntity {
     private String iban;
 
     @Builder
-    public AdminEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, int phoneNumber, String facebookUrl, PositionEntity position, AdminRoles role, String address, String iban) {
+    public AdminEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position, UserRoleEntity role, String address, String iban) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.role = role;
         this.address = address;

@@ -1,8 +1,10 @@
 package com.ju.islamicculturalcenter.dto.request.admin;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
-import com.ju.islamicculturalcenter.entity.enums.AdminRoles;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -16,7 +18,7 @@ public class AdminRequestDto implements BaseRequestDto {
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 

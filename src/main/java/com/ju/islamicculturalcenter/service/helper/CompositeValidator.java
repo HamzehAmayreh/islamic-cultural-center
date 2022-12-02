@@ -1,6 +1,6 @@
 package com.ju.islamicculturalcenter.service.helper;
 
-import com.padelgate.service.exceptions.BodyGuardException;
+import com.ju.islamicculturalcenter.exceptions.ValidationException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ public class CompositeValidator<P, R> implements Validator<P, List<R>> {
 
     public static void joinViolations(List<String> violations) {
         if (!violations.isEmpty()) {
-            throw new BodyGuardException(join(",", violations));
+            throw new ValidationException(join(",", violations));
         }
     }
 

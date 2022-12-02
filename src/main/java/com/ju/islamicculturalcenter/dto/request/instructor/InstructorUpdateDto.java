@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.request.instructor;
 
+import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import com.ju.islamicculturalcenter.entity.PositionEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InstructorUpdateDto {
+public class InstructorUpdateDto implements BaseRequestDto {
     private Long id;
 
     private String firstName;
@@ -21,7 +22,7 @@ public class InstructorUpdateDto {
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 

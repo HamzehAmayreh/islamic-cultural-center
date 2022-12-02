@@ -16,12 +16,12 @@ public class AdminInstructorListResponseDto implements BaseResponseDto {
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String imageUrl;
 
     @Builder
-    public AdminInstructorListResponseDto(Long id, Long firstName, Long lastName, String email, Integer phoneNumber, String imageUrl) {
+    public AdminInstructorListResponseDto(Long id, Long firstName, Long lastName, String email, String phoneNumber, String imageUrl) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

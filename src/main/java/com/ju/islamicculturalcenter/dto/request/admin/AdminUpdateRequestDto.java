@@ -14,7 +14,7 @@ public class AdminUpdateRequestDto implements BaseRequestDto {
 
     private String lastName;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     private String facebookUrl;
 

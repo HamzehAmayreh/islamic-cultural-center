@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, InstructorRequestDto, InstructorResponseDto> implements InstructorService {
+public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorUpdateDto> implements InstructorService {
 
     private final InstructorRepo instructorRepo;
     private final InstructorMapper instructorMapper;
@@ -62,6 +62,11 @@ public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, Ins
         instructor.setImageUrl(instructor1.getImageUrl());
         instructor.setCvUrl(instructor1.getCvUrl());
         instructorRepo.save(instructor);
+    }
+
+    @Override
+    public InstructorEntity updateEntity(InstructorEntity entity, InstructorUpdateDto dto) {
+        return null;
     }
 
     @Override

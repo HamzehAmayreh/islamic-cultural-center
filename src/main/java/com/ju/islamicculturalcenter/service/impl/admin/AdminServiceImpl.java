@@ -6,7 +6,8 @@ import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdatePasswordRequest
 import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdateRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
-import com.ju.islamicculturalcenter.entity.enums.AdminRoles;
+import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
+import com.ju.islamicculturalcenter.entity.enums.Group;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
@@ -129,7 +130,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
     @Override
     public void postSave(AdminEntity entity) {
         entity.setPassword(passwordEncoder.encode(PasswordHelper.generatePassword()));
-        entity.setRole(AdminRoles.ADMIN);
+        entity.setRole(UserRoleEntity.builder().groups(Group.ADMINS).build());
 
         adminRepo.save(entity);
     }

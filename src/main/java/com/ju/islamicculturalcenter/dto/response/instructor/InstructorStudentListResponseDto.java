@@ -18,5 +18,5 @@ public class InstructorStudentListResponseDto implements BaseResponseDto {
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 }
