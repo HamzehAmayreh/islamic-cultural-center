@@ -1,17 +1,12 @@
 package com.ju.islamicculturalcenter.restcontrollers;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorResetPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;
 import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
-import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.service.impl.instructor.InstructorServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/Instructor")

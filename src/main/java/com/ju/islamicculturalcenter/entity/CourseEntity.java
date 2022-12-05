@@ -24,7 +24,7 @@ public class CourseEntity extends BaseEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "course_name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "description")
@@ -74,13 +74,13 @@ public class CourseEntity extends BaseEntity {
     private Integer year;
 
     @Column(name = "teams_link")
-    private String teams_link;
+    private String teamsLink;
 
     @Column(name = "last_reg_day", nullable = false)
     private String lastRegDay;
 
     @Builder
-    public CourseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teams_link, String lastRegDay) {
+    public CourseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teamsLink, String lastRegDay) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.name = name;
@@ -99,7 +99,7 @@ public class CourseEntity extends BaseEntity {
         this.classroom = classroom;
         this.semester = semester;
         this.year = year;
-        this.teams_link = teams_link;
+        this.teamsLink = teamsLink;
         this.lastRegDay = lastRegDay;
     }
 }

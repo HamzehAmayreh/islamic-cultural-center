@@ -26,9 +26,9 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
     }
 
     @Override
-    public void save(R dto) {
+    public S save(R dto) {
         preSave(dto);
-        getRepo().save(getMapper().mapDtoToEntity(dto));
+        return getMapper().mapEntityToDto(getRepo().save(getMapper().mapDtoToEntity(dto)));
     }
 
     @Override

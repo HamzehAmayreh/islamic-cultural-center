@@ -2,7 +2,6 @@ package com.ju.islamicculturalcenter.restcontrollers;
 
 import java.util.List;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.request.student.StudentRegistrationRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
 import com.ju.islamicculturalcenter.service.impl.student.StudentRegServiceImpl;

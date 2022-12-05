@@ -25,7 +25,7 @@ public class InstructorRequestDto implements BaseRequestDto {
 
     private String imageUrl;
 
-    private String isVolunteer;
+    private Boolean isVolunteer;
 
     private String cvUrl;
 

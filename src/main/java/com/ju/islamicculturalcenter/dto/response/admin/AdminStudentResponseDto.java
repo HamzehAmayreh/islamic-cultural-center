@@ -2,6 +2,7 @@ package com.ju.islamicculturalcenter.dto.response.admin;
 
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseListResponseDto;
 import lombok.*;
 
 import java.sql.Timestamp;

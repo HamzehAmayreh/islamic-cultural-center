@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.response.admin;
+package com.ju.islamicculturalcenter.dto.response.admin.course;
 
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;

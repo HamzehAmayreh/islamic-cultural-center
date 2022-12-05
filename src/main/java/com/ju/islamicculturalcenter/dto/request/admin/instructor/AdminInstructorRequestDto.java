@@ -1,23 +1,20 @@
-package com.ju.islamicculturalcenter.dto.response.instructor;
+package com.ju.islamicculturalcenter.dto.request.admin.instructor;
 
-import com.ju.islamicculturalcenter.dto.BaseResponseDto;
-import com.ju.islamicculturalcenter.entity.PositionEntity;
-import lombok.*;
+import com.ju.islamicculturalcenter.dto.BaseRequestDto;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class InstructorResponseDto implements BaseResponseDto {
-
-    private Long id;
+public class AdminInstructorRequestDto implements BaseRequestDto {
 
     private String firstName;
 
     private String lastName;
-
-    private String userName;
 
     private String email;
 
@@ -25,7 +22,7 @@ public class InstructorResponseDto implements BaseResponseDto {
 
     private String facebookUrl;
 
-    private PositionEntity position;
+    private String password;
 
     private String imageUrl;
 

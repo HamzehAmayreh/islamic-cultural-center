@@ -1,7 +1,9 @@
-package com.ju.islamicculturalcenter.dto.response.admin;
+package com.ju.islamicculturalcenter.dto.response.admin.course;
 
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentListResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructorListResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

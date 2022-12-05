@@ -1,13 +1,18 @@
-package com.ju.islamicculturalcenter.dto.response.admin;
+package com.ju.islamicculturalcenter.dto.response.admin.instructor;
 
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseListResponseDto;
 import com.ju.islamicculturalcenter.entity.PositionEntity;
-import lombok.Builder;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.List;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdminInstructorResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String firstName;
@@ -26,7 +31,7 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
 
     private String imageUrl;
 
-    private String isVolunteer;
+    private Boolean isVolunteer;
 
     private Double salary;
 
@@ -37,7 +42,7 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
     private List<AdminCourseListResponseDto> courses;
 
     @Builder
-    public AdminInstructorResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber, List<AdminCourseListResponseDto> courses) {
+    public AdminInstructorResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, Boolean isVolunteer, Double salary, String cvUrl, String subNumber, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, updatedById, creationDate, updateDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;

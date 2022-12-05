@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.admin;
+package com.ju.islamicculturalcenter.dto.request.admin.instructor;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminInstructorRequestDto implements BaseRequestDto {
+public class AdminInstructorUpdateRequestDto implements BaseRequestDto {
 
     private String firstName;
 
@@ -22,11 +22,9 @@ public class AdminInstructorRequestDto implements BaseRequestDto {
 
     private String facebookUrl;
 
-    private String password;
-
     private String imageUrl;
 
-    private String isVolunteer;
+    private Boolean isVolunteer;
 
     private Double salary;
 

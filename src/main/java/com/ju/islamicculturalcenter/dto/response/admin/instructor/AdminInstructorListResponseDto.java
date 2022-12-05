@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.response.admin;
+package com.ju.islamicculturalcenter.dto.response.admin.instructor;
 
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.admin;
+package com.ju.islamicculturalcenter.dto.request.admin.course;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminCourseRequestDto implements BaseRequestDto {
+public class AdminUpdateCourseRequestDto implements BaseRequestDto {
 
     private String name;
 
@@ -48,7 +48,7 @@ public class AdminCourseRequestDto implements BaseRequestDto {
 
     private Integer year;
 
-    private String teams_link;
+    private String TeamsLink;
 
     private String lastRegDay;
 }

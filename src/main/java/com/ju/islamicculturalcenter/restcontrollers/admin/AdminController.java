@@ -1,10 +1,10 @@
-package com.ju.islamicculturalcenter.restcontrollers;
+package com.ju.islamicculturalcenter.restcontrollers.admin;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdatePasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdateRequestDto;
-import com.ju.islamicculturalcenter.dto.response.admin.AdminResponseDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminResetPasswordRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdatePasswordRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admins")
+@RequestMapping("/admin/admins")
 public class AdminController {
 
     private final AdminService adminService;
@@ -23,9 +23,8 @@ public class AdminController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> createAdmin(@RequestBody AdminRequestDto requestDto) { //TODO ONLY SUPER ADMINS CAN CREATE
-        adminService.save(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<AdminResponseDto> createAdmin(@RequestBody AdminRequestDto requestDto) { //TODO ONLY SUPER ADMINS CAN CREATE
+        return new ResponseEntity<>(adminService.save(requestDto), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)

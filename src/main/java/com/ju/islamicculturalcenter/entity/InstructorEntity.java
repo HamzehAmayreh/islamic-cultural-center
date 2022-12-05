@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 
@@ -22,7 +23,7 @@ public class InstructorEntity extends PersonEntity {
     private String imageUrl;
 
     @Column(name = "is_volunteer", nullable = false)
-    private String isVolunteer;
+    private Boolean isVolunteer;
 
     @Column(name = "salary")
     private Double salary;
@@ -34,10 +35,11 @@ public class InstructorEntity extends PersonEntity {
     private String subNumber;
 
     @Column(name = "role")
+    @OneToOne
     private UserRoleEntity role;
 
     @Builder
-    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position, UserRoleEntity role, String imageUrl, String isVolunteer, Double salary, String cvUrl, String subNumber) {
+    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position, UserRoleEntity role, String imageUrl, Boolean isVolunteer, Double salary, String cvUrl, String subNumber) {
         super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
         this.imageUrl = imageUrl;
         this.role = role;

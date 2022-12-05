@@ -13,7 +13,7 @@ public interface IBaseService<T extends BaseEntity, R extends BaseRequestDto, S 
 
     S findById(Long id, Boolean active);
 
-    void save(R dto);
+    S save(R dto);
 
     S update(Long id, U dto);
 

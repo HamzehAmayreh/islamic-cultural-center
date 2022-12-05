@@ -1,10 +1,10 @@
 package com.ju.islamicculturalcenter.service.iservice.admin;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdatePasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminUpdateRequestDto;
-import com.ju.islamicculturalcenter.dto.response.admin.AdminResponseDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminResetPasswordRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdatePasswordRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 

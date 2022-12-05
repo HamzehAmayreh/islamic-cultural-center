@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.admin;
+package com.ju.islamicculturalcenter.dto.request.admin.instructorcourse;
 
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;

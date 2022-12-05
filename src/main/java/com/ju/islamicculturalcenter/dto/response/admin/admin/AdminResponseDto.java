@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.response.admin;
+package com.ju.islamicculturalcenter.dto.response.admin.admin;
 
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;

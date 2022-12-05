@@ -1,7 +1,7 @@
 package com.ju.islamicculturalcenter.mappers.admin;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminRequestDto;
-import com.ju.islamicculturalcenter.dto.response.admin.AdminResponseDto;
+import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 

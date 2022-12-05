@@ -1,15 +1,11 @@
 package com.ju.islamicculturalcenter.mappers.admin;
 
-import com.ju.islamicculturalcenter.dto.request.admin.AdminCourseRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.AdminInstructorRequestDto;
-import com.ju.islamicculturalcenter.dto.response.admin.AdminCourseResponseDto;
-import com.ju.islamicculturalcenter.dto.response.admin.AdminInstructorResponseDto;
-import com.ju.islamicculturalcenter.entity.CourseEntity;
+import com.ju.islamicculturalcenter.dto.request.admin.instructor.AdminInstructorRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 
 import java.sql.Timestamp;
-import java.util.Random;
 
 public class AdminInstructorMapper implements BaseMapper<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto> {
 
@@ -21,6 +17,7 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
                 .firstName(adminInstructorRequestDto.getFirstName())
                 .lastName(adminInstructorRequestDto.getLastName())
                 .email(adminInstructorRequestDto.getEmail())
+                .userName(adminInstructorRequestDto.getEmail())
                 .phoneNumber(adminInstructorRequestDto.getPhoneNumber())
                 .facebookUrl(adminInstructorRequestDto.getFacebookUrl())
                 .imageUrl(adminInstructorRequestDto.getImageUrl())
@@ -38,6 +35,7 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
 
     @Override
     public AdminInstructorResponseDto mapEntityToDto(InstructorEntity instructorEntity) {
+
         return AdminInstructorResponseDto.builder()
                 .id(instructorEntity.getId())
                 .firstName(instructorEntity.getFirstName())

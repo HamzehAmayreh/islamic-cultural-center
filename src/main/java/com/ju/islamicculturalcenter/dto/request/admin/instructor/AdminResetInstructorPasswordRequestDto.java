@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.admin;
+package com.ju.islamicculturalcenter.dto.request.admin.instructor;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.Getter;
@@ -8,11 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AdminUpdatePasswordRequestDto implements BaseRequestDto {
+public class AdminResetInstructorPasswordRequestDto implements BaseRequestDto{
 
     private Long id;
-
-    private String oldPassword;
 
     private String newPassword;
 
