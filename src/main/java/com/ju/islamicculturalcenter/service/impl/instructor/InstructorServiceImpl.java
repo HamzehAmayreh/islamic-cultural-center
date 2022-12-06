@@ -3,6 +3,7 @@ package com.ju.islamicculturalcenter.service.impl.instructor;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorResetPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdatePassword;
 import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
@@ -11,11 +12,17 @@ import com.ju.islamicculturalcenter.mappers.instructor.InstructorMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
+import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.helper.PasswordHelper;
 import com.ju.islamicculturalcenter.service.iservice.instructor.InstructorService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+
+import static com.ju.islamicculturalcenter.service.helper.CompositeValidator.hasValue;
+import static com.ju.islamicculturalcenter.service.helper.CompositeValidator.joinViolations;
 
 @Service
 public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorRequestDto> implements InstructorService {
@@ -47,20 +54,36 @@ public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, Ins
     }
 
     @Override
-    public void updatePassword(InstructorUpdateDto instructor1) {
-        InstructorEntity instructor = instructorRepo.findInstructorEntityById(instructor1.getId());
-        instructor.setPassword(instructor1.getPassword());
+    public void updatePassword(InstructorUpdatePassword request) {
+        updatePasswordPreValidation(request);
+        InstructorEntity instructor = instructorRepo.findInstructorEntityById(UserDetailsUtil.userDetails().getId());
+        instructor.setPassword(request.getConfirmPassword());
         instructorRepo.save(instructor);
     }
 
+    private void updatePasswordPreValidation(InstructorUpdatePassword request) {
+        List<String> violations = new CompositeValidator<InstructorUpdatePassword, String>()
+                .addValidator(r -> hasValue(r.getOldPassword()), "Old Password Cannot Be Empty")
+                .addValidator(r -> hasValue(r.getNewPassword()), "New Password Cannot Be Empty")
+                .addValidator(r -> hasValue(r.getConfirmPassword()), "Confirm Password Cannot Be Empty")
+                .addValidator(r -> !hasValue(r.getNewPassword())||!hasValue(r.getConfirmPassword())||r.getNewPassword().equals(r.getConfirmPassword()), "New Password And Confirm Password Do Not Match")
+                .validate(request);
+        joinViolations(violations);
+    }
 
     @Override
-    public void updateInstructor(InstructorUpdateDto instructor1, Long id) {
+    public InstructorResponseDto viewProfile(Long instructorId) {
+        InstructorEntity instructor = instructorRepo.findInstructorEntityById(instructorId);
+        return instructorMapper.mapEntityToDto(instructor);
+    }
+
+    @Override
+    public void updateInstructor(InstructorUpdateDto request, Long id) {
         InstructorEntity instructor = instructorRepo.findInstructorEntityById(id);
-        instructor.setPhoneNumber(instructor1.getPhoneNumber());
-        instructor.setFacebookUrl(instructor1.getFacebookUrl());
-        instructor.setImageUrl(instructor1.getImageUrl());
-        instructor.setCvUrl(instructor1.getCvUrl());
+        instructor.setPhoneNumber(request.getPhoneNumber());
+        instructor.setFacebookUrl(request.getFacebookUrl());
+        instructor.setImageUrl(request.getImageUrl());
+        instructor.setCvUrl(request.getCvUrl());
         instructorRepo.save(instructor);
     }
 

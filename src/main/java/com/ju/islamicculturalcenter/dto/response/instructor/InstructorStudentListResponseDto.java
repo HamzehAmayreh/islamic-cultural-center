@@ -12,9 +12,9 @@ public class InstructorStudentListResponseDto implements BaseResponseDto {
 
     private Long id;
 
-    private Long firstName;
+    private String firstName;
 
-    private Long lastName;
+    private String lastName;
 
     private String email;
 
