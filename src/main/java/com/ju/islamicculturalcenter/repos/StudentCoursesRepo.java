@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface StudentCoursesRepo extends BaseRepo<StudentCoursesEntity, Long> {
+
     List<StudentCoursesEntity> findAllByCourseId(Long courseId);
 }

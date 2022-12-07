@@ -40,6 +40,7 @@ public class UserRoleEntity {
     private String description;
 
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "groups")
     private Group groups;
 
     @Builder

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class StudentAuthServiceImpl implements AdminAuthService {
+public class StudentAuthServiceImpl implements StudentAuthService {
 
     private final AuthenticationManager authenticationManager;
     private final CustomAdminDetailsService userDetailsService;

@@ -15,10 +15,10 @@ import java.util.function.Function;
 public class JWTUtil implements Serializable {
     private final long serialVersionUID = -1L;
 
-    @Value("${mwarrid.jwt.expiration}")
+    @Value("${icc.jwt.expiration}")
     private Long expiration;
 
-    @Value("${mwarrid.jwt.secret}")
+    @Value("${icc.jwt.secret}")
     private String secret;
 
     public String getUsernameFromToken(String token) {

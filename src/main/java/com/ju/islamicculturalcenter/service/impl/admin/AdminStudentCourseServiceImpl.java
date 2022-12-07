@@ -43,7 +43,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .students(StudentEntity.builder().id(requestDto.getStudentId()).build())
-                .courses(CourseEntity.builder().id(requestDto.getCourseId()).build())
+                .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
                 .paid(false)
                 .build());
     }
@@ -55,7 +55,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
 
         StudentCoursesEntity studentCoursesEntity = studentCoursesRepo.findOne(Example.of(StudentCoursesEntity.builder()
                         .students(StudentEntity.builder().id(requestDto.getStudentId()).build())
-                        .courses(CourseEntity.builder().id(requestDto.getCourseId()).build())
+                        .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
                         .build()))
                 .orElseThrow(() -> new ValidationException("No Record found for this Student to this course"));
 

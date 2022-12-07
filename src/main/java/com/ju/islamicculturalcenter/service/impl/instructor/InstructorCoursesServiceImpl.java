@@ -11,7 +11,6 @@ import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
-import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
@@ -89,7 +88,7 @@ public class InstructorCoursesServiceImpl extends BaseServiceImpl<InstructorEnti
         if(isNull(name))
             throw new ValidationException("Name cannot be empty");
 
-        return instructorCoursesRepo.findAllByInstructorIdAndNameLike(UserDetailsUtil.userDetails().getId(), name).stream()
+        return instructorCoursesRepo.findAllByInstructorIdAndCourse_NameLike(UserDetailsUtil.userDetails().getId(), name).stream()
                 .map(r -> InstructorCourseResponseDto.builder()
                         .id(r.getId())
                         .name(r.getCourse().getName())

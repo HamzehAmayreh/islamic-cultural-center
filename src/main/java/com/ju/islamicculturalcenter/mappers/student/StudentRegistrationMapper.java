@@ -31,8 +31,6 @@ public class StudentRegistrationMapper implements BaseMapper<StudentEntity, Stud
     @Override
     public StudentRegistrationResponseDto mapEntityToDto(StudentEntity studentEntity) {
 
-
-
         return StudentRegistrationResponseDto.builder()
                 .id(studentEntity.getId())
                 .firstName(studentEntity.getFirstName())

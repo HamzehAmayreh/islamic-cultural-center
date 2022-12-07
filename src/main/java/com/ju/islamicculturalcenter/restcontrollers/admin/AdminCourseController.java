@@ -2,6 +2,8 @@ package com.ju.islamicculturalcenter.restcontrollers.admin;
 
 import com.ju.islamicculturalcenter.dto.request.admin.course.AdminCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.course.AdminUpdateCourseRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.instructorcourse.AdminInstructorCourseRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminCourseService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourseService;
@@ -49,6 +51,30 @@ public class AdminCourseController {
     @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
     public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
         adminCourseService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/instructor")
+    public ResponseEntity<Void> assignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
+        adminInstructorCourseService.assignInstructorToCourse(requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/instructor")
+    public ResponseEntity<Void> unAssignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
+        adminInstructorCourseService.unAssignInstructorToCourse(requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/student")
+    public ResponseEntity<Void> assignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
+        adminStudentCourseService.assignStudentToCourse(requestDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/student")
+    public ResponseEntity<Void> unAssignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
+        adminStudentCourseService.unAssignStudentToCourse(requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

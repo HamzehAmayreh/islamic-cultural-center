@@ -1,7 +1,11 @@
 package com.ju.islamicculturalcenter.dto.request.student;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
@@ -10,13 +14,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StudentRegistrationRequestDto implements BaseRequestDto {
+public class StudentUpdateProfileRequest implements BaseRequestDto {
 
     private String firstName;
 
     private String lastName;
-
-    private String email;
 
     private String phoneNumber;
 

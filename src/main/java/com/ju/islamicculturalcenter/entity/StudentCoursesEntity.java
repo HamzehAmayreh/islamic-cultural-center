@@ -24,18 +24,18 @@ public class StudentCoursesEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
-    private CourseEntity courses;
+    private CourseEntity course;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private StudentEntity students;
 
     @Builder
-    public StudentCoursesEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, Boolean paid, CourseEntity courses, StudentEntity students) {
+    public StudentCoursesEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, Boolean paid, CourseEntity course, StudentEntity students) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.paid = paid;
-        this.courses = courses;
+        this.course = course;
         this.students = students;
     }
 }

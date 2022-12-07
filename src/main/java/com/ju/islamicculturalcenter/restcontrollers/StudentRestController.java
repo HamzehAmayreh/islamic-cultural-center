@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ju.islamicculturalcenter.dto.request.student.StudentRegistrationRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
-import com.ju.islamicculturalcenter.service.impl.student.StudentRegServiceImpl;
+import com.ju.islamicculturalcenter.service.impl.student.StudentServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import com.ju.islamicculturalcenter.service.impl.admin.AdminStudentServiceImp;
@@ -15,10 +15,10 @@ public class StudentRestController {
 
     private AdminStudentServiceImp adminStudentServiceImp;
 
-    private StudentRegServiceImpl studentRegServiceImpl;
+    private StudentServiceImpl studentServiceImpl;
 
-    public StudentRestController(StudentRegServiceImpl studentRegServiceImpl, AdminStudentServiceImp adminStudentServiceImp) {
-        this.studentRegServiceImpl = studentRegServiceImpl;
+    public StudentRestController(StudentServiceImpl studentServiceImpl, AdminStudentServiceImp adminStudentServiceImp) {
+        this.studentServiceImpl = studentServiceImpl;
         this.adminStudentServiceImp = adminStudentServiceImp;
     }
 
@@ -29,7 +29,7 @@ public class StudentRestController {
 
     @RequestMapping(method = RequestMethod.POST)
     public void createDto(@RequestBody StudentRegistrationRequestDto studentRegistrationRequestDto) {
-        studentRegServiceImpl.save(studentRegistrationRequestDto);
+        studentServiceImpl.save(studentRegistrationRequestDto);
     }
 
 

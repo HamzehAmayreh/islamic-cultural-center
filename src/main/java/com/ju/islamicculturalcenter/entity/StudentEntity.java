@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,7 +18,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class StudentEntity extends PersonEntity {
 
-    @Column(name = "role")
+    @JoinColumn(name = "role_id")
+    @OneToOne
     private UserRoleEntity role;
 
     @Column(name = "date_of_birth")

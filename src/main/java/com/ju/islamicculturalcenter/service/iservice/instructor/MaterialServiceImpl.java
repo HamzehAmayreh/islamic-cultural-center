@@ -12,10 +12,12 @@ import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.MaterialRepo;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class MaterialServiceImpl implements MaterialService {
 
     private final MaterialRepo materialRepo;
