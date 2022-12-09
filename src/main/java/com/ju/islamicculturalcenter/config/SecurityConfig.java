@@ -26,6 +26,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private JWTUtil jwtUtil;
 
@@ -37,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String ADMIN_LOGIN_PATH = "/api/v1/admin/auth/login";
     public static final String INSTRUCTOR_LOGIN_PATH = "/api/v1/instructor/auth/login";
     public static final String STUDENT_LOGIN_PATH = "/api/v1/student/auth/login";
+    public static final String ADMIN_PATH = "/api/v1/admin/**";
 
     private static final String ADMIN_LOGOUT_PATH = "/api/v1/admin/auth/logout";
     private static final String INSTRUCTOR_LOGOUT_PATH = "/api/v1/instructor/auth/logout";
@@ -61,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(ADMIN_LOGIN_PATH).permitAll()
                 .antMatchers(INSTRUCTOR_LOGIN_PATH).permitAll()
                 .antMatchers(STUDENT_LOGIN_PATH).permitAll()
-
+                .antMatchers(ADMIN_PATH).permitAll()
                 .antMatchers(ADMIN_LOGOUT_PATH).permitAll()
                 .antMatchers(INSTRUCTOR_LOGOUT_PATH).permitAll()
                 .antMatchers(STUDENT_LOGOUT_PATH).permitAll()
