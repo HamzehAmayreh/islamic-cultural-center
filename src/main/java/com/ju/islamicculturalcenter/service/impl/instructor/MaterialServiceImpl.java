@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.service.iservice.instructor;
+package com.ju.islamicculturalcenter.service.impl.instructor;
 
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialDeleteRequest;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialRequestDto;
@@ -11,6 +11,7 @@ import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.MaterialRepo;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
+import com.ju.islamicculturalcenter.service.iservice.instructor.MaterialService;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 

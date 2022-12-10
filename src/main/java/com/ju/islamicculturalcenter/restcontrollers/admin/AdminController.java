@@ -22,12 +22,12 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<AdminResponseDto> createAdmin(@RequestBody AdminRequestDto requestDto) { //TODO ONLY SUPER ADMINS CAN CREATE
-        return new ResponseEntity<>(adminService.save(requestDto), HttpStatus.OK);
+        return new ResponseEntity<>(adminService.save(requestDto), HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<AdminResponseDto>> viewAllActiveAdmins() {
         return new ResponseEntity<>(adminService.findAllByActive(true), HttpStatus.OK);
     }

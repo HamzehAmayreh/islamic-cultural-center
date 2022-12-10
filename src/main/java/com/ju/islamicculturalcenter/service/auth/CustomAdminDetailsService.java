@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CustomAdminDetailsService implements UserDetailsService {
+
     private final AdminRepo adminRepo;
 
     public CustomAdminDetailsService(AdminRepo adminRepo) {

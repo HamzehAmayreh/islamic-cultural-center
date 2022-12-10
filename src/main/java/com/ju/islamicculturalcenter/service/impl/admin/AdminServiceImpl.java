@@ -103,8 +103,8 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
         NullValidator.validate(requestDto.getNewPassword());
         NullValidator.validate(requestDto.getConfirmPassword());
 
-        if (!passwordEncoder.matches(requestDto.getOldPassword(), admin.getPassword()))
-            throw new ValidationException("old password does not match");
+        //if (!passwordEncoder.matches(requestDto.getOldPassword(), admin.getPassword()))
+            //throw new ValidationException("old password does not match");
 
         if (!PasswordHelper.validatePassword(requestDto.getNewPassword()))
             throw new ValidationException("Password Should be at least 8 character with 1 uppercase, 1 digit, 1 specialCharacter");

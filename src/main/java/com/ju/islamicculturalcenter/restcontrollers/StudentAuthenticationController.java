@@ -16,30 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/student/auth")
 public class StudentAuthenticationController {
-    private final StudentAuthService studentAuthService;
-
-    public StudentAuthenticationController(StudentAuthService studentAuthService) {
-        this.studentAuthService = studentAuthService;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Response<AuthenticationResponse>> login(@RequestBody CreateAuthenticationRequest authenticationRequest) {
-        return new ResponseEntity<>(Response.<AuthenticationResponse>builder()
-                .data(studentAuthService.login(authenticationRequest))
-                .code(CODE.OK.getId())
-                .message(CODE.OK.name())
-                .success(true)
-                .build(), HttpStatus.OK);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
-        studentAuthService.logout(logoutRequest);
-        return new ResponseEntity<>(Response.builder()
-                .code(CODE.OK.getId())
-                .message(CODE.OK.name())
-                .success(true)
-                .build(),
-                HttpStatus.OK);
-    }
+//    private final StudentAuthService studentAuthService;
+////
+////    public StudentAuthenticationController(StudentAuthService studentAuthService) {
+////        this.studentAuthService = studentAuthService;
+////    }
+////
+////    @PostMapping("/login")
+////    public ResponseEntity<Response<AuthenticationResponse>> login(@RequestBody CreateAuthenticationRequest authenticationRequest) {
+////        return new ResponseEntity<>(Response.<AuthenticationResponse>builder()
+////                .data(studentAuthService.login(authenticationRequest))
+////                .code(CODE.OK.getId())
+////                .message(CODE.OK.name())
+////                .success(true)
+////                .build(), HttpStatus.OK);
+////    }
+////
+////    @PostMapping("/logout")
+////    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
+////        studentAuthService.logout(logoutRequest);
+////        return new ResponseEntity<>(Response.builder()
+////                .code(CODE.OK.getId())
+////                .message(CODE.OK.name())
+////                .success(true)
+////                .build(),
+////                HttpStatus.OK);
+////    }
 }

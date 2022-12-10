@@ -37,7 +37,7 @@ public class InstructorRestController {
     public ResponseEntity<Response<InstructorResponseDto>> viewProfile(){
         Response<InstructorResponseDto> response= Response.<InstructorResponseDto>builder()
                 .success(true)
-                .data(instructorService.viewProfile(UserDetailsUtil.userDetails().getId()))
+                //.data(instructorService.viewProfile(UserDetailsUtil.userDetails().getId()))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .build();
@@ -70,7 +70,7 @@ public class InstructorRestController {
     public ResponseEntity<Response<List<InstructorCourseResponseDto>>> viewMyCourses(){
         Response<List<InstructorCourseResponseDto>> response= Response.<List<InstructorCourseResponseDto>>builder()
                 .success(true)
-                .data(instructorCoursesService.myCourses(UserDetailsUtil.userDetails().getId()))
+                //.data(instructorCoursesService.myCourses(UserDetailsUtil.userDetails().getId()))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .build();
@@ -81,7 +81,7 @@ public class InstructorRestController {
     public ResponseEntity<Response<List<InstructorCourseResponseDto>>> viewMyStudents(){
         Response<List<InstructorCourseResponseDto>> response= Response.<List<InstructorCourseResponseDto>>builder()
                 .success(true)
-                .data(instructorCoursesService.myStudents(UserDetailsUtil.userDetails().getId()))
+                //.data(instructorCoursesService.myStudents(UserDetailsUtil.userDetails().getId()))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .build();

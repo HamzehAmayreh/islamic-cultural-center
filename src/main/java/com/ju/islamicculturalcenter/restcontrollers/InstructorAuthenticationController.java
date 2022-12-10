@@ -16,30 +16,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/instructor/auth")
 public class InstructorAuthenticationController {
-    private final InstructorAuthService instructorAuthService;
-
-    public InstructorAuthenticationController(InstructorAuthService instructorAuthService) {
-        this.instructorAuthService = instructorAuthService;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Response<AuthenticationResponse>> login(@RequestBody CreateAuthenticationRequest authenticationRequest) {
-        return new ResponseEntity<>(Response.<AuthenticationResponse>builder()
-                .data(instructorAuthService.login(authenticationRequest))
-                .code(CODE.OK.getId())
-                .message(CODE.OK.name())
-                .success(true)
-                .build(), HttpStatus.OK);
-    }
-
-    @PostMapping("/logout")
-    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
-        instructorAuthService.logout(logoutRequest);
-        return new ResponseEntity<>(Response.builder()
-                .code(CODE.OK.getId())
-                .message(CODE.OK.name())
-                .success(true)
-                .build(),
-                HttpStatus.OK);
-    }
+//    private final InstructorAuthService instructorAuthService;
+//
+//    public InstructorAuthenticationController(InstructorAuthService instructorAuthService) {
+//        this.instructorAuthService = instructorAuthService;
+//    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<Response<AuthenticationResponse>> login(@RequestBody CreateAuthenticationRequest authenticationRequest) {
+//        return new ResponseEntity<>(Response.<AuthenticationResponse>builder()
+//                .data(instructorAuthService.login(authenticationRequest))
+//                .code(CODE.OK.getId())
+//                .message(CODE.OK.name())
+//                .success(true)
+//                .build(), HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/logout")
+//    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
+//        instructorAuthService.logout(logoutRequest);
+//        return new ResponseEntity<>(Response.builder()
+//                .code(CODE.OK.getId())
+//                .message(CODE.OK.name())
+//                .success(true)
+//                .build(),
+//                HttpStatus.OK);
+//    }
 }
