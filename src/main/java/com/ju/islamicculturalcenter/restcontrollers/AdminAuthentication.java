@@ -17,30 +17,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/admin/auth")
 public class AdminAuthentication {
 
-//    private final AdminAuthService adminAuthService;
-//
-//    public AdminAuthentication(AdminAuthService adminAuthService) {
-//        this.adminAuthService = adminAuthService;
-//    }
-//
-//    @PostMapping("/login")
-//    public ResponseEntity<Response<AuthenticationResponse>> login(@RequestBody CreateAuthenticationRequest authenticationRequest) {
-//        return new ResponseEntity<>(Response.<AuthenticationResponse>builder()
-//                .data(adminAuthService.login(authenticationRequest))
-//                .code(CODE.OK.getId())
-//                .message(CODE.OK.name())
-//                .success(true)
-//                .build(), HttpStatus.OK);
-//    }
-//
-//    @PostMapping("/logout")
-//    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
-//        adminAuthService.logout(logoutRequest);
-//        return new ResponseEntity<>(Response.builder()
-//                .code(CODE.OK.getId())
-//                .message(CODE.OK.name())
-//                .success(true)
-//                .build(),
-//                HttpStatus.OK);
-//    }
+    private final AdminAuthService adminAuthService;
+
+    public AdminAuthentication(AdminAuthService adminAuthService) {
+        this.adminAuthService = adminAuthService;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response<AuthenticationResponse>> login(@RequestBody CreateAuthenticationRequest authenticationRequest) {
+        return new ResponseEntity<>(Response.<AuthenticationResponse>builder()
+                .data(adminAuthService.login(authenticationRequest))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build(), HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
+        adminAuthService.logout(logoutRequest);
+        return new ResponseEntity<>(Response.builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build(),
+                HttpStatus.OK);
+    }
 }
