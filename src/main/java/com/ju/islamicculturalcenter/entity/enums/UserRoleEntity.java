@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.entity.enums;
 
+import com.ju.islamicculturalcenter.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -26,7 +27,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "mst_roles")
-public class UserRoleEntity {
+public class UserRoleEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,5 @@
 package com.ju.islamicculturalcenter.service.impl.admin;
 
-import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.admin.instructor.AdminResetInstructorPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminResetStudentPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminUpdateStudentRequestDto;
@@ -13,10 +11,12 @@ import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.mappers.admin.AdminStudentMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.helper.NullValidator;
 import com.ju.islamicculturalcenter.service.helper.PasswordHelper;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.nonNull;
@@ -26,10 +26,14 @@ public class AdminStudentServiceImp extends BaseServiceImpl<StudentEntity, Admin
 
     private final StudentRepo studentRepo;
     private final AdminStudentMapper adminStudentMapper;
+    private final UserRoleRepo userRoleRepo;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public AdminStudentServiceImp(StudentRepo studentRepo) {
+    public AdminStudentServiceImp(StudentRepo studentRepo, UserRoleRepo userRoleRepo, BCryptPasswordEncoder passwordEncoder) {
         this.studentRepo = studentRepo;
-        this.adminStudentMapper = new AdminStudentMapper();
+        this.userRoleRepo = userRoleRepo;
+        this.passwordEncoder = passwordEncoder;
+        this.adminStudentMapper = new AdminStudentMapper(this.userRoleRepo);
     }
 
     @Override
@@ -39,7 +43,7 @@ public class AdminStudentServiceImp extends BaseServiceImpl<StudentEntity, Admin
 
         validateResetPassword(requestDto);
 
-        student.setPassword(requestDto.getNewPassword());
+        student.getUser().setPassword(passwordEncoder.encode(requestDto.getNewPassword()));
 
         studentRepo.save(student);
     }
@@ -47,11 +51,11 @@ public class AdminStudentServiceImp extends BaseServiceImpl<StudentEntity, Admin
     @Override
     public StudentEntity updateEntity(StudentEntity entity, AdminUpdateStudentRequestDto dto) {
 
-        entity.setFirstName(nonNull(dto.getFirstName()) ? dto.getFirstName() : entity.getFirstName());
-        entity.setLastName(nonNull(dto.getLastName()) ? dto.getLastName() : entity.getLastName());
-        entity.setEmail(nonNull(dto.getEmail()) ? dto.getEmail() : entity.getEmail());
-        entity.setPhoneNumber(nonNull(dto.getPhoneNumber()) ? dto.getPhoneNumber() : entity.getPhoneNumber());
-        entity.setFacebookUrl(nonNull(dto.getFacebookUrl()) ? dto.getFacebookUrl() : entity.getFacebookUrl());
+        entity.getUser().setFirstName(nonNull(dto.getFirstName()) ? dto.getFirstName() : entity.getUser().getFirstName());
+        entity.getUser().setLastName(nonNull(dto.getLastName()) ? dto.getLastName() : entity.getUser().getLastName());
+        entity.getUser().setEmail(nonNull(dto.getEmail()) ? dto.getEmail() : entity.getUser().getEmail());
+        entity.getUser().setPhoneNumber(nonNull(dto.getPhoneNumber()) ? dto.getPhoneNumber() : entity.getUser().getPhoneNumber());
+        entity.getUser().setFacebookUrl(nonNull(dto.getFacebookUrl()) ? dto.getFacebookUrl() : entity.getUser().getFacebookUrl());
         entity.setDateOfBirth(nonNull(dto.getDateOfBirth()) ? dto.getDateOfBirth() : entity.getDateOfBirth());
 
         return entity;

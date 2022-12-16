@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class PasswordHelper {
 
     public static final String ERROR_CODE = "ERRONEOUS_SPECIAL_CHARS";
-    public static final String REGEX_PATTERN = "/(?=(.*\\d))(?=(.*[a-z]){2})(?=(.*[A-Z]))(?=(.*[!@#$%^&*()_+]))";
+    public static final String REGEX_PATTERN = "(?=.*[A-Z]).{8,20}$";
     private static final Pattern pattern = Pattern.compile(REGEX_PATTERN);
 
     public static String generatePassword(){

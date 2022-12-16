@@ -8,21 +8,22 @@ import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.mappers.student.StudentRegistrationMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.iservice.student.StudentService;
 import org.springframework.stereotype.Service;
-
-import static java.util.Objects.nonNull;
 
 @Service
 public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto, StudentUpdateProfileRequest> implements StudentService {
 
     private final StudentRepo studentRepo;
     private final StudentRegistrationMapper studentRegistrationMapper;
+    private final UserRoleRepo userRoleRepo;
 
-    public StudentServiceImpl(StudentRepo studentRepo) {
+    public StudentServiceImpl(StudentRepo studentRepo, UserRoleRepo userRoleRepo) {
         this.studentRepo = studentRepo;
-        studentRegistrationMapper = new StudentRegistrationMapper();
+        this.userRoleRepo = userRoleRepo;
+        studentRegistrationMapper = new StudentRegistrationMapper(this.userRoleRepo);
     }
 
     @Override

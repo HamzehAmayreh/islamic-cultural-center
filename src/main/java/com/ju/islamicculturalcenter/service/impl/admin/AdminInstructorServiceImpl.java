@@ -11,10 +11,12 @@ import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.mappers.admin.AdminInstructorMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorRepo;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.helper.NullValidator;
 import com.ju.islamicculturalcenter.service.helper.PasswordHelper;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static java.util.Objects.isNull;
@@ -24,10 +26,14 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
 
     private final InstructorRepo instructorRepo;
     private final AdminInstructorMapper adminInstructorMapper;
+    private final UserRoleRepo userRoleRepo;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AdminInstructorServiceImpl(InstructorRepo instructorRepo) {
+    public AdminInstructorServiceImpl(InstructorRepo instructorRepo, UserRoleRepo userRoleRepo, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.instructorRepo = instructorRepo;
-        adminInstructorMapper = new AdminInstructorMapper();
+        this.userRoleRepo = userRoleRepo;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        adminInstructorMapper = new AdminInstructorMapper(this.bCryptPasswordEncoder, this.userRoleRepo);
     }
 
     @Override
@@ -37,18 +43,18 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
 
         validateResetPassword(requestDto);
 
-        instructor.setPassword(requestDto.getNewPassword());
+        instructor.getUser().setPassword(bCryptPasswordEncoder.encode(requestDto.getNewPassword()));
 
         instructorRepo.save(instructor);
     }
 
     @Override
     public InstructorEntity updateEntity(InstructorEntity entity, AdminInstructorUpdateRequestDto dto) {
-        entity.setFirstName(isNull(dto.getFirstName()) ? entity.getFirstName() : dto.getFirstName());
-        entity.setLastName(isNull(dto.getLastName()) ? entity.getLastName() : dto.getLastName());
-        entity.setEmail(isNull(dto.getEmail()) ? entity.getEmail() : dto.getEmail());
-        entity.setPhoneNumber(isNull(dto.getPhoneNumber()) ? entity.getPhoneNumber() : dto.getPhoneNumber());
-        entity.setFacebookUrl(isNull(dto.getFacebookUrl()) ? entity.getFacebookUrl() : dto.getFacebookUrl());
+        entity.getUser().setFirstName(isNull(dto.getFirstName()) ? entity.getUser().getFirstName() : dto.getFirstName());
+        entity.getUser().setLastName(isNull(dto.getLastName()) ? entity.getUser().getLastName() : dto.getLastName());
+        entity.getUser().setEmail(isNull(dto.getEmail()) ? entity.getUser().getEmail() : dto.getEmail());
+        entity.getUser().setPhoneNumber(isNull(dto.getPhoneNumber()) ? entity.getUser().getPhoneNumber() : dto.getPhoneNumber());
+        entity.getUser().setFacebookUrl(isNull(dto.getFacebookUrl()) ? entity.getUser().getFacebookUrl() : dto.getFacebookUrl());
         entity.setImageUrl(isNull(dto.getImageUrl()) ? entity.getImageUrl() : dto.getImageUrl());
         entity.setIsVolunteer(isNull(dto.getIsVolunteer()) ? entity.getIsVolunteer() : dto.getIsVolunteer());
         entity.setSalary(isNull(dto.getSalary()) ? entity.getSalary() : dto.getSalary());

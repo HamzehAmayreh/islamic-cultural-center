@@ -1,29 +1,30 @@
 package com.ju.islamicculturalcenter.service.auth;
 
 import com.ju.islamicculturalcenter.dto.auth.CustomUserDetails;
-import com.ju.islamicculturalcenter.entity.AdminEntity;
+import com.ju.islamicculturalcenter.entity.UserEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
-import com.ju.islamicculturalcenter.repos.AdminRepo;
+import com.ju.islamicculturalcenter.repos.UserRepo;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomAdminDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AdminRepo adminRepo;
+    private final UserRepo userRepo;
 
-    public CustomAdminDetailsService(AdminRepo adminRepo) {
-        this.adminRepo = adminRepo;
+    public CustomUserDetailsService(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     @Override
-    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return buildCustomUserDetailsOfUsername(username);
+    public CustomUserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return buildCustomUserDetailsOfUsername(s);
     }
 
     private CustomUserDetails buildCustomUserDetailsOfUsername(String username) {
-        AdminEntity user = adminRepo.findByEmail(username)
+        UserEntity user = userRepo.findByEmail(username)
                 .orElseThrow(() -> new NotFoundException("Incorrect Username"));
 
         return CustomUserDetails.builder()
@@ -38,5 +39,4 @@ public class CustomAdminDetailsService implements UserDetailsService {
                 .roleGroup(user.getRole().getGroups().name())
                 .build();
     }
-
 }

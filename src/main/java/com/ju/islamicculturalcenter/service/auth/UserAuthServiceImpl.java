@@ -8,7 +8,6 @@ import com.ju.islamicculturalcenter.exceptions.AuthenticationException;
 import com.ju.islamicculturalcenter.exceptions.CustomBadCredentialsException;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,17 +16,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
-public class InstructorAuthServiceImpl implements InstructorAuthService {
+public class UserAuthServiceImpl implements UserAuthService{
 
     private final AuthenticationManager authenticationManager;
-    private final CustomInstructorDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
 
-    public InstructorAuthServiceImpl(AuthenticationManager authenticationManager, CustomInstructorDetailsService userDetailsService, JWTUtil jwtUtil) {
+    public UserAuthServiceImpl(AuthenticationManager authenticationManager, JWTUtil jwtUtil, CustomUserDetailsService customUserDetailsService) {
         this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Override
@@ -38,8 +36,8 @@ public class InstructorAuthServiceImpl implements InstructorAuthService {
         String username = authenticationRequest.getUsername().toLowerCase();
         String password = authenticationRequest.getPassword();
 
+        CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
         authenticate(username, password);
-        CustomUserDetails userDetails = userDetailsService.loadUserByUsername(username);
         String accessToken = jwtUtil.generateToken(userDetails);
 
         return AuthenticationResponse.builder()

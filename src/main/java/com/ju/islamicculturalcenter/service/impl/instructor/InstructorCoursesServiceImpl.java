@@ -117,10 +117,10 @@ public class InstructorCoursesServiceImpl extends BaseServiceImpl<InstructorEnti
 
         return entities.stream().map(r -> InstructorStudentListResponseDto.builder()
                 .id(r.getStudents().getId())
-                .firstName(r.getStudents().getFirstName())
-                .lastName(r.getStudents().getLastName())
-                .email(r.getStudents().getEmail())
-                .phoneNumber(r.getStudents().getPhoneNumber())
+                .firstName(r.getStudents().getUser().getFirstName())
+                .lastName(r.getStudents().getUser().getLastName())
+                .email(r.getStudents().getUser().getEmail())
+                .phoneNumber(r.getStudents().getUser().getPhoneNumber())
                 .build()).collect(Collectors.toList());
     }
 }

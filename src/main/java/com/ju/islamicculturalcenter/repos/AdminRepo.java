@@ -7,5 +7,4 @@ import java.util.Optional;
 
 @Repository
 public interface AdminRepo extends BaseRepo<AdminEntity, Long> {
-    Optional<AdminEntity> findByEmail(String email);
 }

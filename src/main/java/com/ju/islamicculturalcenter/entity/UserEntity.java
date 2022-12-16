@@ -1,21 +1,34 @@
 package com.ju.islamicculturalcenter.entity;
 
+import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 
-@MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
-public class PersonEntity extends BaseEntity {
+@Entity
+@Table(name = "user")
+public class UserEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "first_name", nullable = false)
@@ -39,11 +52,13 @@ public class PersonEntity extends BaseEntity {
     @Column(name = "facebook_url")
     private String facebookUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "position_ID")
-    private PositionEntity position;
+    @JoinColumn(name = "role_id")
+    @OneToOne
+    @Cascade(CascadeType.PERSIST)
+    private UserRoleEntity role;
 
-    public PersonEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position) {
+    @Builder
+    public UserEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, UserRoleEntity role) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;
@@ -53,6 +68,6 @@ public class PersonEntity extends BaseEntity {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.facebookUrl = facebookUrl;
-        this.position = position;
+        this.role = role;
     }
 }

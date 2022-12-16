@@ -3,11 +3,23 @@ package com.ju.islamicculturalcenter.mappers.admin;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
+import com.ju.islamicculturalcenter.entity.UserEntity;
+import com.ju.islamicculturalcenter.entity.enums.Group;
+import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
+import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
+import org.springframework.data.domain.Example;
 
 import java.sql.Timestamp;
 
 public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, AdminResponseDto> {
+
+    private final UserRoleRepo userRoleRepo;
+
+    public AdminMapper(UserRoleRepo userRoleRepo) {
+        this.userRoleRepo = userRoleRepo;
+    }
 
     @Override
     public AdminEntity mapDtoToEntity(AdminRequestDto adminRequestDto) {
@@ -17,12 +29,20 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .updatedById(-1L)
                 .active(true)
-                .firstName(adminRequestDto.getFirstName())
-                .lastName(adminRequestDto.getLastName())
-                .email(adminRequestDto.getEmail())
-                .userName(adminRequestDto.getEmail())
-                .phoneNumber(adminRequestDto.getPhoneNumber())
-                .facebookUrl(adminRequestDto.getFacebookUrl())
+                .user(UserEntity.builder()
+                        .creation_Date(new Timestamp(System.currentTimeMillis()))
+                        .createdById(-1L)
+                        .updateDate(new Timestamp(System.currentTimeMillis()))
+                        .updatedById(-1L)
+                        .active(true)
+                        .firstName(adminRequestDto.getFirstName())
+                        .lastName(adminRequestDto.getLastName())
+                        .email(adminRequestDto.getEmail())
+                        .userName(adminRequestDto.getEmail())
+                        .phoneNumber(adminRequestDto.getPhoneNumber())
+                        .facebookUrl(adminRequestDto.getFacebookUrl())
+                        .role(getAdminRole())
+                        .build())
                 .address(adminRequestDto.getAddress())
                 .iban(adminRequestDto.getIban())
                 .build();
@@ -37,15 +57,20 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .updateDate(adminEntity.getUpdateDate())
                 .updatedById(adminEntity.getUpdatedById())
                 .isActive(adminEntity.getIsActive())
-                .firstName(adminEntity.getFirstName())
-                .lastName(adminEntity.getLastName())
-                .email(adminEntity.getEmail())
-                .userName(adminEntity.getUserName())
-                .phoneNumber(adminEntity.getPhoneNumber())
-                .facebookUrl(adminEntity.getFacebookUrl())
-                .role(adminEntity.getRole())
+                .firstName(adminEntity.getUser().getFirstName())
+                .lastName(adminEntity.getUser().getLastName())
+                .email(adminEntity.getUser().getEmail())
+                .userName(adminEntity.getUser().getUserName())
+                .phoneNumber(adminEntity.getUser().getPhoneNumber())
+                .facebookUrl(adminEntity.getUser().getFacebookUrl())
+                .role(adminEntity.getUser().getRole())
                 .address(adminEntity.getAddress())
                 .iban(adminEntity.getIban())
                 .build();
+    }
+
+    private UserRoleEntity getAdminRole() {
+        return userRoleRepo.findById(1L)
+                .orElseThrow(() -> new NotFoundException("No Role with Admin found"));
     }
 }

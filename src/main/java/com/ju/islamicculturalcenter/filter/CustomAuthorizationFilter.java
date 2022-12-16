@@ -1,7 +1,7 @@
 package com.ju.islamicculturalcenter.filter;
 
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
-import com.ju.islamicculturalcenter.service.auth.CustomAdminDetailsService;
+import com.ju.islamicculturalcenter.service.auth.CustomUserDetailsService;
 import com.ju.islamicculturalcenter.service.auth.JWTUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +23,10 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     public static final String BEARER = "Bearer ";
-    private final CustomAdminDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
 
-    public CustomAuthorizationFilter(CustomAdminDetailsService userDetailsService, JWTUtil jwtUtil) {
+    public CustomAuthorizationFilter(CustomUserDetailsService userDetailsService, JWTUtil jwtUtil) {
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
     }

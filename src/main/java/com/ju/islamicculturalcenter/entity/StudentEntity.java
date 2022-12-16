@@ -1,10 +1,17 @@
 package com.ju.islamicculturalcenter.entity;
 
-import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -16,11 +23,11 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class StudentEntity extends PersonEntity {
+public class StudentEntity extends BaseEntity {
 
-    @JoinColumn(name = "role_id")
-    @OneToOne
-    private UserRoleEntity role;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
@@ -31,12 +38,18 @@ public class StudentEntity extends PersonEntity {
     @Column(name = "is_verified")
     private Boolean isVerified;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    @Cascade(CascadeType.ALL)
+    private UserEntity user;
+
     @Builder
-    public StudentEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position,  UserRoleEntity role, Date dateOfBirth, Integer courseCount, Boolean isVerified) {
-        super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
+    public StudentEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, Date dateOfBirth, Integer courseCount, Boolean isVerified, UserEntity user) {
+        super(creation_Date, createdById, updateDate, updatedById, active);
+        this.id = id;
         this.dateOfBirth = dateOfBirth;
-        this.role = role;
         this.courseCount = courseCount;
         this.isVerified = isVerified;
+        this.user = user;
     }
 }

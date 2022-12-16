@@ -1,13 +1,17 @@
 package com.ju.islamicculturalcenter.entity;
 
-import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -18,7 +22,11 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InstructorEntity extends PersonEntity {
+public class InstructorEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -35,18 +43,20 @@ public class InstructorEntity extends PersonEntity {
     @Column(name = "sub_number", nullable = false)
     private String subNumber;
 
-    @JoinColumn(name = "role_id")
     @OneToOne
-    private UserRoleEntity role;
+    @JoinColumn(name = "user_id")
+    @Cascade(CascadeType.ALL)
+    private UserEntity user;
 
     @Builder
-    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, PositionEntity position, UserRoleEntity role, String imageUrl, Boolean isVolunteer, Double salary, String cvUrl, String subNumber) {
-        super(creation_Date, createdById, updateDate, updatedById, active, id, firstName, lastName, userName, email, password, phoneNumber, facebookUrl, position);
+    public InstructorEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String imageUrl, Boolean isVolunteer, Double salary, String cvUrl, String subNumber, UserEntity user) {
+        super(creation_Date, createdById, updateDate, updatedById, active);
+        this.id = id;
         this.imageUrl = imageUrl;
-        this.role = role;
         this.isVolunteer = isVolunteer;
         this.salary = salary;
         this.cvUrl = cvUrl;
         this.subNumber = subNumber;
+        this.user = user;
     }
 }

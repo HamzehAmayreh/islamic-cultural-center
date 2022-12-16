@@ -7,5 +7,4 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepo extends BaseRepo<StudentEntity, Long> {
-    Optional<StudentEntity> findByEmail(String email);
 }
