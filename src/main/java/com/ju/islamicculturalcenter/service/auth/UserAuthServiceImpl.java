@@ -7,6 +7,7 @@ import com.ju.islamicculturalcenter.dto.auth.LogoutRequest;
 import com.ju.islamicculturalcenter.exceptions.AuthenticationException;
 import com.ju.islamicculturalcenter.exceptions.CustomBadCredentialsException;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
+import com.ju.islamicculturalcenter.exceptions.UserNotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -66,7 +67,7 @@ public class UserAuthServiceImpl implements UserAuthService{
         } catch (BadCredentialsException e) {
             throw new CustomBadCredentialsException("Incorrect password");
         } catch (AuthenticationServiceException e) {
-            throw new NotFoundException("Incorrect Username");
+            throw new UserNotFoundException("Incorrect Username");
         }
     }
 

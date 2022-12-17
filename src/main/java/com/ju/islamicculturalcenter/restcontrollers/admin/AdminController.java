@@ -4,11 +4,21 @@ import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminResetPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdatePasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.response.CODE;
+import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -23,40 +33,79 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<AdminResponseDto> createAdmin(@RequestBody AdminRequestDto requestDto) { //TODO ONLY SUPER ADMINS CAN CREATE
-        return new ResponseEntity<>(adminService.save(requestDto), HttpStatus.CREATED);
+    public ResponseEntity<Response<AdminResponseDto>> createAdmin(@RequestBody AdminRequestDto requestDto) {//TODO ONLY SUPER ADMINS CAN CREATE
+        Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
+                .data(adminService.save(requestDto))
+                .code(CODE.CREATED.getId())
+                .message(CODE.CREATED.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<AdminResponseDto>> viewAllActiveAdmins() {
-        return new ResponseEntity<>(adminService.findAllByActive(true), HttpStatus.OK);
+    public ResponseEntity<Response<List<AdminResponseDto>>> viewAllActiveAdmins() {
+        Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
+                .data(adminService.findAllByActive(true))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public ResponseEntity<AdminResponseDto> viewProfile(@PathVariable Long id) {
-        return new ResponseEntity<>(adminService.findById(id, true), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<AdminResponseDto>> viewProfile(@PathVariable Long id) {
+        Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
+                .data(adminService.findById(id, true))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    public ResponseEntity<AdminResponseDto> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) {
-        return new ResponseEntity<>(adminService.update(id, requestDto), HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<AdminResponseDto>> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) {
+        Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
+                .data(adminService.update(id, requestDto))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) { //TODO ONLY SUPER ADMINS CAN DELETE
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<Void>> deleteAdmin(@PathVariable Long id) { //TODO ONLY SUPER ADMINS CAN DELETE
         adminService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/reset")
-    public ResponseEntity<Void> resetPassword(@RequestBody AdminResetPasswordRequestDto requestDto) {
+    @PatchMapping("/reset-password")
+    public ResponseEntity<Response<Void>> resetPassword(@RequestBody AdminResetPasswordRequestDto requestDto) {
         adminService.resetPassword(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/updatePassword")
-    public ResponseEntity<Void> updatePassword(@RequestBody AdminUpdatePasswordRequestDto requestDto) {
+    @PatchMapping("/update-password")
+    public ResponseEntity<Response<Void>> updatePassword(@RequestBody AdminUpdatePasswordRequestDto requestDto) {
         adminService.updatePassword(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

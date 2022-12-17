@@ -3,6 +3,8 @@ package com.ju.islamicculturalcenter.restcontrollers.admin;
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminResetStudentPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminUpdateStudentRequestDto;
+import com.ju.islamicculturalcenter.dto.response.CODE;
+import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentService;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/students")
+@RequestMapping("/api/v1/admin/students")
 public class AdminStudentController {
 
     private final AdminStudentService adminStudentService;
@@ -21,35 +23,69 @@ public class AdminStudentController {
         this.adminStudentService = adminStudentService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<AdminStudentResponseDto> createInstructor(@RequestBody AdminStudentRequestDto requestDto) {
-        return new ResponseEntity<>(adminStudentService.save(requestDto), HttpStatus.CREATED);
+    @PostMapping
+    public ResponseEntity<Response<AdminStudentResponseDto>> createInstructor(@RequestBody AdminStudentRequestDto requestDto) {
+        Response<AdminStudentResponseDto> response = Response.<AdminStudentResponseDto>builder()
+                .data(adminStudentService.save(requestDto))
+                .code(CODE.CREATED.getId())
+                .message(CODE.CREATED.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<AdminStudentResponseDto>> listInstructors() {
-        return new ResponseEntity<>(adminStudentService.findAllByActive(true), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<Response<List<AdminStudentResponseDto>>> listInstructors() {
+        Response<List<AdminStudentResponseDto>> response = Response.<List<AdminStudentResponseDto>>builder()
+                .data(adminStudentService.findAllByActive(true))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public ResponseEntity<AdminStudentResponseDto> viewInstructorProfile(@PathVariable Long id) {
-        return new ResponseEntity<>(adminStudentService.findById(id, true), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<AdminStudentResponseDto>> viewInstructorProfile(@PathVariable Long id) {
+        Response<AdminStudentResponseDto> response = Response.<AdminStudentResponseDto>builder()
+                .data(adminStudentService.findById(id, true))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    public ResponseEntity<AdminStudentResponseDto> updateInstructor(@PathVariable Long id, @RequestBody AdminUpdateStudentRequestDto updateDto) {
-        return new ResponseEntity<>(adminStudentService.update(id, updateDto), HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<AdminStudentResponseDto>> updateInstructor(@PathVariable Long id, @RequestBody AdminUpdateStudentRequestDto updateDto){
+        Response<AdminStudentResponseDto> response = Response.<AdminStudentResponseDto>builder()
+                .data(adminStudentService.update(id, updateDto))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public ResponseEntity<Void> deleteInstructor(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<Void>> deleteInstructor(@PathVariable Long id) {
         adminStudentService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/password")
-    public ResponseEntity<Void> changeInstructorPassword(@RequestBody AdminResetStudentPasswordRequestDto requestDto) {
+    @PatchMapping("/reset-password")
+    public ResponseEntity<Response<Void>> changeInstructorPassword(@RequestBody AdminResetStudentPasswordRequestDto requestDto) {
         adminStudentService.resetPassword(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

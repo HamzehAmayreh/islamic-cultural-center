@@ -4,18 +4,27 @@ import com.ju.islamicculturalcenter.dto.request.admin.course.AdminCourseRequestD
 import com.ju.islamicculturalcenter.dto.request.admin.course.AdminUpdateCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.instructorcourse.AdminInstructorCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
+import com.ju.islamicculturalcenter.dto.response.CODE;
+import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminCourseService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourseService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentCourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/courses")
+@RequestMapping("/api/v1/admin/courses")
 public class AdminCourseController {
 
     private final AdminCourseService adminCourseService;
@@ -28,53 +37,102 @@ public class AdminCourseController {
         this.adminInstructorCourseService = adminInstructorCourseService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<AdminCourseResponseDto> createCourse(@RequestBody AdminCourseRequestDto requestDto) {
-        return new ResponseEntity<>(adminCourseService.save(requestDto), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<Response<AdminCourseResponseDto>> createCourse(@RequestBody AdminCourseRequestDto requestDto) {
+        Response<AdminCourseResponseDto> response = Response.<AdminCourseResponseDto>builder()
+                .data(adminCourseService.save(requestDto))
+                .code(CODE.CREATED.getId())
+                .message(CODE.CREATED.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<AdminCourseResponseDto>> viewAllActiveCourses() {
-        return new ResponseEntity<>(adminCourseService.findAllByActive(true), HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<Response<List<AdminCourseResponseDto>>> viewAllActiveCourses() {
+        Response<List<AdminCourseResponseDto>> response = Response.<List<AdminCourseResponseDto>>builder()
+                .data(adminCourseService.findAllByActive(true))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
-    public ResponseEntity<AdminCourseResponseDto> viewCourse(@PathVariable Long id) {
-        return new ResponseEntity<>(adminCourseService.findById(id, true), HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Response<AdminCourseResponseDto>> viewCourse(@PathVariable Long id) {
+        Response<AdminCourseResponseDto> response = Response.<AdminCourseResponseDto>builder()
+                .data(adminCourseService.findById(id, true))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, path = "/{id}")
-    public ResponseEntity<AdminCourseResponseDto> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateCourseRequestDto requestDto) {
-        return new ResponseEntity<>(adminCourseService.update(id, requestDto), HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<AdminCourseResponseDto>> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateCourseRequestDto requestDto){
+        Response<AdminCourseResponseDto> response = Response.<AdminCourseResponseDto>builder()
+                .data(adminCourseService.update(id, requestDto))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/{id}")
-    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
+    @DeleteMapping( "/{id}")
+    public ResponseEntity<Response<Void>> deleteAdmin(@PathVariable Long id) {
         adminCourseService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/instructor")
-    public ResponseEntity<Void> assignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
+    @PostMapping( "/instructor")
+    public ResponseEntity<Response<Void>> assignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
         adminInstructorCourseService.assignInstructorToCourse(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/instructor")
-    public ResponseEntity<Void> unAssignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
+    @DeleteMapping( "/instructor")
+    public ResponseEntity<Response<Void>> unAssignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
         adminInstructorCourseService.unAssignInstructorToCourse(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/student")
-    public ResponseEntity<Void> assignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
+    @PostMapping( "/student")
+    public ResponseEntity<Response<Void>> assignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
         adminStudentCourseService.assignStudentToCourse(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, path = "/student")
-    public ResponseEntity<Void> unAssignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
+    @DeleteMapping( "/student")
+    public ResponseEntity<Response<Void>> unAssignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
         adminStudentCourseService.unAssignStudentToCourse(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
