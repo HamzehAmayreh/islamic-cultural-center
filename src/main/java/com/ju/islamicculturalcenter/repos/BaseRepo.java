@@ -1,6 +1,7 @@
 package com.ju.islamicculturalcenter.repos;
 
 import com.ju.islamicculturalcenter.entity.BaseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface BaseRepo<T extends BaseEntity, ID> extends JpaRepository<T, ID> {
 
-    List<T> findAllByIsActive(Boolean isActive, Pageable pageable);
+    Page<T> findAllByIsActive(Boolean isActive, Pageable pageable);
 
     Optional<T> findByIdAndIsActive(Long id, Boolean isActive);
 

@@ -6,6 +6,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.instructorcourse.AdminInst
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
+import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminCourseService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourseService;
@@ -52,11 +53,13 @@ public class AdminCourseController {
     @GetMapping
     public ResponseEntity<Response<List<AdminCourseResponseDto>>> viewAllActiveCourses(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                                                        @RequestParam(required = false, defaultValue = "20") Integer size) {
+        ResponseList<AdminCourseResponseDto> data = adminCourseService.findAllByActive(page, size, true);
         Response<List<AdminCourseResponseDto>> response = Response.<List<AdminCourseResponseDto>>builder()
-                .data(adminCourseService.findAllByActive(page, size, true))
+                .data(data.getData())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
+                .allRecords(data.getTotalElements())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

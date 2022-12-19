@@ -25,7 +25,7 @@ public class StudentRestController {
     @RequestMapping(method = RequestMethod.GET)
     public List<AdminStudentResponseDto> getStudents(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                      @RequestParam(required = false, defaultValue = "20") Integer size) {
-        return adminStudentServiceImp.findAllByActive(page, size, true);
+        return adminStudentServiceImp.findAllByActive(page, size, true).getData();
     }
 
     @RequestMapping(method = RequestMethod.POST)

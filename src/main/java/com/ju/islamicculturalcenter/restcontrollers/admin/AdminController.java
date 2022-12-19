@@ -6,6 +6,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdatePasswordR
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDto;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
+import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import org.springframework.http.HttpStatus;
@@ -38,11 +39,13 @@ public class AdminController {
     @GetMapping
     public ResponseEntity<Response<List<AdminResponseDto>>> viewAllActiveAdmins(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                                                 @RequestParam(required = false, defaultValue = "20") Integer size) {
+        ResponseList<AdminResponseDto> active = adminService.findAllByActive(page, size, true);
         Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
-                .data(adminService.findAllByActive(page, size, true))
+                .data(active.getData())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
+                .allRecords(active.getTotalElements())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -5,6 +5,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.instructor.AdminInstructor
 import com.ju.islamicculturalcenter.dto.request.admin.instructor.AdminResetInstructorPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
+import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructorResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorService;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,13 @@ public class AdminInstructorController {
     @GetMapping
     public ResponseEntity<Response<List<AdminInstructorResponseDto>>> listInstructors(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                                                       @RequestParam(required = false, defaultValue = "20") Integer size) {
+        ResponseList<AdminInstructorResponseDto> active = adminInstructorService.findAllByActive(page, size, true);
         Response<List<AdminInstructorResponseDto>> response = Response.<List<AdminInstructorResponseDto>>builder()
-                .data(adminInstructorService.findAllByActive(page, size, true))
+                .data(active.getData())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
+                .allRecords(active.getTotalElements())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

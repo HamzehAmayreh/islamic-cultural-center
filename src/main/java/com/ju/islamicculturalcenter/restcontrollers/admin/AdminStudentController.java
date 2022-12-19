@@ -5,6 +5,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.student.AdminStudentReques
 import com.ju.islamicculturalcenter.dto.request.admin.student.AdminUpdateStudentRequestDto;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
+import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentService;
 import org.springframework.http.HttpStatus;
@@ -37,11 +38,13 @@ public class AdminStudentController {
     @GetMapping
     public ResponseEntity<Response<List<AdminStudentResponseDto>>> listInstructors(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                                                    @RequestParam(required = false, defaultValue = "20") Integer size) {
+        ResponseList<AdminStudentResponseDto> active = adminStudentService.findAllByActive(page, size, true);
         Response<List<AdminStudentResponseDto>> response = Response.<List<AdminStudentResponseDto>>builder()
-                .data(adminStudentService.findAllByActive(page, size, true))
+                .data(active.getData())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
+                .allRecords(active.getTotalElements())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
