@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -49,9 +50,10 @@ public class AdminCourseController {
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<AdminCourseResponseDto>>> viewAllActiveCourses() {
+    public ResponseEntity<Response<List<AdminCourseResponseDto>>> viewAllActiveCourses(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                                                                       @RequestParam(required = false, defaultValue = "20") Integer size) {
         Response<List<AdminCourseResponseDto>> response = Response.<List<AdminCourseResponseDto>>builder()
-                .data(adminCourseService.findAllByActive(true))
+                .data(adminCourseService.findAllByActive(page, size, true))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

@@ -10,15 +10,7 @@ import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,9 +36,10 @@ public class AdminController {
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<AdminResponseDto>>> viewAllActiveAdmins() {
+    public ResponseEntity<Response<List<AdminResponseDto>>> viewAllActiveAdmins(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                                                                @RequestParam(required = false, defaultValue = "20") Integer size) {
         Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
-                .data(adminService.findAllByActive(true))
+                .data(adminService.findAllByActive(page, size, true))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

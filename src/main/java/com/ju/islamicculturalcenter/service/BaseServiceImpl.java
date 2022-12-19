@@ -6,6 +6,8 @@ import com.ju.islamicculturalcenter.entity.BaseEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.BaseRepo;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,8 +15,12 @@ import java.util.stream.Collectors;
 public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseRequestDto, S extends BaseResponseDto, U extends BaseRequestDto> implements IBaseService<T,R,S,U>{
 
     @Override
-    public List<S> findAllByActive(Boolean active) {
-        return getRepo().findAllByIsActive(active).stream() //stream is like for loop but is faster having parallel loops and return the element in collection
+    public List<S> findAllByActive(Integer page, Integer size, Boolean active) {
+
+        PageRequest pageRequest = PageRequest.of(page + 1, size);
+        Pageable pageable = pageRequest.previous();
+
+        return getRepo().findAllByIsActive(active, pageable).stream() //stream is like for loop but is faster having parallel loops and return the element in collection
                 .map(getMapper()::mapEntityToDto)// map method loops through every element of the return type
                 .collect(Collectors.toList());
     }

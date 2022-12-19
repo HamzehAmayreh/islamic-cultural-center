@@ -7,6 +7,11 @@ import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 public class Config extends WebSecurityConfigurerAdapter {
@@ -14,6 +19,9 @@ public class Config extends WebSecurityConfigurerAdapter {
     public static final String ADMIN_LOGIN_PATH = "/api/v1/admin/auth/login";
     public static final String INSTRUCTOR_LOGIN_PATH = "/api/v1/instructor/auth/login";
     public static final String STUDENT_LOGIN_PATH = "/api/v1/student/auth/login";
+    private static final List<String> ALLOWED_METHODS = Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH");
+    private static final List<String> ALLOWED_HEADERS = Arrays.asList("x-requested-with", "authorization", "Content-Type",
+            "Authorization", "credential", "X-XSRF-TOKEN", "X-Refresh-Token", "X-Client-Id", "x-client-id");
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -22,7 +30,9 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .permitAll()
                 .and()
-                .httpBasic();
+                .httpBasic()
+                .and()
+                .cors().configurationSource(request -> getCorsConfiguration());
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
@@ -34,5 +44,14 @@ public class Config extends WebSecurityConfigurerAdapter {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    private CorsConfiguration getCorsConfiguration() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(ALLOWED_HEADERS);
+        corsConfiguration.setAllowedMethods(ALLOWED_METHODS);
+        corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        corsConfiguration.setAllowCredentials(true);
+        return corsConfiguration;
     }
 }

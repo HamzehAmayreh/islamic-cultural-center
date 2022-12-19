@@ -35,9 +35,10 @@ public class AdminStudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Response<List<AdminStudentResponseDto>>> listInstructors() {
+    public ResponseEntity<Response<List<AdminStudentResponseDto>>> listInstructors(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                                                                   @RequestParam(required = false, defaultValue = "20") Integer size) {
         Response<List<AdminStudentResponseDto>> response = Response.<List<AdminStudentResponseDto>>builder()
-                .data(adminStudentService.findAllByActive(true))
+                .data(adminStudentService.findAllByActive(page, size, true))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
