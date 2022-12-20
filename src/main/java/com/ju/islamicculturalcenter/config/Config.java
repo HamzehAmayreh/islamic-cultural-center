@@ -16,9 +16,7 @@ import java.util.List;
 @Configuration
 public class Config extends WebSecurityConfigurerAdapter {
 
-    public static final String ADMIN_LOGIN_PATH = "/api/v1/admin/auth/login";
-    public static final String INSTRUCTOR_LOGIN_PATH = "/api/v1/instructor/auth/login";
-    public static final String STUDENT_LOGIN_PATH = "/api/v1/student/auth/login";
+    public static final String USER_LOGIN_PATH = "/api/v1/user/auth/login";
     private static final List<String> ALLOWED_METHODS = Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH");
     private static final List<String> ALLOWED_HEADERS = Arrays.asList("x-requested-with", "authorization", "Content-Type",
             "Authorization", "credential", "X-XSRF-TOKEN", "X-Refresh-Token", "X-Client-Id", "x-client-id");

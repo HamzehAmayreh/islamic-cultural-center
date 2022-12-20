@@ -35,7 +35,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String authorizationHeader = request.getHeader(AUTHORIZATION);
-        if (!request.getServletPath().equals(ADMIN_LOGIN_PATH) && authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
+        if (!request.getServletPath().equals(USER_LOGIN_PATH) && authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
             String token = authorizationHeader.substring(7);
             if (jwtUtil.isTokenValid(token)) {
                 String username = jwtUtil.getUsernameFromToken(token);
@@ -48,35 +48,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-            filterChain.doFilter(request, response);
-        } else if (!request.getServletPath().equals(INSTRUCTOR_LOGIN_PATH) && authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
-            String token = authorizationHeader.substring(7);
-            if (jwtUtil.isTokenValid(token)) {
-                String username = jwtUtil.getUsernameFromToken(token);
-                if (username == null) {
-                    throw new NotFoundException("user not found");
-                }
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            filterChain.doFilter(request, response);
-        } else if (!request.getServletPath().equals(STUDENT_LOGIN_PATH) && authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
-            String token = authorizationHeader.substring(7);
-            if (jwtUtil.isTokenValid(token)) {
-                String username = jwtUtil.getUsernameFromToken(token);
-                if (username == null) {
-                    throw new NotFoundException("user not found");
-                }
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
-            filterChain.doFilter(request, response);
         }
         filterChain.doFilter(request, response);
     }
