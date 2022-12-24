@@ -10,5 +10,4 @@ import com.ju.islamicculturalcenter.service.IBaseService;
 public interface AdminInstructorService extends IBaseService<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto, AdminInstructorUpdateRequestDto> {
 
     void resetPassword(AdminResetInstructorPasswordRequestDto requestDto);
-
 }

@@ -9,6 +9,7 @@ import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import org.springframework.data.domain.Example;
 
 import java.sql.Timestamp;
@@ -25,15 +26,15 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
     public AdminEntity mapDtoToEntity(AdminRequestDto adminRequestDto) {
         return AdminEntity.builder()
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
-                .createdById(-1L)
+                .createdById(UserDetailsUtil.userDetails().getId())
                 .updateDate(new Timestamp(System.currentTimeMillis()))
-                .updatedById(-1L)
+                .updatedById(UserDetailsUtil.userDetails().getId())
                 .active(true)
                 .user(UserEntity.builder()
                         .creation_Date(new Timestamp(System.currentTimeMillis()))
-                        .createdById(-1L)
+                        .createdById(UserDetailsUtil.userDetails().getId())
                         .updateDate(new Timestamp(System.currentTimeMillis()))
-                        .updatedById(-1L)
+                        .updatedById(UserDetailsUtil.userDetails().getId())
                         .active(true)
                         .firstName(adminRequestDto.getFirstName())
                         .lastName(adminRequestDto.getLastName())

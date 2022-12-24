@@ -213,7 +213,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
     }
 
     @Override
-    public void postSave(AdminEntity entity) { //DONE
+    public void postSave(AdminRequestDto requestDto, AdminEntity entity) { //DONE
 
         String password = PasswordHelper.generatePassword();
         entity.getUser().setPassword(passwordEncoder.encode(password));

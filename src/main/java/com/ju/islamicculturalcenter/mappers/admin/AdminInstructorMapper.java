@@ -9,6 +9,8 @@ import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
+import com.ju.islamicculturalcenter.service.helper.GeneratorHelper;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -18,10 +20,12 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRoleRepo userRoleRepo;
+    private final GeneratorHelper generatorHelper;
 
     public AdminInstructorMapper(BCryptPasswordEncoder bCryptPasswordEncoder, UserRoleRepo userRoleRepo) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userRoleRepo = userRoleRepo;
+        this.generatorHelper = new GeneratorHelper();
     }
 
     @Override
@@ -32,8 +36,8 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
                         .active(true)
                         .creation_Date(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
-                        .createdById(-1L)
-                        .updatedById(-1L)
+                        .createdById(UserDetailsUtil.userDetails().getId())
+                        .updatedById(UserDetailsUtil.userDetails().getId())
                         .firstName(requestDto.getFirstName())
                         .lastName(requestDto.getLastName())
                         .email(requestDto.getEmail())
@@ -46,11 +50,12 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
                 .imageUrl(requestDto.getImageUrl())
                 .isVolunteer(requestDto.getIsVolunteer())
                 .cvUrl(requestDto.getCvUrl())
+                .subNumber(generatorHelper.generateRandomNumber().toString())
                 .active(true)
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
-                .createdById(-1L)
-                .updatedById(-1L)
+                .createdById(UserDetailsUtil.userDetails().getId())
+                .updatedById(UserDetailsUtil.userDetails().getId())
                 .build();
     }
 

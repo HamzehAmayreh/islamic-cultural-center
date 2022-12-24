@@ -48,7 +48,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
         preAddValidation(dto);
         preSave(dto);
         T entity = getRepo().save(getMapper().mapDtoToEntity(dto));
-        postSave(entity);
+        postSave(dto, entity);
         return getMapper().mapEntityToDto(entity);
     }
 
@@ -87,7 +87,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity, R extends BaseReques
 
     }
 
-    public void postSave(T entity){
+    public void postSave(R requestDto, T entity){
 
     }
 

@@ -37,14 +37,18 @@ public class Config extends WebSecurityConfigurerAdapter {
     private CustomUserDetailsService userDetailsService;
 
 
+    private static final String SWAGGER_UI_HTML_PAGE = "/swagger-ui-custom/**";
+    private static final String SWAGGER_UI_PATH = "/swagger-ui-custom/*";
     public static final String USER_LOGIN_PATH = "/api/v1/user/auth/login";
     public static final String SUPER_ADMIN_PATH = "/api/v1/admin/admins";
+    public static final String ADMIN_INSTRUCTOR_PATH = "/api/v1/admin/instructors/**";
     private static final List<String> ALLOWED_METHODS = Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH");
     private static final List<String> ALLOWED_HEADERS = Arrays.asList("x-requested-with", "authorization", "Content-Type",
             "Authorization", "credential", "X-XSRF-TOKEN", "X-Refresh-Token", "X-Client-Id", "x-client-id");
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint((request, response, e) -> accessDenied(response))
@@ -61,8 +65,10 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE,SUPER_ADMIN_PATH).hasAuthority("super-admin")
                 .antMatchers(HttpMethod.PATCH,SUPER_ADMIN_PATH.concat("/reset-password")).hasAuthority("super-admin")
                 .antMatchers(SUPER_ADMIN_PATH.concat("/**")).hasAnyAuthority("super-admin", "admin")
+                .antMatchers(ADMIN_INSTRUCTOR_PATH).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(USER_LOGIN_PATH).permitAll()
-
+                .antMatchers(SWAGGER_UI_HTML_PAGE).permitAll()
+                .antMatchers(SWAGGER_UI_PATH).permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(new CustomAuthorizationFilter(userDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class);
