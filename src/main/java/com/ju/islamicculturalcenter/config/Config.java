@@ -28,24 +28,21 @@ import java.util.List;
 @Configuration
 public class Config extends WebSecurityConfigurerAdapter {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @Autowired
-    private JWTUtil jwtUtil;
-
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
-
-
-    private static final String SWAGGER_UI_HTML_PAGE = "/swagger-ui/**";
-    private static final String SWAGGER_UI_PATH = "/swagger-ui/*";
-    private static final String DOCS_PATH = "/v3/api-docs/**";
     public static final String USER_LOGIN_PATH = "/api/v1/user/auth/login";
     public static final String SUPER_ADMIN_PATH = "/api/v1/admin/admins";
     public static final String ADMIN_INSTRUCTOR_PATH = "/api/v1/admin/instructors/**";
+    public static final String ADMIN_STUDENT_PATH = "/api/v1/admin/students/**";
+    private static final String SWAGGER_UI_HTML_PAGE = "/swagger-ui/**";
+    private static final String SWAGGER_UI_PATH = "/swagger-ui/*";
+    private static final String DOCS_PATH = "/v3/api-docs/**";
     private static final List<String> ALLOWED_METHODS = Arrays.asList("GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH");
     private static final List<String> ALLOWED_HEADERS = Arrays.asList("x-requested-with", "authorization", "Content-Type",
             "Authorization", "credential", "X-XSRF-TOKEN", "X-Refresh-Token", "X-Client-Id", "x-client-id");
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private JWTUtil jwtUtil;
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -64,12 +61,13 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(SWAGGER_UI_HTML_PAGE).permitAll()
                 .antMatchers(SWAGGER_UI_PATH).permitAll()
                 .antMatchers(DOCS_PATH).permitAll()
-                .antMatchers(HttpMethod.POST,SUPER_ADMIN_PATH).hasAuthority("super-admin")
-                .antMatchers(HttpMethod.PUT,SUPER_ADMIN_PATH).hasAuthority("super-admin")
-                .antMatchers(HttpMethod.DELETE,SUPER_ADMIN_PATH).hasAuthority("super-admin")
-                .antMatchers(HttpMethod.PATCH,SUPER_ADMIN_PATH.concat("/reset-password")).hasAuthority("super-admin")
+                .antMatchers(HttpMethod.POST, SUPER_ADMIN_PATH).hasAuthority("super-admin")
+                .antMatchers(HttpMethod.PUT, SUPER_ADMIN_PATH).hasAuthority("super-admin")
+                .antMatchers(HttpMethod.DELETE, SUPER_ADMIN_PATH).hasAuthority("super-admin")
+                .antMatchers(HttpMethod.PATCH, SUPER_ADMIN_PATH.concat("/reset-password")).hasAuthority("super-admin")
                 .antMatchers(SUPER_ADMIN_PATH.concat("/**")).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(ADMIN_INSTRUCTOR_PATH).hasAnyAuthority("super-admin", "admin")
+                .antMatchers(ADMIN_STUDENT_PATH).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(USER_LOGIN_PATH).permitAll()
 
                 .anyRequest().authenticated();
@@ -94,7 +92,7 @@ public class Config extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

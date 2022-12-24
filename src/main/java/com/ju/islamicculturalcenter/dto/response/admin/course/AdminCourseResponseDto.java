@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.admin.course;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentListResponseDto;
@@ -15,6 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminCourseResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String name;

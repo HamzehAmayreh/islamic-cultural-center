@@ -1,9 +1,13 @@
 package com.ju.islamicculturalcenter.dto.response.student;
 
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Getter
@@ -27,7 +31,7 @@ public class StudentRegistrationResponseDto implements BaseResponseDto {
 
     private String facebookUrl;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private Integer courseCount;
 }

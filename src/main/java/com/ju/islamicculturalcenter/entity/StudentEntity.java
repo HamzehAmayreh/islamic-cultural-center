@@ -16,7 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Table(name = "student")
 @Entity
@@ -30,7 +30,7 @@ public class StudentEntity extends BaseEntity {
     private Long id;
 
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "course_count")
     private Integer courseCount;
@@ -44,7 +44,7 @@ public class StudentEntity extends BaseEntity {
     private UserEntity user;
 
     @Builder
-    public StudentEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, Date dateOfBirth, Integer courseCount, Boolean isVerified, UserEntity user) {
+    public StudentEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, LocalDate dateOfBirth, Integer courseCount, Boolean isVerified, UserEntity user) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.dateOfBirth = dateOfBirth;

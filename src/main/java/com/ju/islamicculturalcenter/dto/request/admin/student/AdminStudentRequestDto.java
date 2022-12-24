@@ -1,9 +1,13 @@
 package com.ju.islamicculturalcenter.dto.request.admin.student;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,5 +26,5 @@ public class AdminStudentRequestDto implements BaseRequestDto {
 
     private String facebookUrl;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 }

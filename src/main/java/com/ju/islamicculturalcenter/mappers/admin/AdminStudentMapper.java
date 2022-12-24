@@ -9,6 +9,7 @@ import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import org.springframework.data.domain.Example;
 
 import java.sql.Timestamp;
@@ -30,15 +31,15 @@ public class AdminStudentMapper implements BaseMapper<StudentEntity, AdminStuden
                         .userName(requestDto.getEmail())
                         .phoneNumber(requestDto.getPhoneNumber())
                         .facebookUrl(requestDto.getFacebookUrl())
-                        .createdById(-1L)
-                        .updatedById(-1L)
+                        .createdById(UserDetailsUtil.userDetails().getId())
+                        .updatedById(UserDetailsUtil.userDetails().getId())
                         .active(true)
                         .creation_Date(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
                         .role(getStudentRole())
                         .build())
-                .createdById(-1L)
-                .updatedById(-1L)
+                .createdById(UserDetailsUtil.userDetails().getId())
+                .updatedById(UserDetailsUtil.userDetails().getId())
                 .dateOfBirth(requestDto.getDateOfBirth())
                 .active(true)
                 .creation_Date(new Timestamp(System.currentTimeMillis()))

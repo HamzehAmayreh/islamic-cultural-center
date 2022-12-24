@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.admin.admin;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
@@ -13,6 +14,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String firstName;

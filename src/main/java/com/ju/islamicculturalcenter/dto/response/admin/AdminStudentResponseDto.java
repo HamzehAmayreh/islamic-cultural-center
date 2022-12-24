@@ -1,12 +1,17 @@
 package com.ju.islamicculturalcenter.dto.response.admin;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseListResponseDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -14,6 +19,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminStudentResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String firstName;
@@ -28,7 +34,7 @@ public class AdminStudentResponseDto extends BaseAdminResponse implements BaseRe
 
     private String facebookUrl;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private Integer courseCount;
 
@@ -37,7 +43,7 @@ public class AdminStudentResponseDto extends BaseAdminResponse implements BaseRe
     private List<AdminCourseListResponseDto> courses;
 
     @Builder
-    public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, Date dateOfBirth, Integer courseCount, Boolean isVerified, List<AdminCourseListResponseDto> courses) {
+    public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, LocalDate dateOfBirth, Integer courseCount, Boolean isVerified, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, editedById, creationDate, editedDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;
