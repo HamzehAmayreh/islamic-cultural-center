@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.restcontrollers;
+package com.ju.islamicculturalcenter.restcontrollers.instructor;
 
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorResetPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;

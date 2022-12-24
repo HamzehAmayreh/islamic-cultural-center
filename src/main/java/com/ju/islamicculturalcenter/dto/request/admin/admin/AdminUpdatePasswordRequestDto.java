@@ -10,8 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AdminUpdatePasswordRequestDto implements BaseRequestDto {
 
-    private Long id;
-
     private String oldPassword;
 
     private String newPassword;

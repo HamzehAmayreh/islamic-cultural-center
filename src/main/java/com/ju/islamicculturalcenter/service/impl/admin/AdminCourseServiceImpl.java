@@ -75,4 +75,14 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
         return adminCourseMapper;
     }
 
+    @Override
+    public void preAddValidation(AdminCourseRequestDto dto) {
+
+    }
+
+    @Override
+    public void preUpdateValidation(AdminUpdateCourseRequestDto dto) {
+
+    }
+
 }

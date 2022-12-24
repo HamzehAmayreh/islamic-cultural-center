@@ -41,7 +41,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                         .userName(adminRequestDto.getEmail())
                         .phoneNumber(adminRequestDto.getPhoneNumber())
                         .facebookUrl(adminRequestDto.getFacebookUrl())
-                        .role(getAdminRole())
+                        .role(getAdminRole(adminRequestDto.getRoleId()))
                         .build())
                 .address(adminRequestDto.getAddress())
                 .iban(adminRequestDto.getIban())
@@ -69,8 +69,8 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .build();
     }
 
-    private UserRoleEntity getAdminRole() {
-        return userRoleRepo.findById(1L)
-                .orElseThrow(() -> new NotFoundException("No Role with Admin found"));
+    private UserRoleEntity getAdminRole(Long id) {
+        return userRoleRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("No Role found with ID :{" + id + "}"));
     }
 }

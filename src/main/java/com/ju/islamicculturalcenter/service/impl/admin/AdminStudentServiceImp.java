@@ -71,6 +71,16 @@ public class AdminStudentServiceImp extends BaseServiceImpl<StudentEntity, Admin
         return adminStudentMapper;
     }
 
+    @Override
+    public void preAddValidation(AdminStudentRequestDto dto) {
+
+    }
+
+    @Override
+    public void preUpdateValidation(AdminUpdateStudentRequestDto dto) {
+
+    }
+
     private void validateResetPassword(AdminResetStudentPasswordRequestDto requestDto) {
 
         NullValidator.validate(requestDto.getId());

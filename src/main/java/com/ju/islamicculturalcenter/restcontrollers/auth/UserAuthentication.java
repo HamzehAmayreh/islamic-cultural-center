@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.restcontrollers;
+package com.ju.islamicculturalcenter.restcontrollers.auth;
 
 import com.ju.islamicculturalcenter.dto.auth.AuthenticationResponse;
 import com.ju.islamicculturalcenter.dto.auth.CreateAuthenticationRequest;

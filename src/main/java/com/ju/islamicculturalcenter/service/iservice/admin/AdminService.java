@@ -14,5 +14,5 @@ public interface AdminService extends IBaseService<AdminEntity, AdminRequestDto,
 
     void updatePassword(AdminUpdatePasswordRequestDto requestDto);
 
-
+    AdminResponseDto updateOwnProfile(AdminUpdateRequestDto requestDto);
 }

@@ -49,6 +49,16 @@ public class InstructorCoursesServiceImpl extends BaseServiceImpl<InstructorEnti
     }
 
     @Override
+    public void preAddValidation(InstructorRequestDto dto) {
+
+    }
+
+    @Override
+    public void preUpdateValidation(InstructorUpdateDto dto) {
+
+    }
+
+    @Override
     public List<InstructorCourseResponseDto> myCourses(Long instructorId) {
         List<InstructorCoursesEntity> entities = instructorCoursesRepo.findAllByInstructorId(instructorId);
 

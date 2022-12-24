@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.List;
 
+import static com.ju.islamicculturalcenter.service.helper.NullValidator.validate;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -73,9 +74,5 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
         validate(violations);
     }
 
-    protected void validate(List<String> violations) {
-        if (!violations.isEmpty()) {
-            throw new ValidationException(join(",", violations));
-        }
-    }
+
 }

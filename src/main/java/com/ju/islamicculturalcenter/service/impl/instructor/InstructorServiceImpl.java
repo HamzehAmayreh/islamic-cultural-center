@@ -112,4 +112,14 @@ public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, Ins
     public BaseMapper<InstructorEntity, InstructorRequestDto, InstructorResponseDto> getMapper() {
         return instructorMapper;
     }
+
+    @Override
+    public void preAddValidation(InstructorRequestDto dto) {
+
+    }
+
+    @Override
+    public void preUpdateValidation(InstructorRequestDto dto) {
+
+    }
 }

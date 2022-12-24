@@ -2,6 +2,7 @@ package com.ju.islamicculturalcenter.service.auth;
 
 import com.ju.islamicculturalcenter.dto.auth.CustomUserDetails;
 import com.ju.islamicculturalcenter.entity.UserEntity;
+import com.ju.islamicculturalcenter.exceptions.CustomBadCredentialsException;
 import com.ju.islamicculturalcenter.exceptions.UserNotFoundException;
 import com.ju.islamicculturalcenter.repos.UserRepo;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,8 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private CustomUserDetails buildCustomUserDetailsOfUsername(String username) {
-        UserEntity user = userRepo.findByEmail(username)
-                .orElseThrow(() -> new UserNotFoundException("Incorrect Username"));
+        UserEntity user = userRepo.findByIsActiveAndEmail(true, username)
+                .orElseThrow(() -> new CustomBadCredentialsException("Incorrect Username"));
 
         return CustomUserDetails.builder()
                 .id(user.getId())

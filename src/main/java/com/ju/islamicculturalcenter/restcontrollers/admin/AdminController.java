@@ -26,7 +26,7 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<Response<AdminResponseDto>> createAdmin(@RequestBody AdminRequestDto requestDto) {//TODO ONLY SUPER ADMINS CAN CREATE
+    public ResponseEntity<Response<AdminResponseDto>> createAdmin(@RequestBody AdminRequestDto requestDto) { //SUPER ADMINS
         Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
                 .data(adminService.save(requestDto))
                 .code(CODE.CREATED.getId())
@@ -51,7 +51,7 @@ public class AdminController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response<AdminResponseDto>> viewProfile(@PathVariable Long id) {
+    public ResponseEntity<Response<AdminResponseDto>> viewDetails(@PathVariable Long id) {
         Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
                 .data(adminService.findById(id, true))
                 .code(CODE.OK.getId())
@@ -62,7 +62,7 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<AdminResponseDto>> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) {
+    public ResponseEntity<Response<AdminResponseDto>> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) { //SUPER ADMINS
         Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
                 .data(adminService.update(id, requestDto))
                 .code(CODE.OK.getId())
@@ -73,7 +73,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Response<Void>> deleteAdmin(@PathVariable Long id) { //TODO ONLY SUPER ADMINS CAN DELETE
+    public ResponseEntity<Response<Void>> deleteAdmin(@PathVariable Long id) { //SUPER ADMINS
         adminService.deleteById(id);
         Response<Void> response = Response.<Void>builder()
                 .code(CODE.OK.getId())
@@ -84,7 +84,7 @@ public class AdminController {
     }
 
     @PatchMapping("/reset-password")
-    public ResponseEntity<Response<Void>> resetPassword(@RequestBody AdminResetPasswordRequestDto requestDto) {
+    public ResponseEntity<Response<Void>> resetPassword(@RequestBody AdminResetPasswordRequestDto requestDto) { //SUPER ADMINS
         adminService.resetPassword(requestDto);
         Response<Void> response = Response.<Void>builder()
                 .code(CODE.OK.getId())
@@ -98,6 +98,17 @@ public class AdminController {
     public ResponseEntity<Response<Void>> updatePassword(@RequestBody AdminUpdatePasswordRequestDto requestDto) {
         adminService.updatePassword(requestDto);
         Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<Response<AdminResponseDto>> viewProfile(@RequestBody AdminUpdateRequestDto requestDto) {
+        Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
+                .data(adminService.updateOwnProfile(requestDto))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

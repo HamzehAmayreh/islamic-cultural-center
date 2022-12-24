@@ -41,4 +41,14 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentRe
     public BaseMapper<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto> getMapper() {
         return studentRegistrationMapper;
     }
+
+    @Override
+    public void preAddValidation(StudentRegistrationRequestDto dto) {
+
+    }
+
+    @Override
+    public void preUpdateValidation(StudentUpdateProfileRequest dto) {
+
+    }
 }

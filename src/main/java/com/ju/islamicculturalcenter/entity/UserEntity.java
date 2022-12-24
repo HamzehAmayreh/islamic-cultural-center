@@ -46,13 +46,13 @@ public class UserEntity extends BaseEntity {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(name = "facebook_url")
     private String facebookUrl;
 
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     @OneToOne
     @Cascade(CascadeType.PERSIST)
     private UserRoleEntity role;

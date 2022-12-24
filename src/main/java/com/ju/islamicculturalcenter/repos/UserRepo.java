@@ -8,6 +8,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepo extends BaseRepo<UserEntity, Long>{
 
-    Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByIsActiveAndEmail(Boolean isActive, String email);
 
 }

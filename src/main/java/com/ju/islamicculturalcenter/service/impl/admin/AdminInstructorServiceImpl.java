@@ -74,6 +74,16 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
         return adminInstructorMapper;
     }
 
+    @Override
+    public void preAddValidation(AdminInstructorRequestDto dto) {
+
+    }
+
+    @Override
+    public void preUpdateValidation(AdminInstructorUpdateRequestDto dto) {
+
+    }
+
     private void validateResetPassword(AdminResetInstructorPasswordRequestDto requestDto) {
 
         NullValidator.validate(requestDto.getId());
