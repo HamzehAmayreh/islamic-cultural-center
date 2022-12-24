@@ -92,4 +92,15 @@ public class AdminInstructorController {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Response<List<AdminInstructorResponseDto>>> searchByName(@RequestParam String keyword){
+        Response<List<AdminInstructorResponseDto>> response = Response.<List<AdminInstructorResponseDto>>builder()
+                .data(adminInstructorService.searchInstructorByName(keyword))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

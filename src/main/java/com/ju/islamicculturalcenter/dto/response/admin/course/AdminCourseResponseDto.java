@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.admin.course;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
@@ -10,7 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -25,9 +26,9 @@ public class AdminCourseResponseDto extends BaseAdminResponse implements BaseRes
 
     private Double duration;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
 
     private String lectureTime;
 
@@ -49,11 +50,12 @@ public class AdminCourseResponseDto extends BaseAdminResponse implements BaseRes
 
     private String semester;
 
-    private Integer year;
+    @JsonFormat(pattern = "yyyy")
+    private LocalDate year;
 
     private String teams_link;
 
-    private String lastRegDay;
+    private LocalDate lastRegDay;
 
     private List<AdminStudentListResponseDto> students;
 

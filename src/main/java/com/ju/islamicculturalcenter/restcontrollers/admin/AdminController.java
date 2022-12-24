@@ -115,4 +115,15 @@ public class AdminController {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Response<List<AdminResponseDto>>> searchByName(@RequestParam String keyword){
+        Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
+                .data(adminService.searchAdminByName(keyword))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

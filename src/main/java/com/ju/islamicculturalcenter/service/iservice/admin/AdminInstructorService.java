@@ -7,7 +7,11 @@ import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructo
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 
+import java.util.List;
+
 public interface AdminInstructorService extends IBaseService<InstructorEntity, AdminInstructorRequestDto, AdminInstructorResponseDto, AdminInstructorUpdateRequestDto> {
 
     void resetPassword(AdminResetInstructorPasswordRequestDto requestDto);
+
+    List<AdminInstructorResponseDto> searchInstructorByName(String name);
 }

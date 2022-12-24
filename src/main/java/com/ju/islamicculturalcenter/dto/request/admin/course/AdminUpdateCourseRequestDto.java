@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -22,11 +23,11 @@ public class AdminUpdateCourseRequestDto implements BaseRequestDto {
 
     private Double duration;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
 
-    private String lectureTime;
+    private LocalTime lectureTime;
 
     private List<DaysOfWeek> daysOfWeek;
 
@@ -46,9 +47,9 @@ public class AdminUpdateCourseRequestDto implements BaseRequestDto {
 
     private String semester;
 
-    private Integer year;
+    private LocalDate year;
 
     private String TeamsLink;
 
-    private String lastRegDay;
+    private LocalDate lastRegDay;
 }

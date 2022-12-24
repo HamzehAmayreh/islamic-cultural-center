@@ -38,22 +38,21 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
 
     @Override
     public void assignInstructorToCourse(AdminInstructorCourseRequestDto requestDto) {
-        extracted(requestDto);
 
         instructorCoursesRepo.save(InstructorCoursesEntity.builder()
-                        .active(true)
-                        .createdById(-1L)
-                        .creation_Date(new Timestamp(System.currentTimeMillis()))
-                        .updateDate(new Timestamp(System.currentTimeMillis()))
-                        .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
-                        .course(CourseEntity.builder().id(requestDto.getInstructorId()).build())
+                .active(true)
+                .createdById(-1L)
+                .creation_Date(new Timestamp(System.currentTimeMillis()))
+                .updateDate(new Timestamp(System.currentTimeMillis()))
+                .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
+                .course(CourseEntity.builder().id(requestDto.getInstructorId()).build())
                 .build());
     }
 
     @Override
     public void unAssignInstructorToCourse(AdminInstructorCourseRequestDto requestDto) {
 
-        extracted(requestDto);
+        validateRequest(requestDto);
 
         InstructorCoursesEntity instructorCoursesEntity = instructorCoursesRepo.findOne(Example.of(InstructorCoursesEntity.builder()
                         .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
@@ -64,7 +63,8 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
         instructorCoursesRepo.delete(instructorCoursesEntity);
     }
 
-    private void extracted(AdminInstructorCourseRequestDto requestDto) {
+    private void validateRequest(AdminInstructorCourseRequestDto requestDto) {
+
         List<String> violations = new CompositeValidator<AdminInstructorCourseRequestDto, String>()
                 .addValidator(r -> nonNull(r.getInstructorId()), "Instructor Id cannot be null")
                 .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")
@@ -74,5 +74,9 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
         validate(violations);
     }
 
-
+    protected void validate(List<String> violations) {
+        if (!violations.isEmpty()) {
+            throw new ValidationException(join(",", violations));
+        }
+    }
 }

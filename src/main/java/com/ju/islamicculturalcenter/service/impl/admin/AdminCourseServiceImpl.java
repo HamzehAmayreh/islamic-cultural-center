@@ -5,14 +5,15 @@ import com.ju.islamicculturalcenter.dto.request.admin.course.AdminUpdateCourseRe
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
-import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.mappers.admin.AdminCourseMapper;
-import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
+import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminCourseService;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,11 +32,15 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
     }
 
     @Override
-    public List<AdminCourseResponseDto> searchCourseByName(String name) {
-        if(isNull(name))
-            throw new ValidationException("Name cannot be empty");
+    public List<AdminCourseResponseDto> searchCourseByName(String keyword) {
 
-        return courseRepo.findAllByNameLike(name).stream()
+        List<String> violations = new CompositeValidator<String, String>()
+                .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
+                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() > 3, "keyword cannot be less than 3 characters")
+                .validate(keyword);
+        validate(violations);
+
+        return courseRepo.findAllByNameLike(keyword).stream()
                 .map(adminCourseMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }
@@ -62,27 +67,81 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
         entity.setTeamsLink(nonNull(dto.getTeamsLink()) ? dto.getTeamsLink() : entity.getTeamsLink());
         entity.setLastRegDay(nonNull(dto.getLastRegDay()) ? dto.getLastRegDay() : entity.getLastRegDay());
 
+        entity.setUpdateDate(new Timestamp(System.currentTimeMillis()));
         return entity;
     }
 
     @Override
-    public BaseRepo<CourseEntity, Long> getRepo() {
+    public CourseRepo getRepo() {
         return courseRepo;
     }
 
     @Override
-    public BaseMapper<CourseEntity, AdminCourseRequestDto, AdminCourseResponseDto> getMapper() {
+    public AdminCourseMapper getMapper() {
         return adminCourseMapper;
     }
 
     @Override
     public void preAddValidation(AdminCourseRequestDto dto) {
 
+        List<String> violations = new CompositeValidator<AdminCourseRequestDto, String>()
+                .addValidator(r -> CompositeValidator.hasValue(r.getName()), "name cannot be empty")
+                .addValidator(r -> !CompositeValidator.hasValue(r.getName()) || !courseRepo.findByName(r.getName()).isPresent(), "course with this name already exists")
+                .addValidator(r -> CompositeValidator.hasValue(r.getDescription()), "description cannot be empty")
+                .addValidator(r -> nonNull(r.getDuration()), "duration cannot be empty")
+                .addValidator(r -> nonNull(r.getStartDate()), "startDate cannot be empty")
+                .addValidator(r -> nonNull(r.getEndDate()), "endDate cannot be empty")
+                .addValidator(r -> isNull(r.getEndDate()) || isNull(r.getStartDate()) || r.getEndDate().isBefore(r.getStartDate()), "endDate cannot be before startDate")
+                .addValidator(r -> isNull(r.getStartDate()) || r.getStartDate().isBefore(LocalDate.now()), "startDate cannot be in the past")
+                .addValidator(r -> isNull(r.getEndDate()) || r.getEndDate().isBefore(LocalDate.now()), "endDate cannot be in the past")
+                .addValidator(r -> nonNull(r.getLectureTime()), "lectureTime cannot be empty")
+                .addValidator(r -> nonNull(r.getDaysOfWeek()), "daysOfWeek cannot be null")
+                .addValidator(r -> CompositeValidator.hasValue(r.getCategory()), "category Cannot be null")
+                .addValidator(r -> nonNull(r.getMaxParticipants()), "maxParticipants Cannot be null")
+                .addValidator(r -> isNull(r.getMaxParticipants()) || r.getMaxParticipants() > 1, "maxParticipants Cannot be less than 1")
+                .addValidator(r -> isNull(r.getIsFree()) || r.getIsFree().equals(Boolean.FALSE) && (isNull(r.getPrice()) || r.getPrice().equals(0.0)), "course cannot be free if isFree flag is false")
+                .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
+                .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
+                .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
+                .addValidator(r -> isNull(r.getYear()) || r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
+                .addValidator(r -> nonNull(r.getLastRegDay()), "lastRegDay cannot be null")
+                .validate(dto);
+        validate(violations);
+    }
+
+    @Override
+    public void preUpdate(CourseEntity entity, AdminUpdateCourseRequestDto updateDto) {
+        if(nonNull(updateDto.getName()) && !entity.getName().equals(updateDto.getName())){
+            if(courseRepo.findByName(updateDto.getName()).isPresent())
+                throw new ValidationException("course with this name already exists");
+        }
     }
 
     @Override
     public void preUpdateValidation(AdminUpdateCourseRequestDto dto) {
 
+        List<String> violations = new CompositeValidator<AdminUpdateCourseRequestDto, String>()
+                .addValidator(r -> CompositeValidator.hasValue(r.getName()), "name cannot be empty")
+                .addValidator(r -> CompositeValidator.hasValue(r.getDescription()), "description cannot be empty")
+                .addValidator(r -> nonNull(r.getDuration()), "duration cannot be empty")
+                .addValidator(r -> nonNull(r.getStartDate()), "startDate cannot be empty")
+                .addValidator(r -> nonNull(r.getEndDate()), "endDate cannot be empty")
+                .addValidator(r -> isNull(r.getEndDate()) || isNull(r.getStartDate()) || r.getEndDate().isBefore(r.getStartDate()), "endDate cannot be before startDate")
+                .addValidator(r -> isNull(r.getStartDate()) || r.getStartDate().isBefore(LocalDate.now()), "startDate cannot be in the past")
+                .addValidator(r -> isNull(r.getEndDate()) || r.getEndDate().isBefore(LocalDate.now()), "endDate cannot be in the past")
+                .addValidator(r -> nonNull(r.getLectureTime()), "lectureTime cannot be empty")
+                .addValidator(r -> nonNull(r.getDaysOfWeek()), "daysOfWeek cannot be null")
+                .addValidator(r -> CompositeValidator.hasValue(r.getCategory()), "category Cannot be null")
+                .addValidator(r -> nonNull(r.getMaxParticipants()), "maxParticipants Cannot be null")
+                .addValidator(r -> isNull(r.getMaxParticipants()) || r.getMaxParticipants() > 1, "maxParticipants Cannot be less than 1")
+                .addValidator(r -> isNull(r.getIsFree()) || r.getIsFree().equals(Boolean.FALSE) && (isNull(r.getPrice()) || r.getPrice().equals(0.0)), "course cannot be free if isFree flag is false")
+                .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
+                .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
+                .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
+                .addValidator(r -> isNull(r.getYear()) || r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
+                .addValidator(r -> nonNull(r.getLastRegDay()), "lastRegDay cannot be null")
+                .validate(dto);
+        validate(violations);
     }
 
 }

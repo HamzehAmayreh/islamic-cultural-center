@@ -8,6 +8,8 @@ import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 
+import java.util.List;
+
 public interface AdminService extends IBaseService<AdminEntity, AdminRequestDto, AdminResponseDto, AdminUpdateRequestDto> {
 
     void resetPassword(AdminResetPasswordRequestDto requestDto);
@@ -15,4 +17,6 @@ public interface AdminService extends IBaseService<AdminEntity, AdminRequestDto,
     void updatePassword(AdminUpdatePasswordRequestDto requestDto);
 
     AdminResponseDto updateOwnProfile(AdminUpdateRequestDto requestDto);
+
+    List<AdminResponseDto> searchAdminByName(String name);
 }

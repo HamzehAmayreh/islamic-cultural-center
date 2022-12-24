@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.service.impl.admin;
 
+import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminPaidStudentCourseRequest;
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
@@ -35,7 +36,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
 
     @Override
     public void assignStudentToCourse(AdminStudentCourseRequestDto requestDto) {
-        extracted(requestDto);
+        validateRequest(requestDto);
 
         studentCoursesRepo.save(StudentCoursesEntity.builder()
                 .active(true)
@@ -46,23 +47,48 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
                 .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
                 .paid(false)
                 .build());
+
+        StudentEntity student = studentRepo.findByIdAndIsActive(requestDto.getStudentId(), true)
+                .get();
+        student.setCourseCount(student.getCourseCount() + 1);
     }
 
     @Override
     public void unAssignStudentToCourse(AdminStudentCourseRequestDto requestDto) {
 
-        extracted(requestDto);
+        validateRequest(requestDto);
 
         StudentCoursesEntity studentCoursesEntity = studentCoursesRepo.findOne(Example.of(StudentCoursesEntity.builder()
-                        .students(StudentEntity.builder().id(requestDto.getStudentId()).build())
-                        .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
+                        .students(StudentEntity.builder().active(true).id(requestDto.getStudentId()).build())
+                        .course(CourseEntity.builder().active(true).id(requestDto.getCourseId()).build())
                         .build()))
                 .orElseThrow(() -> new ValidationException("No Record found for this Student to this course"));
 
         studentCoursesRepo.delete(studentCoursesEntity);
     }
 
-    private void extracted(AdminStudentCourseRequestDto requestDto) {
+    @Override
+    public void setStudentCourseAsPaid(AdminPaidStudentCourseRequest request) {
+
+        List<String> violations = new CompositeValidator<AdminPaidStudentCourseRequest, String>()
+                .addValidator(r -> nonNull(r.getCourseId()), "courseId cannot be null")
+                .addValidator(r -> nonNull(r.getStudentId()), "studentId cannot be null")
+                .addValidator(r -> isNull(r.getStudentId()) || studentRepo.findByIdAndIsActive(r.getStudentId(), true).isPresent(), "no student found with this id")
+                .addValidator(r -> isNull(r.getCourseId()) || courseRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no course found with this id")
+                .validate(request);
+        validate(violations);
+
+        StudentCoursesEntity studentCoursesEntity = studentCoursesRepo.findOne(Example.of(StudentCoursesEntity.builder()
+                        .students(StudentEntity.builder().active(true).id(request.getStudentId()).build())
+                        .course(CourseEntity.builder().active(true).id(request.getCourseId()).build())
+                        .build()))
+                .orElseThrow(() -> new ValidationException("No Record found for this Student to this course"));
+
+        studentCoursesEntity.setPaid(true);
+        studentCoursesRepo.save(studentCoursesEntity);
+    }
+
+    private void validateRequest(AdminStudentCourseRequestDto requestDto) {
         List<String> violations = new CompositeValidator<AdminStudentCourseRequestDto, String>()
                 .addValidator(r -> nonNull(r.getStudentId()), "Student Id cannot be null")
                 .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")

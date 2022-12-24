@@ -1,14 +1,22 @@
 package com.ju.islamicculturalcenter.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -30,17 +38,17 @@ public class CourseEntity extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "durtaion", nullable = false)
+    @Column(name = "duration", nullable = false)
     private Double duration;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "lecture_time")
-    private String lectureTime;
+    private LocalTime lectureTime;
 
     @Column(name = "days_of_week")
     @ElementCollection
@@ -71,16 +79,17 @@ public class CourseEntity extends BaseEntity {
     private String semester;
 
     @Column(name = "year", nullable = false)
-    private Integer year;
+    @JsonFormat(pattern = "yyyy")
+    private LocalDate year;
 
     @Column(name = "teams_link")
     private String teamsLink;
 
     @Column(name = "last_reg_day", nullable = false)
-    private String lastRegDay;
+    private LocalDate lastRegDay;
 
     @Builder
-    public CourseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, Date startDate, Date endDate, String lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, Integer year, String teamsLink, String lastRegDay) {
+    public CourseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, LocalDate startDate, LocalDate endDate, LocalTime lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, LocalDate year, String teamsLink, LocalDate lastRegDay) {
         super(creation_Date, createdById, updateDate, updatedById, active);
         this.id = id;
         this.name = name;

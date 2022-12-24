@@ -3,6 +3,7 @@ package com.ju.islamicculturalcenter.restcontrollers.admin;
 import com.ju.islamicculturalcenter.dto.request.admin.course.AdminCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.course.AdminUpdateCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.instructorcourse.AdminInstructorCourseRequestDto;
+import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminPaidStudentCourseRequest;
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
@@ -13,15 +14,7 @@ import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourse
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentCourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -134,6 +127,28 @@ public class AdminCourseController {
     public ResponseEntity<Response<Void>> unAssignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
         adminStudentCourseService.unAssignStudentToCourse(requestDto);
         Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PatchMapping( "/student/paid")
+    public ResponseEntity<Response<Void>> updateCoursePaid(@RequestBody AdminPaidStudentCourseRequest requestDto) {
+        adminStudentCourseService.setStudentCourseAsPaid(requestDto);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Response<List<AdminCourseResponseDto>>> searchByName(@RequestParam String keyword) {
+        Response<List<AdminCourseResponseDto>> response = Response.<List<AdminCourseResponseDto>>builder()
+                .data(adminCourseService.searchCourseByName(keyword))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -68,6 +69,20 @@ public class AdminStudentServiceImp extends BaseServiceImpl<StudentEntity, Admin
         mailService.sendPasswordEmail(student.getUser().getFirstName(), student.getUser().getEmail(), requestDto.getNewPassword());
 
         studentRepo.save(student);
+    }
+
+    @Override
+    public List<AdminStudentResponseDto> searchStudentByName(String name) {
+
+        List<String> violations = new CompositeValidator<String, String>()
+                .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
+                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() > 3, "keyword cannot be less than 3 characters")
+                .validate(name);
+        validate(violations);
+
+        return studentRepo.findAllByUser_FirstNameOrUser_LastNameLike(name).stream()
+                .map(adminStudentMapper::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
