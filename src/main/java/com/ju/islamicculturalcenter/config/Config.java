@@ -37,8 +37,8 @@ public class Config extends WebSecurityConfigurerAdapter {
     private CustomUserDetailsService userDetailsService;
 
 
-    private static final String SWAGGER_UI_HTML_PAGE = "/swagger-ui-custom/**";
-    private static final String SWAGGER_UI_PATH = "/swagger-ui-custom/*";
+    private static final String SWAGGER_UI_HTML_PAGE = "/swagger-ui/**";
+    private static final String SWAGGER_UI_PATH = "/swagger-ui/**";
     public static final String USER_LOGIN_PATH = "/api/v1/user/auth/login";
     public static final String SUPER_ADMIN_PATH = "/api/v1/admin/admins";
     public static final String ADMIN_INSTRUCTOR_PATH = "/api/v1/admin/instructors/**";
@@ -60,6 +60,8 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(SWAGGER_UI_HTML_PAGE).permitAll()
+                .antMatchers(SWAGGER_UI_PATH).permitAll()
                 .antMatchers(HttpMethod.POST,SUPER_ADMIN_PATH).hasAuthority("super-admin")
                 .antMatchers(HttpMethod.PUT,SUPER_ADMIN_PATH).hasAuthority("super-admin")
                 .antMatchers(HttpMethod.DELETE,SUPER_ADMIN_PATH).hasAuthority("super-admin")
@@ -67,8 +69,7 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(SUPER_ADMIN_PATH.concat("/**")).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(ADMIN_INSTRUCTOR_PATH).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(USER_LOGIN_PATH).permitAll()
-                .antMatchers(SWAGGER_UI_HTML_PAGE).permitAll()
-                .antMatchers(SWAGGER_UI_PATH).permitAll()
+
                 .anyRequest().authenticated();
 
         http.addFilterBefore(new CustomAuthorizationFilter(userDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class);
