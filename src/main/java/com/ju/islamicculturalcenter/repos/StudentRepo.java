@@ -1,6 +1,7 @@
 package com.ju.islamicculturalcenter.repos;
 
 import com.ju.islamicculturalcenter.entity.StudentEntity;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -8,5 +9,6 @@ import java.util.List;
 @Repository
 public interface StudentRepo extends BaseRepo<StudentEntity, Long> {
 
-    List<StudentEntity> findAllByUser_FirstNameOrUser_LastNameLike(String name);
+    @Query("Select a from StudentEntity a where a.user.firstName like %:name%")
+    List<StudentEntity> searchByName(String name);
 }

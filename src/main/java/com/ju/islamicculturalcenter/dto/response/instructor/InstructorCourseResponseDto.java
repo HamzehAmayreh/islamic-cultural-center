@@ -1,10 +1,16 @@
 package com.ju.islamicculturalcenter.dto.response.instructor;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -22,11 +28,11 @@ public class InstructorCourseResponseDto implements BaseResponseDto {
 
     private Double duration;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
 
-    private String lectureTime;
+    private LocalTime lectureTime;
 
     private List<DaysOfWeek> daysOfWeek;
 
@@ -42,11 +48,12 @@ public class InstructorCourseResponseDto implements BaseResponseDto {
 
     private String semester;
 
-    private Integer year;
+    @JsonFormat(pattern = "yyyy")
+    private LocalDate year;
 
     private String teams_link;
 
-    private String lastRegDay;
+    private LocalDate lastRegDay;
 
     private List<InstructorStudentListResponseDto> students;
 }

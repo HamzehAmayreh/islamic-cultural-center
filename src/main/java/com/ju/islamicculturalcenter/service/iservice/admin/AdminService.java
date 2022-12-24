@@ -18,5 +18,5 @@ public interface AdminService extends IBaseService<AdminEntity, AdminRequestDto,
 
     AdminResponseDto updateOwnProfile(AdminUpdateRequestDto requestDto);
 
-    List<AdminResponseDto> searchAdminByName(String name);
+    List<AdminResponseDto> searchAdminByName(String name1);
 }

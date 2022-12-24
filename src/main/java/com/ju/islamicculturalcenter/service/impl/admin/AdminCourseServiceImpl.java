@@ -36,11 +36,11 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
 
         List<String> violations = new CompositeValidator<String, String>()
                 .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
-                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() > 3, "keyword cannot be less than 3 characters")
+                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() >= 3, "keyword cannot be less than 3 characters")
                 .validate(keyword);
         validate(violations);
 
-        return courseRepo.findAllByNameLike(keyword).stream()
+        return courseRepo.searchByName(keyword).stream()
                 .map(adminCourseMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }

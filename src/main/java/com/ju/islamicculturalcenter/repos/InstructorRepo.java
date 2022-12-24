@@ -1,6 +1,7 @@
 package com.ju.islamicculturalcenter.repos;
 
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,5 +11,6 @@ public interface InstructorRepo extends BaseRepo<InstructorEntity, Long> {
 
     InstructorEntity findInstructorEntityById(Long id);
 
-    List<InstructorEntity> findAllByUser_FirstNameOrUser_LastNameLike(String name);
+    @Query("Select a from InstructorEntity a where a.user.firstName like %:name%")
+    List<InstructorEntity> searchByName(String name);
 }

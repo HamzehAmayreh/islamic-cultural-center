@@ -139,11 +139,11 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
 
         List<String> violations = new CompositeValidator<String, String>()
                 .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
-                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() > 3, "keyword cannot be less than 3 characters")
+                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() >= 3, "keyword cannot be less than 3 characters")
                 .validate(name);
         validate(violations);
 
-        return adminRepo.findAllByUser_FirstNameOrUser_LastNameLike(name).stream()
+        return adminRepo.searchByName(name).stream()
                 .map(adminMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }

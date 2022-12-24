@@ -76,11 +76,11 @@ public class AdminStudentServiceImp extends BaseServiceImpl<StudentEntity, Admin
 
         List<String> violations = new CompositeValidator<String, String>()
                 .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
-                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() > 3, "keyword cannot be less than 3 characters")
+                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() >= 3, "keyword cannot be less than 3 characters")
                 .validate(name);
         validate(violations);
 
-        return studentRepo.findAllByUser_FirstNameOrUser_LastNameLike(name).stream()
+        return studentRepo.searchByName(name).stream()
                 .map(adminStudentMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }
