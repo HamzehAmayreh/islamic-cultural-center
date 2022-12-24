@@ -5,13 +5,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentListResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
 import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructorListResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Getter
@@ -30,7 +35,7 @@ public class AdminCourseResponseDto extends BaseAdminResponse implements BaseRes
 
     private LocalDate endDate;
 
-    private String lectureTime;
+    private LocalTime lectureTime;
 
     private List<DaysOfWeek> daysOfWeek;
 
@@ -53,11 +58,36 @@ public class AdminCourseResponseDto extends BaseAdminResponse implements BaseRes
     @JsonFormat(pattern = "yyyy")
     private LocalDate year;
 
-    private String teams_link;
+    private String teamsLink;
 
     private LocalDate lastRegDay;
 
-    private List<AdminStudentListResponseDto> students;
+    private List<AdminStudentResponseDto> students;
 
-    private List<AdminInstructorListResponseDto> instructors;
+    private List<AdminInstructorResponseDto> instructors;
+
+    @Builder
+    public AdminCourseResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String name, String description, Double duration, LocalDate startDate, LocalDate endDate, LocalTime lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, LocalDate year, String teamsLink, LocalDate lastRegDay, List<AdminStudentResponseDto> students, List<AdminInstructorResponseDto> instructors) {
+        super(id, createdById, updatedById, creationDate, updateDate, isActive);
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.lectureTime = lectureTime;
+        this.daysOfWeek = daysOfWeek;
+        this.category = category;
+        this.maxParticipants = maxParticipants;
+        this.isPreRecorded = isPreRecorded;
+        this.isOnline = isOnline;
+        this.isFree = isFree;
+        this.price = price;
+        this.classroom = classroom;
+        this.semester = semester;
+        this.year = year;
+        this.teamsLink = teamsLink;
+        this.lastRegDay = lastRegDay;
+        this.students = students;
+        this.instructors = instructors;
+    }
 }

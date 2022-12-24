@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 public class BaseEntity {
 
     @Column(name = "creation_date", nullable = false)
-    protected Timestamp creation_Date;
+    protected Timestamp creationDate;
 
     @Column(name = "created_by_id", nullable = false)
     protected Long createdById;
@@ -31,7 +31,7 @@ public class BaseEntity {
     protected Boolean isActive;
 
     public BaseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
-        this.creation_Date = creation_Date;
+        this.creationDate = creation_Date;
         this.createdById = createdById;
         this.updateDate = updateDate;
         this.updatedById = updatedById;

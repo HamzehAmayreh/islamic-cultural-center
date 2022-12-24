@@ -6,10 +6,16 @@ import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseRespons
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.mappers.admin.AdminCourseMapper;
+import com.ju.islamicculturalcenter.mappers.admin.AdminInstructorMapper;
+import com.ju.islamicculturalcenter.mappers.admin.AdminStudentMapper;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
+import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
+import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminCourseService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -25,10 +31,22 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
 
     private final CourseRepo courseRepo;
     private final AdminCourseMapper adminCourseMapper;
+    private final StudentCoursesRepo studentCoursesRepo;
+    private final InstructorCoursesRepo instructorCoursesRepo;
+    private final AdminInstructorMapper adminInstructorMapper;
+    private final AdminStudentMapper adminStudentMapper;
+    private final UserRoleRepo userRoleRepo;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AdminCourseServiceImpl(CourseRepo courseRepo) {
+    public AdminCourseServiceImpl(CourseRepo courseRepo, StudentCoursesRepo studentCoursesRepo, InstructorCoursesRepo instructorCoursesRepo, UserRoleRepo userRoleRepo) {
         this.courseRepo = courseRepo;
-        this.adminCourseMapper = new AdminCourseMapper();
+        this.studentCoursesRepo = studentCoursesRepo;
+        this.instructorCoursesRepo = instructorCoursesRepo;
+        this.bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        this.adminInstructorMapper = new AdminInstructorMapper(bCryptPasswordEncoder, userRoleRepo);
+        this.adminStudentMapper = new AdminStudentMapper(userRoleRepo);
+        this.userRoleRepo = userRoleRepo;
+        this.adminCourseMapper = new AdminCourseMapper(studentCoursesRepo, instructorCoursesRepo, userRoleRepo);
     }
 
     @Override
@@ -91,9 +109,9 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> nonNull(r.getDuration()), "duration cannot be empty")
                 .addValidator(r -> nonNull(r.getStartDate()), "startDate cannot be empty")
                 .addValidator(r -> nonNull(r.getEndDate()), "endDate cannot be empty")
-                .addValidator(r -> isNull(r.getEndDate()) || isNull(r.getStartDate()) || r.getEndDate().isBefore(r.getStartDate()), "endDate cannot be before startDate")
-                .addValidator(r -> isNull(r.getStartDate()) || r.getStartDate().isBefore(LocalDate.now()), "startDate cannot be in the past")
-                .addValidator(r -> isNull(r.getEndDate()) || r.getEndDate().isBefore(LocalDate.now()), "endDate cannot be in the past")
+                .addValidator(r -> isNull(r.getEndDate()) || isNull(r.getStartDate()) || !r.getEndDate().isBefore(r.getStartDate()), "endDate cannot be before startDate")
+                .addValidator(r -> isNull(r.getStartDate()) || !r.getStartDate().isBefore(LocalDate.now()), "startDate cannot be in the past")
+                .addValidator(r -> isNull(r.getEndDate()) || !r.getEndDate().isBefore(LocalDate.now()), "endDate cannot be in the past")
                 .addValidator(r -> nonNull(r.getLectureTime()), "lectureTime cannot be empty")
                 .addValidator(r -> nonNull(r.getDaysOfWeek()), "daysOfWeek cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getCategory()), "category Cannot be null")
@@ -103,8 +121,9 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
                 .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
-                .addValidator(r -> isNull(r.getYear()) || r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
+                .addValidator(r -> isNull(r.getYear()) || !r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
                 .addValidator(r -> nonNull(r.getLastRegDay()), "lastRegDay cannot be null")
+                .addValidator(r -> isNull(r.getLastRegDay()) || !r.getLastRegDay().isBefore(LocalDate.now().plusDays(1L)), "lastRegDay cannot be in the past or 1 day from now")
                 .validate(dto);
         validate(violations);
     }
@@ -126,9 +145,9 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> nonNull(r.getDuration()), "duration cannot be empty")
                 .addValidator(r -> nonNull(r.getStartDate()), "startDate cannot be empty")
                 .addValidator(r -> nonNull(r.getEndDate()), "endDate cannot be empty")
-                .addValidator(r -> isNull(r.getEndDate()) || isNull(r.getStartDate()) || r.getEndDate().isBefore(r.getStartDate()), "endDate cannot be before startDate")
-                .addValidator(r -> isNull(r.getStartDate()) || r.getStartDate().isBefore(LocalDate.now()), "startDate cannot be in the past")
-                .addValidator(r -> isNull(r.getEndDate()) || r.getEndDate().isBefore(LocalDate.now()), "endDate cannot be in the past")
+                .addValidator(r -> isNull(r.getEndDate()) || isNull(r.getStartDate()) || !r.getEndDate().isBefore(r.getStartDate()), "endDate cannot be before startDate")
+                .addValidator(r -> isNull(r.getStartDate()) || !r.getStartDate().isBefore(LocalDate.now()), "startDate cannot be in the past")
+                .addValidator(r -> isNull(r.getEndDate()) || !r.getEndDate().isBefore(LocalDate.now()), "endDate cannot be in the past")
                 .addValidator(r -> nonNull(r.getLectureTime()), "lectureTime cannot be empty")
                 .addValidator(r -> nonNull(r.getDaysOfWeek()), "daysOfWeek cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getCategory()), "category Cannot be null")
@@ -138,8 +157,9 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
                 .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
-                .addValidator(r -> isNull(r.getYear()) || r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
+                .addValidator(r -> isNull(r.getYear()) || !r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
                 .addValidator(r -> nonNull(r.getLastRegDay()), "lastRegDay cannot be null")
+                .addValidator(r -> isNull(r.getLastRegDay()) || r.getLastRegDay().isBefore(LocalDate.now().plusDays(1L)), "lastRegDay cannot be in the past or 1 day from now")
                 .validate(dto);
         validate(violations);
     }

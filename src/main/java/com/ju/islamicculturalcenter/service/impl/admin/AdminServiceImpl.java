@@ -232,7 +232,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
 
         String password = PasswordHelper.generatePassword();
         entity.getUser().setPassword(passwordEncoder.encode(password));
-        mailService.sendPasswordEmail(entity.getUser().getFirstName(), entity.getUser().getEmail(), password);
+        mailService.sendPasswordEmailWithHtml(entity.getUser().getFirstName(), entity.getUser().getEmail(), password);
         userRepo.save(entity.getUser());
         adminRepo.save(entity);
     }

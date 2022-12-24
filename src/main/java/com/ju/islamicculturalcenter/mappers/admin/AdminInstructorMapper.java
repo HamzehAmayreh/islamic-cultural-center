@@ -68,7 +68,7 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
                 .createdById(instructorEntity.getCreatedById())
                 .updatedById(instructorEntity.getUpdatedById())
                 .isActive(instructorEntity.getIsActive())
-                .creationDate(instructorEntity.getCreation_Date())
+                .creationDate(instructorEntity.getCreationDate())
                 .updateDate(instructorEntity.getUpdateDate())
                 .firstName(instructorEntity.getUser().getFirstName())
                 .lastName(instructorEntity.getUser().getLastName())

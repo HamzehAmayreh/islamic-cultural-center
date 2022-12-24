@@ -89,8 +89,8 @@ public class CourseEntity extends BaseEntity {
     private LocalDate lastRegDay;
 
     @Builder
-    public CourseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, LocalDate startDate, LocalDate endDate, LocalTime lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, LocalDate year, String teamsLink, LocalDate lastRegDay) {
-        super(creation_Date, createdById, updateDate, updatedById, active);
+    public CourseEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String name, String description, Double duration, LocalDate startDate, LocalDate endDate, LocalTime lectureTime, List<DaysOfWeek> daysOfWeek, String category, Integer maxParticipants, Boolean isPreRecorded, Boolean isOnline, Boolean isFree, Double price, String classroom, String semester, LocalDate year, String teamsLink, LocalDate lastRegDay) {
+        super(creationDate, createdById, updateDate, updatedById, active);
         this.id = id;
         this.name = name;
         this.description = description;

@@ -53,7 +53,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
     public AdminResponseDto mapEntityToDto(AdminEntity adminEntity) {
         return AdminResponseDto.builder()
                 .id(adminEntity.getId())
-                .creationDate(adminEntity.getCreation_Date())
+                .creationDate(adminEntity.getCreationDate())
                 .createdById(adminEntity.getCreatedById())
                 .updateDate(adminEntity.getUpdateDate())
                 .updatedById(adminEntity.getUpdatedById())

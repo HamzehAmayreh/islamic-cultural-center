@@ -53,7 +53,7 @@ public class AdminStudentMapper implements BaseMapper<StudentEntity, AdminStuden
 
         return AdminStudentResponseDto.builder()
                 .id(studentEntity.getId())
-                .creationDate(studentEntity.getCreation_Date())
+                .creationDate(studentEntity.getCreationDate())
                 .createdById(studentEntity.getCreatedById())
                 .editedDate(studentEntity.getUpdateDate())
                 .editedById(studentEntity.getUpdatedById())
