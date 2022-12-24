@@ -51,6 +51,7 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
                 .isVolunteer(requestDto.getIsVolunteer())
                 .cvUrl(requestDto.getCvUrl())
                 .subNumber(generatorHelper.generateRandomNumber().toString())
+                .salary(requestDto.getIsVolunteer() ? 0 : requestDto.getSalary())
                 .active(true)
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
@@ -64,21 +65,23 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
 
         return AdminInstructorResponseDto.builder()
                 .id(instructorEntity.getId())
+                .createdById(instructorEntity.getCreatedById())
+                .updatedById(instructorEntity.getUpdatedById())
+                .isActive(instructorEntity.getIsActive())
+                .creationDate(instructorEntity.getCreation_Date())
+                .updateDate(instructorEntity.getUpdateDate())
                 .firstName(instructorEntity.getUser().getFirstName())
                 .lastName(instructorEntity.getUser().getLastName())
                 .userName(instructorEntity.getUser().getUserName())
                 .email(instructorEntity.getUser().getEmail())
                 .phoneNumber(instructorEntity.getUser().getPhoneNumber())
                 .imageUrl(instructorEntity.getImageUrl())
+                .facebookUrl(instructorEntity.getUser().getFacebookUrl())
                 .isVolunteer(instructorEntity.getIsVolunteer())
                 .salary(instructorEntity.getSalary())
                 .cvUrl(instructorEntity.getCvUrl())
                 .subNumber(instructorEntity.getSubNumber())
-                .createdById(instructorEntity.getCreatedById())
-                .updatedById(instructorEntity.getUpdatedById())
-                .isActive(instructorEntity.getIsActive())
-                .creationDate(instructorEntity.getCreation_Date())
-                .updateDate(instructorEntity.getUpdateDate())
+
                 .build();
     }
 

@@ -111,6 +111,9 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
                 .addValidator(r -> CompositeValidator.hasValue(r.getImageUrl()), "image cannot be null")
                 .addValidator(r -> isNull(r.getEmail()) || !userRepo.findByIsActiveAndEmail(true, r.getEmail()).isPresent(), "user with this email already exists")
                 .addValidator(r -> isNull(r.getEmail()) || EmailHelper.validateEmail(r.getEmail()), "Email must have an email format")
+                .addValidator(r -> isNull(r.getPassword()) || PasswordHelper.validatePassword(r.getPassword()), "Password should be 8-20 with 1 capital letter")
+                .addValidator(r -> nonNull(r.getIsVolunteer()), "isVolunteer cannot be null")
+                .addValidator(r -> (isNull(r.getIsVolunteer())) || !(r.getIsVolunteer().equals(Boolean.FALSE) && (isNull(r.getSalary()) || r.getSalary().equals(0.0))), "Salary Cannot be empty if instructor is not volunteer")
                 .validate(requestDto);
         validate(violations);
     }
@@ -125,8 +128,11 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
                 .addValidator(r -> CompositeValidator.hasValue(r.getPhoneNumber()), "phoneNumber cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getImageUrl()), "image cannot be null")
                 .addValidator(r -> isNull(r.getEmail()) || EmailHelper.validateEmail(r.getEmail()), "Email must have an email format")
+                .addValidator(r -> nonNull(r.getIsVolunteer()), "isVolunteer cannot be null")
+                .addValidator(r -> (isNull(r.getIsVolunteer())) || !(r.getIsVolunteer().equals(Boolean.FALSE) && (isNull(r.getSalary()) || r.getSalary().equals(0.0))), "Salary Cannot be empty if instructor is not volunteer")
                 .validate(requestDto);
         validate(violations);
+
     }
 
     @Override
@@ -145,7 +151,7 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
     public void cascadeDelete(Long id) {
         InstructorEntity instructor = instructorRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("No admin found with ID:" + id));
-        userRepo.deleteById(instructor.getUser().getId());
+        userRepo.softDelete(instructor.getUser().getId());
     }
 
     @Override

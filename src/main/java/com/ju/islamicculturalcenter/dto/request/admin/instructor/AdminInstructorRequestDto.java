@@ -31,6 +31,4 @@ public class AdminInstructorRequestDto implements BaseRequestDto {
     private Double salary;
 
     private String cvUrl;
-
-    private String subNumber;
 }

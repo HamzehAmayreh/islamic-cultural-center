@@ -209,7 +209,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
     public void cascadeDelete(Long id) {
         AdminEntity admin = adminRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("No admin found with ID:" + id));
-        userRepo.deleteById(admin.getUser().getId());
+        userRepo.softDelete(admin.getUser().getId());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.admin.instructor;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseAdminResponse;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseListResponseDto;
@@ -13,6 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminInstructorResponseDto extends BaseAdminResponse implements BaseResponseDto {
 
     private String firstName;
@@ -27,8 +29,6 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
 
     private String facebookUrl;
 
-    private PositionEntity position;
-
     private String imageUrl;
 
     private Boolean isVolunteer;
@@ -42,7 +42,7 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
     private List<AdminCourseListResponseDto> courses;
 
     @Builder
-    public AdminInstructorResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, PositionEntity position, String imageUrl, Boolean isVolunteer, Double salary, String cvUrl, String subNumber, List<AdminCourseListResponseDto> courses) {
+    public AdminInstructorResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, String imageUrl, Boolean isVolunteer, Double salary, String cvUrl, String subNumber, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, updatedById, creationDate, updateDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,7 +50,6 @@ public class AdminInstructorResponseDto extends BaseAdminResponse implements Bas
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.facebookUrl = facebookUrl;
-        this.position = position;
         this.imageUrl = imageUrl;
         this.isVolunteer = isVolunteer;
         this.salary = salary;
