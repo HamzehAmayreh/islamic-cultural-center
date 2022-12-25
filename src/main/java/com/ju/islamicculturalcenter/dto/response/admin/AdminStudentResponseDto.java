@@ -42,6 +42,8 @@ public class AdminStudentResponseDto extends BaseAdminResponse implements BaseRe
 
     private List<AdminCourseListResponseDto> courses;
 
+    private Boolean paid;
+
     @Builder
     public AdminStudentResponseDto(Long id, Long createdById, Long editedById, Timestamp creationDate, Timestamp editedDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, LocalDate dateOfBirth, Integer courseCount, Boolean isVerified, List<AdminCourseListResponseDto> courses) {
         super(id, createdById, editedById, creationDate, editedDate, isActive);

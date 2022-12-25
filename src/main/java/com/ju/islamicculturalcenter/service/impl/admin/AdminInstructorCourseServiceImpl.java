@@ -8,6 +8,7 @@ import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.InstructorRepo;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourseService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,11 +40,14 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
     @Override
     public void assignInstructorToCourse(AdminInstructorCourseRequestDto requestDto) {
 
+        validateRequest(requestDto);
+
         instructorCoursesRepo.save(InstructorCoursesEntity.builder()
                 .active(true)
-                .createdById(-1L)
+                .createdById(UserDetailsUtil.userDetails().getId())
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
+                .updatedById(UserDetailsUtil.userDetails().getId())
                 .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
                 .course(CourseEntity.builder().id(requestDto.getInstructorId()).build())
                 .build());

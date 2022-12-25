@@ -12,6 +12,7 @@ import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -58,7 +59,7 @@ public class AdminCourseMapper implements BaseMapper<CourseEntity, AdminCourseRe
                 .isPreRecorded(adminCourseRequestDto.getIsPreRecorded())
                 .isOnline(adminCourseRequestDto.getIsOnline())
                 .isFree(adminCourseRequestDto.getIsFree())
-                .price(adminCourseRequestDto.getPrice())
+                .price(adminCourseRequestDto.getIsFree() ? 0.0 : adminCourseRequestDto.getPrice())
                 .classroom(adminCourseRequestDto.getClassroom())
                 .semester(adminCourseRequestDto.getSemester())
                 .year(adminCourseRequestDto.getYear())
@@ -109,7 +110,11 @@ public class AdminCourseMapper implements BaseMapper<CourseEntity, AdminCourseRe
     private List<AdminStudentResponseDto> mapStudents(CourseEntity courseEntity) {
         return studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
                         .course(CourseEntity.builder().active(true).id(courseEntity.getId()).build()).build())).stream()
-                .map(r -> adminStudentMapper.mapEntityToDto(r.getStudents()))
+                .map(r -> {
+                    AdminStudentResponseDto adminStudentResponseDto = adminStudentMapper.mapEntityToDto(r.getStudents());
+                    adminStudentResponseDto.setPaid(r.getPaid());
+                    return adminStudentResponseDto;
+                })
                 .collect(Collectors.toList());
     }
 }

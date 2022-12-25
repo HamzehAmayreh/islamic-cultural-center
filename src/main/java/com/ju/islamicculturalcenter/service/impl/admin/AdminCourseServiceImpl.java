@@ -117,7 +117,7 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> CompositeValidator.hasValue(r.getCategory()), "category Cannot be null")
                 .addValidator(r -> nonNull(r.getMaxParticipants()), "maxParticipants Cannot be null")
                 .addValidator(r -> isNull(r.getMaxParticipants()) || r.getMaxParticipants() > 1, "maxParticipants Cannot be less than 1")
-                .addValidator(r -> isNull(r.getIsFree()) || r.getIsFree().equals(Boolean.FALSE) && (isNull(r.getPrice()) || r.getPrice().equals(0.0)), "course cannot be free if isFree flag is false")
+                .addValidator(r -> (isNull(r.getIsFree())) || !(r.getIsFree().equals(Boolean.FALSE) && (isNull(r.getPrice()) || r.getPrice().equals(0.0))), "Price Cannot be empty if course is not free")
                 .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
                 .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
@@ -153,13 +153,13 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> CompositeValidator.hasValue(r.getCategory()), "category Cannot be null")
                 .addValidator(r -> nonNull(r.getMaxParticipants()), "maxParticipants Cannot be null")
                 .addValidator(r -> isNull(r.getMaxParticipants()) || r.getMaxParticipants() > 1, "maxParticipants Cannot be less than 1")
-                .addValidator(r -> isNull(r.getIsFree()) || r.getIsFree().equals(Boolean.FALSE) && (isNull(r.getPrice()) || r.getPrice().equals(0.0)), "course cannot be free if isFree flag is false")
+                .addValidator(r -> (isNull(r.getIsFree())) || !(r.getIsFree().equals(Boolean.FALSE) && (isNull(r.getPrice()) || r.getPrice().equals(0.0))), "Price Cannot be empty if course is not free")
                 .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
                 .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
                 .addValidator(r -> isNull(r.getYear()) || !r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
                 .addValidator(r -> nonNull(r.getLastRegDay()), "lastRegDay cannot be null")
-                .addValidator(r -> isNull(r.getLastRegDay()) || r.getLastRegDay().isBefore(LocalDate.now().plusDays(1L)), "lastRegDay cannot be in the past or 1 day from now")
+                .addValidator(r -> isNull(r.getLastRegDay()) || !r.getLastRegDay().isBefore(LocalDate.now().plusDays(1L)), "lastRegDay cannot be in the past or 1 day from now")
                 .validate(dto);
         validate(violations);
     }

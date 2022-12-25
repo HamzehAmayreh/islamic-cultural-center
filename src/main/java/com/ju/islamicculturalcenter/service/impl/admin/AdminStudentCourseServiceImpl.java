@@ -9,6 +9,7 @@ import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentCourseService;
 import org.springframework.data.domain.Example;
@@ -40,7 +41,8 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
 
         studentCoursesRepo.save(StudentCoursesEntity.builder()
                 .active(true)
-                .createdById(-1L)
+                .createdById(UserDetailsUtil.userDetails().getId())
+                .updatedById(UserDetailsUtil.userDetails().getId())
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .students(StudentEntity.builder().id(requestDto.getStudentId()).build())
