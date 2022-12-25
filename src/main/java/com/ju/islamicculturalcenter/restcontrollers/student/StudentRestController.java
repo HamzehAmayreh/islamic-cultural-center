@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.restcontrollers;
+package com.ju.islamicculturalcenter.restcontrollers.student;
 
 import java.util.List;
 

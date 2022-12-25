@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.instructor;
+package com.ju.islamicculturalcenter.dto.request.instructor.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

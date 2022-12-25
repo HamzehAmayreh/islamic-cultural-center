@@ -1,12 +1,11 @@
 package com.ju.islamicculturalcenter.restcontrollers.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdatePassword;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorUpdateProfileDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorUpdatePassword;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorCourseResponseDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.course.InstructorCourseResponseDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.profile.InstructorResponseDto;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.iservice.instructor.InstructorCoursesService;
 import com.ju.islamicculturalcenter.service.iservice.instructor.InstructorService;
@@ -28,73 +27,59 @@ public class InstructorRestController {
         this.instructorCoursesService = instructorCoursesService;
     }
 
-    @GetMapping("/{instructorId}")
-    public InstructorResponseDto getInstructor(@PathVariable Long instructorId) {
-        return instructorService.findById(instructorId, true);
-    }
-
     @GetMapping("/profile")
     public ResponseEntity<Response<InstructorResponseDto>> viewProfile(){
         Response<InstructorResponseDto> response= Response.<InstructorResponseDto>builder()
-                .success(true)
-                //.data(instructorService.viewProfile(UserDetailsUtil.userDetails().getId()))
+                .data(instructorService.viewProfile())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
+                .success(true)
                 .build();
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<Void> updateInstructorPassword(@RequestBody InstructorUpdatePassword request) {
-
+    public ResponseEntity<Response<Void>> updateOwnPassword(@RequestBody InstructorUpdatePassword request) {
         instructorService.updatePassword(request);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<Void> response= Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH, path = "/reset")
-    public ResponseEntity<Void> resetInstructorPassword(@RequestBody InstructorResetPasswordRequestDto requestDto) {
-        instructorService.resetPassword(requestDto);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    @PutMapping("/profile")
+    public ResponseEntity<Response<InstructorResponseDto>> updateProfile(@RequestBody InstructorUpdateProfileDto request) {
 
-    @PutMapping("/{instructorId}")
-    public ResponseEntity<Void> updateInstructor(@RequestBody InstructorUpdateDto request, @PathVariable Long instructorId) {
-
-        instructorService.updateInstructor(request, instructorId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        Response<InstructorResponseDto> response= Response.<InstructorResponseDto>builder()
+                .data(instructorService.update(UserDetailsUtil.userDetails().getId(), request))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/my-courses")
     public ResponseEntity<Response<List<InstructorCourseResponseDto>>> viewMyCourses(){
         Response<List<InstructorCourseResponseDto>> response= Response.<List<InstructorCourseResponseDto>>builder()
-                .success(true)
-                //.data(instructorCoursesService.myCourses(UserDetailsUtil.userDetails().getId()))
+                .data(instructorCoursesService.myCourses())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
+                .success(true)
                 .build();
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/my-students")
-    public ResponseEntity<Response<List<InstructorCourseResponseDto>>> viewMyStudents(){
+    @GetMapping("/course/search")
+    public ResponseEntity<Response<List<InstructorCourseResponseDto>>> searchCourse(@RequestParam String keyword){
         Response<List<InstructorCourseResponseDto>> response= Response.<List<InstructorCourseResponseDto>>builder()
-                .success(true)
-                //.data(instructorCoursesService.myStudents(UserDetailsUtil.userDetails().getId()))
+                .data(instructorCoursesService.searchCourseByName(keyword))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
-                .build();
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/search-courses")
-    public ResponseEntity<Response<List<InstructorCourseResponseDto>>> searchCourse(@RequestParam String name){
-        Response<List<InstructorCourseResponseDto>> response= Response.<List<InstructorCourseResponseDto>>builder()
                 .success(true)
-                .data(instructorCoursesService.searchCourseByName(name))
-                .code(CODE.OK.getId())
-                .message(CODE.OK.name())
                 .build();
         return ResponseEntity.ok(response);
     }

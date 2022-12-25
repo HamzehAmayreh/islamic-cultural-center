@@ -1,5 +1,6 @@
-package com.ju.islamicculturalcenter.dto.response.instructor;
+package com.ju.islamicculturalcenter.dto.response.instructor.profile;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import com.ju.islamicculturalcenter.entity.PositionEntity;
 import lombok.*;
@@ -9,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InstructorResponseDto implements BaseResponseDto {
 
     private Long id;

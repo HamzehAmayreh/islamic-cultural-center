@@ -1,18 +1,14 @@
 package com.ju.islamicculturalcenter.service.iservice.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialDeleteRequest;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialUpdateRequestDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorMaterialResponseDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.material.InstructorMaterialRequestDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.material.InstructorMaterialUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.material.InstructorMaterialResponseDto;
+import com.ju.islamicculturalcenter.entity.MaterialEntity;
+import com.ju.islamicculturalcenter.service.IBaseService;
 
 import java.util.List;
 
-public interface MaterialService{
-    InstructorMaterialResponseDto addMaterialToCourse(InstructorMaterialRequestDto request);
+public interface MaterialService extends IBaseService<MaterialEntity, InstructorMaterialRequestDto, InstructorMaterialResponseDto, InstructorMaterialUpdateRequestDto> {
 
     List<InstructorMaterialResponseDto> viewCourseMaterials(Long courseId);
-
-    void deleteMaterial(InstructorMaterialDeleteRequest request);
-
-    void updateMaterial(Long materialId, InstructorMaterialUpdateRequestDto request);
 }

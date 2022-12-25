@@ -1,20 +1,15 @@
 package com.ju.islamicculturalcenter.service.iservice.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdatePassword;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorRequestDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorUpdateProfileDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorUpdatePassword;
+import com.ju.islamicculturalcenter.dto.response.instructor.profile.InstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
 
-public interface InstructorService extends IBaseService<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorRequestDto> {
+public interface InstructorService extends IBaseService<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorUpdateProfileDto> {
 
-    void resetPassword(InstructorResetPasswordRequestDto requestDto);
+    InstructorResponseDto viewProfile();
 
     void updatePassword(InstructorUpdatePassword request);
-
-    void updateInstructor(InstructorUpdateDto request, Long id);
-
-    InstructorResponseDto viewProfile(Long instructorId);
 }

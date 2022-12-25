@@ -1,7 +1,9 @@
-package com.ju.islamicculturalcenter.dto.response.instructor;
+package com.ju.islamicculturalcenter.dto.response.instructor.course;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.student.InstructorStudentResponseDto;
 import com.ju.islamicculturalcenter.entity.enums.DaysOfWeek;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InstructorCourseResponseDto implements BaseResponseDto {
 
     private Long id;
@@ -51,9 +54,9 @@ public class InstructorCourseResponseDto implements BaseResponseDto {
     @JsonFormat(pattern = "yyyy")
     private LocalDate year;
 
-    private String teams_link;
+    private String teamsLink;
 
     private LocalDate lastRegDay;
 
-    private List<InstructorStudentListResponseDto> students;
+    private List<InstructorStudentResponseDto> students;
 }

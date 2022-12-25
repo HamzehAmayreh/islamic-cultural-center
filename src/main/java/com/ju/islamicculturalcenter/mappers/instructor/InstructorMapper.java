@@ -1,7 +1,7 @@
 package com.ju.islamicculturalcenter.mappers.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorRequestDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.profile.InstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.entity.UserEntity;
 import com.ju.islamicculturalcenter.entity.enums.Group;
@@ -9,6 +9,7 @@ import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
+import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -31,8 +32,8 @@ public class InstructorMapper implements BaseMapper<InstructorEntity, Instructor
                         .active(true)
                         .creation_Date(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
-                        .createdById(-1L)
-                        .updatedById(-1L)
+                        .createdById(UserDetailsUtil.userDetails().getId())
+                        .updatedById(UserDetailsUtil.userDetails().getId())
                         .firstName(requestDto.getFirstName())
                         .lastName(requestDto.getLastName())
                         .email(requestDto.getEmail())
@@ -48,8 +49,8 @@ public class InstructorMapper implements BaseMapper<InstructorEntity, Instructor
                 .active(true)
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
-                .createdById(-1L)
-                .updatedById(-1L)
+                .createdById(UserDetailsUtil.userDetails().getId())
+                .updatedById(UserDetailsUtil.userDetails().getId())
                 .build();
     }
 

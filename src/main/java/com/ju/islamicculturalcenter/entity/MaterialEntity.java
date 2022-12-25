@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Table(name = "material")
@@ -23,7 +24,7 @@ public class MaterialEntity extends BaseEntity {
     private String url;
 
     @Column(name = "year", nullable = false)
-    private Date year;
+    private LocalDate year;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "instructor_id",referencedColumnName = "id")
@@ -34,8 +35,8 @@ public class MaterialEntity extends BaseEntity {
     private CourseEntity course;
 
     @Builder
-    public MaterialEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String url, Date year, InstructorEntity instructor, CourseEntity course) {
-        super(creation_Date, createdById, updateDate, updatedById, active);
+    public MaterialEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String url, LocalDate year, InstructorEntity instructor, CourseEntity course) {
+        super(creationDate, createdById, updateDate, updatedById, active);
         this.id = id;
         this.url = url;
         this.year = year;

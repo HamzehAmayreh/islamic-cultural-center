@@ -9,6 +9,5 @@ import java.util.List;
 @Repository
 public interface InstructorCoursesRepo extends BaseRepo<InstructorCoursesEntity, Long> {
 
-    List<InstructorCoursesEntity> findAllByInstructorId(Long instructorId);
-    List<InstructorCoursesEntity> findAllByInstructorIdAndCourse_NameLike(Long instructorId, String name);
+    List<InstructorCoursesEntity> findAllByInstructor_User_IdAndCourse_NameLike(Long instructorId, String name);
 }

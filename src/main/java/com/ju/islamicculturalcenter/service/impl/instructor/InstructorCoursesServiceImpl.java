@@ -1,21 +1,18 @@
 package com.ju.islamicculturalcenter.service.impl.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorCourseResponseDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorStudentListResponseDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.course.InstructorCourseResponseDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.student.InstructorStudentResponseDto;
+import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
+import com.ju.islamicculturalcenter.entity.UserEntity;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
-import com.ju.islamicculturalcenter.mappers.BaseMapper;
-import com.ju.islamicculturalcenter.repos.BaseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
-import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.iservice.instructor.InstructorCoursesService;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +21,8 @@ import java.util.stream.Collectors;
 import static java.util.Objects.isNull;
 
 @Service
-public class InstructorCoursesServiceImpl extends BaseServiceImpl<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorUpdateDto> implements InstructorCoursesService {
+public class InstructorCoursesServiceImpl implements InstructorCoursesService {
+
     private final InstructorCoursesRepo instructorCoursesRepo;
     private final StudentCoursesRepo studentCoursesRepo;
 
@@ -34,103 +32,65 @@ public class InstructorCoursesServiceImpl extends BaseServiceImpl<InstructorEnti
     }
 
     @Override
-    public InstructorEntity updateEntity(InstructorEntity entity, InstructorUpdateDto dto) {
-        return null;
-    }
+    public List<InstructorCourseResponseDto> myCourses() {
 
-    @Override
-    public BaseRepo<InstructorEntity, Long> getRepo() {
-        return null;
-    }
+        List<InstructorCoursesEntity> entities = instructorCoursesRepo.findAll(Example.of(InstructorCoursesEntity.builder()
+                .active(true)
+                .instructor(InstructorEntity.builder().user(UserEntity.builder().id(UserDetailsUtil.userDetails().getId()).build()).build())
+                .build()));
 
-    @Override
-    public BaseMapper<InstructorEntity, InstructorRequestDto, InstructorResponseDto> getMapper() {
-        return null;
-    }
-
-    @Override
-    public void preAddValidation(InstructorRequestDto dto) {
-
-    }
-
-    @Override
-    public void preUpdateValidation(InstructorUpdateDto dto) {
-
-    }
-
-    @Override
-    public List<InstructorCourseResponseDto> myCourses(Long instructorId) {
-        List<InstructorCoursesEntity> entities = instructorCoursesRepo.findAllByInstructorId(instructorId);
-
-        return entities.stream().map(r -> InstructorCourseResponseDto.builder()
-                .id(r.getCourse().getId())
-                .name(r.getCourse().getName())
-                .category(r.getCourse().getCategory())
-                .classroom(r.getCourse().getClassroom())
-                .description(r.getCourse().getDescription())
-                .startDate(r.getCourse().getStartDate())
-                .endDate(r.getCourse().getEndDate())
-                .duration(r.getCourse().getDuration())
-                .lectureTime(r.getCourse().getLectureTime())
-                .daysOfWeek(r.getCourse().getDaysOfWeek())
-                .isPreRecorded(r.getCourse().getIsPreRecorded())
-                .isOnline(r.getCourse().getIsOnline())
-                .year(r.getCourse().getYear())
-                .maxParticipants(r.getCourse().getMaxParticipants())
-                .semester(r.getCourse().getSemester())
-                .lastRegDay(r.getCourse().getLastRegDay())
-                .teams_link(r.getCourse().getTeamsLink())
-                .students(getStudentsByCourseId(r.getCourse().getId()))
-                .build()).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<InstructorCourseResponseDto> myStudents(Long instructorId) {
-        List<InstructorCoursesEntity> entities = instructorCoursesRepo.findAllByInstructorId(instructorId);
-
-        return entities.stream().map(r -> InstructorCourseResponseDto.builder()
-                .students(getStudentsByCourseId(r.getCourse().getId()))
-                .build()).collect(Collectors.toList());
+        return entities.stream()
+                .map(this::mapEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<InstructorCourseResponseDto> searchCourseByName(String name) {
-        if(isNull(name))
-            throw new ValidationException("Name cannot be empty");
+        if (isNull(name) || name.length() < 3)
+            throw new ValidationException("Name cannot be empty or less than 3 characters");
 
-        return instructorCoursesRepo.findAllByInstructorIdAndCourse_NameLike(UserDetailsUtil.userDetails().getId(), name).stream()
-                .map(r -> InstructorCourseResponseDto.builder()
-                        .id(r.getId())
-                        .name(r.getCourse().getName())
-                        .category(r.getCourse().getCategory())
-                        .classroom(r.getCourse().getClassroom())
-                        .description(r.getCourse().getDescription())
-                        .startDate(r.getCourse().getStartDate())
-                        .endDate(r.getCourse().getEndDate())
-                        .duration(r.getCourse().getDuration())
-                        .lectureTime(r.getCourse().getLectureTime())
-                        .daysOfWeek(r.getCourse().getDaysOfWeek())
-                        .isPreRecorded(r.getCourse().getIsPreRecorded())
-                        .isOnline(r.getCourse().getIsOnline())
-                        .year(r.getCourse().getYear())
-                        .maxParticipants(r.getCourse().getMaxParticipants())
-                        .semester(r.getCourse().getSemester())
-                        .lastRegDay(r.getCourse().getLastRegDay())
-                        .teams_link(r.getCourse().getTeamsLink())
-                        .students(getStudentsByCourseId(r.getId()))
-                        .build())
+        return instructorCoursesRepo.findAllByInstructor_User_IdAndCourse_NameLike(UserDetailsUtil.userDetails().getId(), name).stream()
+                .map(this::mapEntityToDto)
                 .collect(Collectors.toList());
     }
 
-    private List<InstructorStudentListResponseDto> getStudentsByCourseId(Long courseId) {
-        List<StudentCoursesEntity> entities = studentCoursesRepo.findAllByCourseId(courseId);
+    private InstructorCourseResponseDto mapEntityToDto(InstructorCoursesEntity entity) {
+        return InstructorCourseResponseDto.builder()
+                .id(entity.getId())
+                .name(entity.getCourse().getName())
+                .description(entity.getCourse().getDescription())
+                .category(entity.getCourse().getCategory())
+                .classroom(entity.getCourse().getClassroom())
+                .startDate(entity.getCourse().getStartDate())
+                .endDate(entity.getCourse().getEndDate())
+                .duration(entity.getCourse().getDuration())
+                .lectureTime(entity.getCourse().getLectureTime())
+                .daysOfWeek(entity.getCourse().getDaysOfWeek())
+                .isPreRecorded(entity.getCourse().getIsPreRecorded())
+                .isOnline(entity.getCourse().getIsOnline())
+                .year(entity.getCourse().getYear())
+                .maxParticipants(entity.getCourse().getMaxParticipants())
+                .semester(entity.getCourse().getSemester())
+                .lastRegDay(entity.getCourse().getLastRegDay())
+                .teamsLink(entity.getCourse().getTeamsLink())
+                .students(getStudentsByCourseId(entity.getCourse().getId()))
+                .build();
+    }
 
-        return entities.stream().map(r -> InstructorStudentListResponseDto.builder()
-                .id(r.getStudents().getId())
-                .firstName(r.getStudents().getUser().getFirstName())
-                .lastName(r.getStudents().getUser().getLastName())
-                .email(r.getStudents().getUser().getEmail())
-                .phoneNumber(r.getStudents().getUser().getPhoneNumber())
-                .build()).collect(Collectors.toList());
+    private List<InstructorStudentResponseDto> getStudentsByCourseId(Long courseId) {
+        return studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
+                        .active(true)
+                        .course(CourseEntity.builder().id(courseId).build())
+                        .build())).stream()
+                .map(r -> InstructorStudentResponseDto.builder()
+                        .id(r.getId())
+                        .firstName(r.getStudent().getUser().getFirstName())
+                        .lastName(r.getStudent().getUser().getLastName())
+                        .email(r.getStudent().getUser().getEmail())
+                        .phoneNumber(r.getStudent().getUser().getPhoneNumber())
+                        .facebookUrl(r.getStudent().getUser().getFacebookUrl())
+                        .dateOfBirth(r.getStudent().getDateOfBirth())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

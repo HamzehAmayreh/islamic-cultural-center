@@ -111,7 +111,7 @@ public class AdminCourseMapper implements BaseMapper<CourseEntity, AdminCourseRe
         return studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
                         .course(CourseEntity.builder().active(true).id(courseEntity.getId()).build()).build())).stream()
                 .map(r -> {
-                    AdminStudentResponseDto adminStudentResponseDto = adminStudentMapper.mapEntityToDto(r.getStudents());
+                    AdminStudentResponseDto adminStudentResponseDto = adminStudentMapper.mapEntityToDto(r.getStudent());
                     adminStudentResponseDto.setPaid(r.getPaid());
                     return adminStudentResponseDto;
                 })

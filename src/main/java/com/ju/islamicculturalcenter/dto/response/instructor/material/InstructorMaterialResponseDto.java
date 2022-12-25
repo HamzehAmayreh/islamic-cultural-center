@@ -1,8 +1,10 @@
-package com.ju.islamicculturalcenter.dto.response.instructor;
+package com.ju.islamicculturalcenter.dto.response.instructor.material;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -10,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InstructorMaterialResponseDto implements BaseResponseDto {
 
     private Long id;
@@ -20,5 +23,5 @@ public class InstructorMaterialResponseDto implements BaseResponseDto {
 
     private String url;
 
-    private Date year;
+    private LocalDate year;
 }

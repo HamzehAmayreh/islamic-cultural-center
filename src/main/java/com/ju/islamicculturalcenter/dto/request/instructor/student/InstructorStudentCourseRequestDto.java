@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.instructor;
+package com.ju.islamicculturalcenter.dto.request.instructor.student;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;
@@ -6,17 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InstructorMaterialRequestDto implements BaseRequestDto {
+public class InstructorStudentCourseRequestDto implements BaseRequestDto {
+
+    private Long studentId;
 
     private Long courseId;
 
-    private String url;
-
-    private Date year;
+    private Boolean paid;
 }

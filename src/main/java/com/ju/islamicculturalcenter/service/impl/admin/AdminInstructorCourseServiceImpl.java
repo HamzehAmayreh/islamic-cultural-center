@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.instructorcourse.AdminInst
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
+import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
@@ -48,8 +49,8 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .updatedById(UserDetailsUtil.userDetails().getId())
-                .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
-                .course(CourseEntity.builder().id(requestDto.getInstructorId()).build())
+                .instructor(getInstructorById(requestDto.getInstructorId()))
+                .course(getCourseById(requestDto.getCourseId()))
                 .build());
     }
 
@@ -82,5 +83,15 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
         if (!violations.isEmpty()) {
             throw new ValidationException(join(",", violations));
         }
+    }
+
+    private InstructorEntity getInstructorById(Long id){
+        return instructorRepo.findByIdAndIsActive(id, true)
+                .orElseThrow(() -> new NotFoundException("No Instructor found with ID :" + id));
+    }
+
+    private CourseEntity getCourseById(Long id){
+        return courseRepo.findByIdAndIsActive(id, true)
+                .orElseThrow(() -> new NotFoundException("No course found with ID :" + id));
     }
 }

@@ -1,15 +1,21 @@
 package com.ju.islamicculturalcenter.restcontrollers.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialDeleteRequest;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorMaterialUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.material.InstructorMaterialRequestDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.material.InstructorMaterialUpdateRequestDto;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorMaterialResponseDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.material.InstructorMaterialResponseDto;
 import com.ju.islamicculturalcenter.service.iservice.instructor.MaterialService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -26,14 +32,14 @@ public class InstructorMaterialController {
     public ResponseEntity<Response<InstructorMaterialResponseDto>> save(@RequestBody InstructorMaterialRequestDto requestDto) {
         Response<InstructorMaterialResponseDto> response = Response.<InstructorMaterialResponseDto>builder()
                 .success(true)
-                .data(materialService.addMaterialToCourse(requestDto))
-                .code(CODE.OK.getId())
-                .message(CODE.OK.name())
+                .data(materialService.save(requestDto))
+                .code(CODE.CREATED.getId())
+                .message(CODE.CREATED.name())
                 .build();
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/course-material/{courseId}")
+    @GetMapping("/course/{courseId}")
     public ResponseEntity<Response<List<InstructorMaterialResponseDto>>> getMaterialsByCourseId(@PathVariable Long courseId) {
         Response<List<InstructorMaterialResponseDto>> response = Response.<List<InstructorMaterialResponseDto>>builder()
                 .success(true)
@@ -44,16 +50,25 @@ public class InstructorMaterialController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Response<Void>> deleteMaterial(@RequestBody InstructorMaterialDeleteRequest request) {
-        materialService.deleteMaterial(request);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Response<Void>> deleteMaterial(@PathVariable Long id) {
+        materialService.deleteById(id);
+        Response<Void> response = Response.<Void>builder()
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{materialId}")
-    public ResponseEntity<Response<Void>> updateMaterial(@PathVariable Long materialId, @RequestBody InstructorMaterialUpdateRequestDto requestDto) {
-        materialService.updateMaterial(materialId, requestDto);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response<InstructorMaterialResponseDto>> updateMaterial(@PathVariable Long id, @RequestBody InstructorMaterialUpdateRequestDto requestDto) {
+        Response<InstructorMaterialResponseDto> response = Response.<InstructorMaterialResponseDto>builder()
+                .data(materialService.update(id, requestDto))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

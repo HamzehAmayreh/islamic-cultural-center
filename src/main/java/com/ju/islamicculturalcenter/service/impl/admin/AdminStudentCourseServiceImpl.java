@@ -45,7 +45,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
                 .updatedById(UserDetailsUtil.userDetails().getId())
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
-                .students(StudentEntity.builder().id(requestDto.getStudentId()).build())
+                .student(StudentEntity.builder().id(requestDto.getStudentId()).build())
                 .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
                 .paid(false)
                 .build());
@@ -61,7 +61,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
         validateRequest(requestDto);
 
         StudentCoursesEntity studentCoursesEntity = studentCoursesRepo.findOne(Example.of(StudentCoursesEntity.builder()
-                        .students(StudentEntity.builder().active(true).id(requestDto.getStudentId()).build())
+                        .student(StudentEntity.builder().active(true).id(requestDto.getStudentId()).build())
                         .course(CourseEntity.builder().active(true).id(requestDto.getCourseId()).build())
                         .build()))
                 .orElseThrow(() -> new ValidationException("No Record found for this Student to this course"));
@@ -81,7 +81,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
         validate(violations);
 
         StudentCoursesEntity studentCoursesEntity = studentCoursesRepo.findOne(Example.of(StudentCoursesEntity.builder()
-                        .students(StudentEntity.builder().active(true).id(request.getStudentId()).build())
+                        .student(StudentEntity.builder().active(true).id(request.getStudentId()).build())
                         .course(CourseEntity.builder().active(true).id(request.getCourseId()).build())
                         .build()))
                 .orElseThrow(() -> new ValidationException("No Record found for this Student to this course"));

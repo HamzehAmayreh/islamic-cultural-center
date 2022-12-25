@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.student;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StudentRegistrationResponseDto implements BaseResponseDto {
 
     private Long id;

@@ -1,8 +1,10 @@
-package com.ju.islamicculturalcenter.dto.response.instructor;
+package com.ju.islamicculturalcenter.dto.response.instructor.student;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InstructorStudentResponseDto implements BaseResponseDto {
 
     private Long id;
@@ -27,11 +30,9 @@ public class InstructorStudentResponseDto implements BaseResponseDto {
 
     private String facebookUrl;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     private Integer courseCount;
 
     private Boolean isVerified;
-
-    private List<InstructorCourseListResponseDto> courses;
 }

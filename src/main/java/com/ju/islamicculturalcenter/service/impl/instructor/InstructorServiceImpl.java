@@ -1,11 +1,11 @@
 package com.ju.islamicculturalcenter.service.impl.instructor;
 
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorResetPasswordRequestDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdateDto;
-import com.ju.islamicculturalcenter.dto.request.instructor.InstructorUpdatePassword;
-import com.ju.islamicculturalcenter.dto.response.instructor.InstructorResponseDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorRequestDto;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorUpdatePassword;
+import com.ju.islamicculturalcenter.dto.request.instructor.profile.InstructorUpdateProfileDto;
+import com.ju.islamicculturalcenter.dto.response.instructor.profile.InstructorResponseDto;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
+import com.ju.islamicculturalcenter.entity.UserEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
@@ -16,19 +16,20 @@ import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
-import com.ju.islamicculturalcenter.service.helper.PasswordHelper;
 import com.ju.islamicculturalcenter.service.iservice.instructor.InstructorService;
+import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 import static com.ju.islamicculturalcenter.service.helper.CompositeValidator.hasValue;
-import static com.ju.islamicculturalcenter.service.helper.CompositeValidator.joinViolations;
+import static java.util.Objects.nonNull;
 
 @Service
-public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorRequestDto> implements InstructorService {
+public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, InstructorRequestDto, InstructorResponseDto, InstructorUpdateProfileDto> implements InstructorService {
 
     private final InstructorRepo instructorRepo;
     private final InstructorMapper instructorMapper;
@@ -42,65 +43,62 @@ public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, Ins
         this.instructorMapper = new InstructorMapper(this.bCryptPasswordEncoder, this.userRoleRepo);
     }
 
-    //TODO Add third party service to send email to confirm reseting the password
-    @Override
-    public void resetPassword(InstructorResetPasswordRequestDto requestDto) {
-        InstructorEntity instructor = instructorRepo.findByIdAndIsActive(requestDto.getId(), true)
-                .orElseThrow(() -> new NotFoundException("No instructor Found with ID: " + requestDto.getId()));
-
-        if (!Objects.equals(requestDto.getNewPassword(), requestDto.getConfirmPassword())) {
-            throw new RuntimeException("new password and confirm password does not match");
-        }
-
-        if (PasswordHelper.validatePassword(requestDto.getNewPassword())) {
-            throw new RuntimeException("Password Should be at least 8 character with 1 uppercase, 1 digit, 1 specialCharacter");
-        }
-        instructor.getUser().setPassword(bCryptPasswordEncoder.encode(requestDto.getNewPassword()));
-
-        instructorRepo.save(instructor);
-    }
-
     @Override
     public void updatePassword(InstructorUpdatePassword request) {
-        updatePasswordPreValidation(request);
-        InstructorEntity instructor = instructorRepo.findInstructorEntityById(UserDetailsUtil.userDetails().getId());
 
-        if (!bCryptPasswordEncoder.matches(request.getOldPassword(), instructor.getUser().getPassword()))
-            throw new ValidationException("Old Password does not match");
-
-        instructor.getUser().setPassword(bCryptPasswordEncoder.encode(request.getConfirmPassword()));
-        instructorRepo.save(instructor);
-    }
-
-    private void updatePasswordPreValidation(InstructorUpdatePassword request) {
         List<String> violations = new CompositeValidator<InstructorUpdatePassword, String>()
                 .addValidator(r -> hasValue(r.getOldPassword()), "Old Password Cannot Be Empty")
                 .addValidator(r -> hasValue(r.getNewPassword()), "New Password Cannot Be Empty")
                 .addValidator(r -> hasValue(r.getConfirmPassword()), "Confirm Password Cannot Be Empty")
                 .addValidator(r -> !hasValue(r.getNewPassword()) || !hasValue(r.getConfirmPassword()) || r.getNewPassword().equals(r.getConfirmPassword()), "New Password And Confirm Password Do Not Match")
                 .validate(request);
-        joinViolations(violations);
-    }
+        validate(violations);
 
-    @Override
-    public InstructorResponseDto viewProfile(Long instructorId) {
-        InstructorEntity instructor = instructorRepo.findInstructorEntityById(instructorId);
-        return instructorMapper.mapEntityToDto(instructor);
-    }
+        InstructorEntity instructor = instructorRepo.findOne(Example.of(InstructorEntity.builder()
+                .active(true)
+                .user(UserEntity.builder().id(UserDetailsUtil.userDetails().getId()).build())
+                .build())).orElseThrow(() -> new NotFoundException("no instructor found with current session"));
 
-    @Override
-    public void updateInstructor(InstructorUpdateDto request, Long id) {
-        InstructorEntity instructor = instructorRepo.findInstructorEntityById(id);
-        instructor.getUser().setPhoneNumber(request.getPhoneNumber());
-        instructor.getUser().setFacebookUrl(request.getFacebookUrl());
-        instructor.setImageUrl(request.getImageUrl());
-        instructor.setCvUrl(request.getCvUrl());
+        if (!bCryptPasswordEncoder.matches(request.getOldPassword(), instructor.getUser().getPassword()))
+            throw new ValidationException("Old Password does not match");
+
+        instructor.getUser().setPassword(bCryptPasswordEncoder.encode(request.getConfirmPassword()));
+        instructor.getUser().setUpdateDate(new Timestamp(System.currentTimeMillis()));
+        instructor.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+
         instructorRepo.save(instructor);
     }
 
     @Override
-    public InstructorEntity updateEntity(InstructorEntity entity, InstructorRequestDto dto) {
-        return null;
+    public InstructorResponseDto viewProfile() {
+        return instructorMapper.mapEntityToDto(instructorRepo.findOne(Example.of(InstructorEntity.builder()
+                .active(true)
+                .user(UserEntity.builder().id(UserDetailsUtil.userDetails().getId()).build())
+                .build())).orElseThrow(() -> new NotFoundException("no instructor found with current session")));
+    }
+
+    @Override
+    public InstructorEntity updateEntity(InstructorEntity entity, InstructorUpdateProfileDto dto) {
+
+        entity.getUser().setFirstName(dto.getFirstName());
+        entity.getUser().setLastName(dto.getLastName());
+        entity.getUser().setPhoneNumber(dto.getPhoneNumber());
+        entity.getUser().setFacebookUrl(nonNull(dto.getFacebookUrl()) ? dto.getFacebookUrl() : entity.getUser().getFacebookUrl());
+        entity.setImageUrl(nonNull(dto.getImageUrl()) ? dto.getImageUrl() : entity.getImageUrl());
+        entity.setCvUrl(nonNull(dto.getCvUrl()) ? dto.getCvUrl() : entity.getCvUrl());
+
+        entity.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+
+        return entity;
+    }
+
+    @Override
+    public InstructorResponseDto update(Long id, InstructorUpdateProfileDto dto) {
+        InstructorEntity instructor = instructorRepo.findOne(Example.of(InstructorEntity.builder()
+                .user(UserEntity.builder().id(id).build()).build()))
+                .orElseThrow(() -> new NotFoundException("No user found with this session"));
+
+        return super.update(instructor.getId(), dto);
     }
 
     @Override
@@ -119,7 +117,13 @@ public class InstructorServiceImpl extends BaseServiceImpl<InstructorEntity, Ins
     }
 
     @Override
-    public void preUpdateValidation(InstructorRequestDto dto) {
+    public void preUpdateValidation(InstructorUpdateProfileDto dto) {
 
+        List<String> violations = new CompositeValidator<InstructorUpdateProfileDto, String>()
+                .addValidator(r -> hasValue(r.getFirstName()), "first name Cannot Be Empty")
+                .addValidator(r -> hasValue(r.getLastName()), "last name Cannot Be Empty")
+                .addValidator(r -> hasValue(r.getPhoneNumber()), "phone number Cannot Be Empty")
+                .validate(dto);
+        validate(violations);
     }
 }

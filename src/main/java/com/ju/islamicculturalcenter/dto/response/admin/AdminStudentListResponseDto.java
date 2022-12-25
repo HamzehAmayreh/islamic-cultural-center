@@ -1,5 +1,6 @@
 package com.ju.islamicculturalcenter.dto.response.admin;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;
 
@@ -8,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminStudentListResponseDto implements BaseResponseDto {
 
     private Long id;

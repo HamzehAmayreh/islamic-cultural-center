@@ -1,11 +1,13 @@
 package com.ju.islamicculturalcenter.dto.response.admin.instructor;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AdminInstructorListResponseDto implements BaseResponseDto {
 
     private Long id;
