@@ -35,6 +35,7 @@ public class Config extends WebSecurityConfigurerAdapter {
     public static final String ADMIN_COURSE_PATH = "/api/v1/admin/courses/**";
     public static final String INSTRUCTOR_PATH = "/api/v1/instructor/**";
     public static final String STUDENT_PATH = "/api/v1/student/**";
+    public static final String STUDENT_SIGNUP_PATH = "/api/v1/student/students/signup";
     private static final String SWAGGER_UI_HTML_PAGE = "/swagger-ui/**";
     private static final String SWAGGER_UI_PATH = "/swagger-ui/*";
     private static final String DOCS_PATH = "/v3/api-docs/**";
@@ -73,6 +74,7 @@ public class Config extends WebSecurityConfigurerAdapter {
                 .antMatchers(ADMIN_STUDENT_PATH).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(ADMIN_COURSE_PATH).hasAnyAuthority("super-admin", "admin")
                 .antMatchers(INSTRUCTOR_PATH).hasAnyAuthority("instructor")
+                .antMatchers(STUDENT_SIGNUP_PATH).permitAll()
                 .antMatchers(STUDENT_PATH).hasAnyAuthority("student")
                 .antMatchers(USER_LOGIN_PATH).permitAll()
 
