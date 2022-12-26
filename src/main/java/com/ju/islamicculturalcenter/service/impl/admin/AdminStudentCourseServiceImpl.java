@@ -43,7 +43,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
                 .active(true)
                 .createdById(UserDetailsUtil.userDetails().getId())
                 .updatedById(UserDetailsUtil.userDetails().getId())
-                .creation_Date(new Timestamp(System.currentTimeMillis()))
+                .creationDate(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .student(StudentEntity.builder().id(requestDto.getStudentId()).build())
                 .course(CourseEntity.builder().id(requestDto.getCourseId()).build())

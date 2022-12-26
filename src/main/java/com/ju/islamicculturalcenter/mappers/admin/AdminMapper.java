@@ -31,7 +31,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .updatedById(UserDetailsUtil.userDetails().getId())
                 .active(true)
                 .user(UserEntity.builder()
-                        .creation_Date(new Timestamp(System.currentTimeMillis()))
+                        .creationDate(new Timestamp(System.currentTimeMillis()))
                         .createdById(UserDetailsUtil.userDetails().getId())
                         .updateDate(new Timestamp(System.currentTimeMillis()))
                         .updatedById(UserDetailsUtil.userDetails().getId())

@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.student;
+package com.ju.islamicculturalcenter.dto.request.student.profile;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StudentRegistrationRequestDto implements BaseRequestDto {
+public class StudentSignUpRequestDto implements BaseRequestDto {
 
     private String firstName;
 
@@ -27,4 +27,8 @@ public class StudentRegistrationRequestDto implements BaseRequestDto {
     private String facebookUrl;
 
     private LocalDate dateOfBirth;
+
+    private String newPassword;
+
+    private String confirmPassword;
 }

@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.student;
+package com.ju.islamicculturalcenter.dto.request.student.course;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;

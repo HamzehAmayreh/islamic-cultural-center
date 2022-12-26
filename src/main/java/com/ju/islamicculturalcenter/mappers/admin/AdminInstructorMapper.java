@@ -34,7 +34,7 @@ public class AdminInstructorMapper implements BaseMapper<InstructorEntity, Admin
         return InstructorEntity.builder()
                 .user(UserEntity.builder()
                         .active(true)
-                        .creation_Date(new Timestamp(System.currentTimeMillis()))
+                        .creationDate(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
                         .createdById(UserDetailsUtil.userDetails().getId())
                         .updatedById(UserDetailsUtil.userDetails().getId())

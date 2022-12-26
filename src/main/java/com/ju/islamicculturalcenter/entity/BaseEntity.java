@@ -30,8 +30,8 @@ public class BaseEntity {
     @Column(name = "is_active", nullable = false)
     protected Boolean isActive;
 
-    public BaseEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
-        this.creationDate = creation_Date;
+    public BaseEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active) {
+        this.creationDate = creationDate;
         this.createdById = createdById;
         this.updateDate = updateDate;
         this.updatedById = updatedById;

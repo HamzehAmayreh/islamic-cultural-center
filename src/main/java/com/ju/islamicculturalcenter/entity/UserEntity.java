@@ -58,8 +58,8 @@ public class UserEntity extends BaseEntity {
     private UserRoleEntity role;
 
     @Builder
-    public UserEntity(Timestamp creation_Date, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, UserRoleEntity role) {
-        super(creation_Date, createdById, updateDate, updatedById, active);
+    public UserEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, UserRoleEntity role) {
+        super(creationDate, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

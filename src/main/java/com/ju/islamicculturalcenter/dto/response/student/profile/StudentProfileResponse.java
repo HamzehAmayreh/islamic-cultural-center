@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.response.student;
+package com.ju.islamicculturalcenter.dto.response.student.profile;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.ju.islamicculturalcenter.dto.BaseResponseDto;
@@ -10,14 +10,13 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StudentRegistrationResponseDto implements BaseResponseDto {
+public class StudentProfileResponse implements BaseResponseDto {
 
     private Long id;
 
@@ -34,6 +33,4 @@ public class StudentRegistrationResponseDto implements BaseResponseDto {
     private String facebookUrl;
 
     private LocalDate dateOfBirth;
-
-    private Integer courseCount;
 }

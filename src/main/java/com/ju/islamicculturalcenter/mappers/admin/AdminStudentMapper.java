@@ -34,7 +34,7 @@ public class AdminStudentMapper implements BaseMapper<StudentEntity, AdminStuden
                         .createdById(UserDetailsUtil.userDetails().getId())
                         .updatedById(UserDetailsUtil.userDetails().getId())
                         .active(true)
-                        .creation_Date(new Timestamp(System.currentTimeMillis()))
+                        .creationDate(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
                         .role(getStudentRole())
                         .build())

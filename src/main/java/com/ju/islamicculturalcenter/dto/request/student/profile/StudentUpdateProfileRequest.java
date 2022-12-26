@@ -1,4 +1,4 @@
-package com.ju.islamicculturalcenter.dto.request.student;
+package com.ju.islamicculturalcenter.dto.request.student.profile;
 
 import com.ju.islamicculturalcenter.dto.BaseRequestDto;
 import lombok.AllArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -24,5 +25,5 @@ public class StudentUpdateProfileRequest implements BaseRequestDto {
 
     private String facebookUrl;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 }

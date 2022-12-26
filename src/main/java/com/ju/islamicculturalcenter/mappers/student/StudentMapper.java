@@ -1,7 +1,7 @@
 package com.ju.islamicculturalcenter.mappers.student;
 
-import com.ju.islamicculturalcenter.dto.request.student.StudentRegistrationRequestDto;
-import com.ju.islamicculturalcenter.dto.response.student.StudentRegistrationResponseDto;
+import com.ju.islamicculturalcenter.dto.request.student.profile.StudentSignUpRequestDto;
+import com.ju.islamicculturalcenter.dto.response.student.profile.StudentProfileResponse;
 import com.ju.islamicculturalcenter.entity.StudentEntity;
 import com.ju.islamicculturalcenter.entity.UserEntity;
 import com.ju.islamicculturalcenter.entity.enums.Group;
@@ -13,34 +13,34 @@ import org.springframework.data.domain.Example;
 
 import java.sql.Timestamp;
 
-public class StudentRegistrationMapper implements BaseMapper<StudentEntity, StudentRegistrationRequestDto, StudentRegistrationResponseDto> {
+public class StudentMapper implements BaseMapper<StudentEntity, StudentSignUpRequestDto, StudentProfileResponse> {
 
     private final UserRoleRepo userRoleRepo;
 
-    public StudentRegistrationMapper(UserRoleRepo userRoleRepo) {
+    public StudentMapper(UserRoleRepo userRoleRepo) {
         this.userRoleRepo = userRoleRepo;
     }
 
     @Override
-    public StudentEntity mapDtoToEntity(StudentRegistrationRequestDto studentRegistrationRequestDto) {
+    public StudentEntity mapDtoToEntity(StudentSignUpRequestDto studentSignUpRequestDto) {
         return StudentEntity.builder()
                 .user(UserEntity.builder()
-                        .firstName(studentRegistrationRequestDto.getFirstName())
-                        .lastName(studentRegistrationRequestDto.getLastName())
-                        .email(studentRegistrationRequestDto.getEmail())
-                        .userName(studentRegistrationRequestDto.getEmail())
-                        .phoneNumber(studentRegistrationRequestDto.getPhoneNumber())
-                        .facebookUrl(studentRegistrationRequestDto.getFacebookUrl())
+                        .firstName(studentSignUpRequestDto.getFirstName())
+                        .lastName(studentSignUpRequestDto.getLastName())
+                        .email(studentSignUpRequestDto.getEmail())
+                        .userName(studentSignUpRequestDto.getEmail())
+                        .phoneNumber(studentSignUpRequestDto.getPhoneNumber())
+                        .facebookUrl(studentSignUpRequestDto.getFacebookUrl())
                         .createdById(-1L)
                         .updatedById(-1L)
                         .active(true)
-                        .creation_Date(new Timestamp(System.currentTimeMillis()))
+                        .creationDate(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
                         .role(getStudentRole())
                         .build())
                 .createdById(-1L)
                 .updatedById(-1L)
-                .dateOfBirth(studentRegistrationRequestDto.getDateOfBirth())
+                .dateOfBirth(studentSignUpRequestDto.getDateOfBirth())
                 .active(true)
                 .creation_Date(new Timestamp(System.currentTimeMillis()))
                 .updateDate(new Timestamp(System.currentTimeMillis()))
@@ -50,9 +50,9 @@ public class StudentRegistrationMapper implements BaseMapper<StudentEntity, Stud
     }
 
     @Override
-    public StudentRegistrationResponseDto mapEntityToDto(StudentEntity studentEntity) {
+    public StudentProfileResponse mapEntityToDto(StudentEntity studentEntity) {
 
-        return StudentRegistrationResponseDto.builder()
+        return StudentProfileResponse.builder()
                 .id(studentEntity.getId())
                 .firstName(studentEntity.getUser().getFirstName())
                 .lastName(studentEntity.getUser().getLastName())
@@ -61,7 +61,6 @@ public class StudentRegistrationMapper implements BaseMapper<StudentEntity, Stud
                 .phoneNumber(studentEntity.getUser().getPhoneNumber())
                 .facebookUrl(studentEntity.getUser().getFacebookUrl())
                 .dateOfBirth(studentEntity.getDateOfBirth())
-                .courseCount(studentEntity.getCourseCount())
                 .build();
 
     }
