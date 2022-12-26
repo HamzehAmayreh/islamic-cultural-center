@@ -10,15 +10,18 @@ import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.mappers.BaseMapper;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import org.springframework.data.domain.Example;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.Timestamp;
 
 public class StudentMapper implements BaseMapper<StudentEntity, StudentSignUpRequestDto, StudentProfileResponse> {
 
     private final UserRoleRepo userRoleRepo;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public StudentMapper(UserRoleRepo userRoleRepo) {
+    public StudentMapper(UserRoleRepo userRoleRepo, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRoleRepo = userRoleRepo;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class StudentMapper implements BaseMapper<StudentEntity, StudentSignUpReq
                         .creationDate(new Timestamp(System.currentTimeMillis()))
                         .updateDate(new Timestamp(System.currentTimeMillis()))
                         .role(getStudentRole())
+                        .password(bCryptPasswordEncoder.encode(studentSignUpRequestDto.getNewPassword()))
                         .build())
                 .createdById(-1L)
                 .updatedById(-1L)

@@ -25,6 +25,7 @@ import com.ju.islamicculturalcenter.repos.InstructorRepo;
 import com.ju.islamicculturalcenter.repos.MaterialRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
+import com.ju.islamicculturalcenter.repos.UserRepo;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.BaseServiceImpl;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
@@ -61,8 +62,9 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
     private final MaterialRepo materialRepo;
     private final InstructorMaterialMapper instructorMaterialMapper;
     private final InstructorRepo instructorRepo;
+    private final UserRepo userRepo;
 
-    public StudentServiceImpl(StudentRepo studentRepo, UserRoleRepo userRoleRepo, BCryptPasswordEncoder bCryptPasswordEncoder, CourseRepo courseRepo, InstructorCoursesRepo instructorCoursesRepo, StudentCoursesRepo studentCoursesRepo, MaterialRepo materialRepo, InstructorRepo instructorRepo) {
+    public StudentServiceImpl(StudentRepo studentRepo, UserRoleRepo userRoleRepo, BCryptPasswordEncoder bCryptPasswordEncoder, CourseRepo courseRepo, InstructorCoursesRepo instructorCoursesRepo, StudentCoursesRepo studentCoursesRepo, MaterialRepo materialRepo, InstructorRepo instructorRepo, UserRepo userRepo) {
         this.studentRepo = studentRepo;
         this.userRoleRepo = userRoleRepo;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -70,10 +72,11 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
         this.instructorCoursesRepo = instructorCoursesRepo;
         this.studentCoursesRepo = studentCoursesRepo;
         this.materialRepo = materialRepo;
+        this.userRepo = userRepo;
         this.instructorMaterialMapper = new InstructorMaterialMapper(instructorRepo, courseRepo);
         this.instructorRepo = instructorRepo;
         this.instructorMapper = new InstructorMapper(bCryptPasswordEncoder, userRoleRepo);
-        studentMapper = new StudentMapper(this.userRoleRepo);
+        studentMapper = new StudentMapper(this.userRoleRepo, bCryptPasswordEncoder);
     }
 
     @Override
@@ -115,17 +118,18 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
     @Override
     public void preAddValidation(StudentSignUpRequestDto dto) {
         List<String> violations = new CompositeValidator<StudentSignUpRequestDto, String>()
-                .addValidator(r -> CompositeValidator.hasValue(r.getFirstName()), "firstName cannot be null")
-                .addValidator(r -> CompositeValidator.hasValue(r.getLastName()), "lastName cannot be null")
-                .addValidator(r -> CompositeValidator.hasValue(r.getEmail()), "email cannot be null")
-                .addValidator(r -> CompositeValidator.hasValue(r.getPhoneNumber()), "phoneNumber cannot be null")
-                .addValidator(r -> CompositeValidator.hasValue(r.getFacebookUrl()), "facebookUrl cannot be null")
-                .addValidator(r -> CompositeValidator.hasValue(r.getNewPassword()), "password cannot be null")
-                .addValidator(r -> CompositeValidator.hasValue(r.getConfirmPassword()), "confirmPassword cannot be null")
+                .addValidator(r -> hasValue(r.getFirstName()), "firstName cannot be null")
+                .addValidator(r -> hasValue(r.getLastName()), "lastName cannot be null")
+                .addValidator(r -> hasValue(r.getEmail()), "email cannot be null")
+                .addValidator(r -> hasValue(r.getPhoneNumber()), "phoneNumber cannot be null")
+                .addValidator(r -> hasValue(r.getFacebookUrl()), "facebookUrl cannot be null")
+                .addValidator(r -> hasValue(r.getNewPassword()), "password cannot be null")
+                .addValidator(r -> hasValue(r.getConfirmPassword()), "confirmPassword cannot be null")
                 .addValidator(r -> nonNull(r.getDateOfBirth()), "dateOfBirth cannot be null")
-                .addValidator(r -> !CompositeValidator.hasValue(r.getEmail()) || EmailHelper.validateEmail(r.getEmail()), "email must have email format")
-                .addValidator(r -> !CompositeValidator.hasValue(r.getNewPassword()) || !CompositeValidator.hasValue(r.getConfirmPassword()) || r.getNewPassword().equals(r.getConfirmPassword()), "Password does not match")
-                .addValidator(r -> !CompositeValidator.hasValue(r.getNewPassword()) || PasswordHelper.validatePassword(r.getNewPassword()), "Password should be 8-20 chars with 1 capital letter")
+                .addValidator(r -> !hasValue(r.getEmail()) || EmailHelper.validateEmail(r.getEmail()), "email must have email format")
+                .addValidator(r -> !hasValue(r.getEmail()) || !userRepo.exists(Example.of(UserEntity.builder().email(r.getEmail()).build())), "email already exists")
+                .addValidator(r -> !hasValue(r.getNewPassword()) || !hasValue(r.getConfirmPassword()) || r.getNewPassword().equals(r.getConfirmPassword()), "Password does not match")
+                .addValidator(r -> !hasValue(r.getNewPassword()) || PasswordHelper.validatePassword(r.getNewPassword()), "Password should be 8-20 chars with 1 capital letter")
                 .validate(dto);
         validate(violations);
     }
@@ -193,9 +197,9 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .createdById(UserDetailsUtil.userDetails().getId())
                 .updatedById(UserDetailsUtil.userDetails().getId())
-                .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
-                .student(StudentEntity.builder().user(UserEntity.builder().id(UserDetailsUtil.userDetails().getId()).build()).build())
-                .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
+                .course(getCourseById(requestDto.getCourseId()))
+                .student(getStudentByUserId(UserDetailsUtil.userDetails().getId()))
+                .instructor(getInstructorById(requestDto.getInstructorId()))
                 .paid(false)
                 .build());
     }
@@ -301,5 +305,21 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                         .map(instructorMaterialMapper::mapEntityToDto)
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    private CourseEntity getCourseById(Long id){
+        return courseRepo.findByIdAndIsActive(id, true)
+                .orElseThrow(() -> new NotFoundException("No course found with ID:" + id));
+    }
+
+    private InstructorEntity getInstructorById(Long id){
+        return instructorRepo.findByIdAndIsActive(id, true)
+                .orElseThrow(() -> new NotFoundException("No instructor found with ID:" + id));
+    }
+
+    private StudentEntity getStudentByUserId(Long id){
+        return studentRepo.findOne(Example.of(StudentEntity.builder()
+                .user(UserEntity.builder().active(true).id(id).build()).build()))
+                .orElseThrow(() -> new NotFoundException("No student found with session"));
     }
 }

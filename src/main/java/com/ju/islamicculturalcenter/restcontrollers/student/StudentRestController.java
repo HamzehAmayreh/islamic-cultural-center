@@ -14,6 +14,7 @@ import com.ju.islamicculturalcenter.service.iservice.student.StudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/student/students")
+@RequestMapping("/api/v1/student/students")
 public class StudentRestController {
 
     private final StudentService studentService;
@@ -73,7 +74,7 @@ public class StudentRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/password")
+    @PatchMapping("/password")
     public ResponseEntity<Response<StudentProfileResponse>> updatePassword(@RequestBody StudentUpdatePasswordRequest request) {
 
         studentService.updateOwnPassword(request);
