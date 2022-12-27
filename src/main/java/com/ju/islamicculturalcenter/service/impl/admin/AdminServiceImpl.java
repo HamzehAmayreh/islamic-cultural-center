@@ -116,9 +116,9 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
         validate(violations);
 
         AdminEntity entity = adminRepo.findOne(Example.of(AdminEntity.builder()
-                                .active(true)
-                                .user(UserEntity.builder().active(true).id(UserDetailsUtil.userDetails().getId()).build())
-                                .build()))
+                        .active(true)
+                        .user(UserEntity.builder().active(true).id(UserDetailsUtil.userDetails().getId()).build())
+                        .build()))
                 .orElseThrow(() -> new NotFoundException("No Admin Found with this session and user ID: " + UserDetailsUtil.userDetails().getId()));
 
         entity.getUser().setFirstName(isNull(requestDto.getFirstName()) ? entity.getUser().getFirstName() : requestDto.getFirstName());
@@ -132,6 +132,16 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
         entity.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 
         return adminMapper.mapEntityToDto(adminRepo.save(entity));
+    }
+
+    @Override
+    public AdminResponseDto viewOwnProfile() {
+
+        return adminMapper.mapEntityToDto(adminRepo.findOne(Example.of(AdminEntity.builder()
+                .active(true)
+                .user(UserEntity.builder().active(true).id(UserDetailsUtil.userDetails().getId()).build())
+                .build()))
+                .orElseThrow(() -> new NotFoundException("No Admin found with this session")));
     }
 
     @Override
@@ -187,11 +197,11 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
                 .addValidator(r -> isNull(r.getEmail()) || !userRepo.findByIsActiveAndEmail(true, r.getEmail()).isPresent(), "user with this email already exists")
                 .addValidator(r -> isNull(r.getEmail()) || EmailHelper.validateEmail(r.getEmail()), "Email must have an email format")
                 .addValidator(r -> nonNull(r.getRoleId()), "role ID cannot be null")
-                .addValidator(r -> isNull(r.getRoleId()) || userRoleRepo.findById(r.getRoleId()).isPresent(), "No Role found with ID :" +requestDto.getRoleId())
+                .addValidator(r -> isNull(r.getRoleId()) || userRoleRepo.findById(r.getRoleId()).isPresent(), "No Role found with ID :" + requestDto.getRoleId())
                 .validate(requestDto);
         validate(violations);
 
-        if(!userRoleRepo.findById(requestDto.getRoleId()).get().getGroups().equals(Group.ADMINS)){
+        if (!userRoleRepo.findById(requestDto.getRoleId()).get().getGroups().equals(Group.ADMINS)) {
             throw new ValidationException("Entered Non Admin role on admin creation");
         }
     }
@@ -210,11 +220,11 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
 
     @Override
     public void preUpdate(AdminEntity admin, AdminUpdateRequestDto updateDto) {
-        if(nonNull(updateDto.getEmail())){
+        if (nonNull(updateDto.getEmail())) {
             UserEntity user = userRepo.findByIsActiveAndEmail(true, updateDto.getEmail())
                     .orElse(null);
-            if(nonNull(user)){
-                if(!admin.getUser().getId().equals(user.getId()))
+            if (nonNull(user)) {
+                if (!admin.getUser().getId().equals(user.getId()))
                     throw new ValidationException("Email Already exists");
             }
         }

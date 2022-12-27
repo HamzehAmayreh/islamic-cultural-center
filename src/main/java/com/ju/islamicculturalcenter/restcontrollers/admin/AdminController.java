@@ -62,7 +62,7 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response<AdminResponseDto>> updateProfile(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) { //SUPER ADMINS
+    public ResponseEntity<Response<AdminResponseDto>> updateAdmin(@PathVariable Long id, @RequestBody AdminUpdateRequestDto requestDto) { //SUPER ADMINS
         Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
                 .data(adminService.update(id, requestDto))
                 .code(CODE.OK.getId())
@@ -106,9 +106,20 @@ public class AdminController {
     }
 
     @PutMapping("/profile")
-    public ResponseEntity<Response<AdminResponseDto>> viewProfile(@RequestBody AdminUpdateRequestDto requestDto) {
+    public ResponseEntity<Response<AdminResponseDto>> updateProfile(@RequestBody AdminUpdateRequestDto requestDto) {
         Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
                 .data(adminService.updateOwnProfile(requestDto))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Response<AdminResponseDto>> viewProfile() {
+        Response<AdminResponseDto> response = Response.<AdminResponseDto>builder()
+                .data(adminService.viewOwnProfile())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
