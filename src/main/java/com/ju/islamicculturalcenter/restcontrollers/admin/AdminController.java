@@ -7,7 +7,9 @@ import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDt
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.ResponseList;
+import com.ju.islamicculturalcenter.dto.response.admin.AdminRoleResponse;
 import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
+import com.ju.islamicculturalcenter.service.iservice.admin.AdminRoleService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +22,11 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
+    private final AdminRoleService adminRoleService;
 
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, AdminRoleService adminRoleService) {
         this.adminService = adminService;
+        this.adminRoleService = adminRoleService;
     }
 
     @PostMapping
@@ -133,6 +137,17 @@ public class AdminController {
                                                                          @RequestParam String keyword){
         Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
                 .data(adminService.searchAdminByName(page, size, keyword))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<Response<List<AdminRoleResponse>>> getAllRoles(){
+        Response<List<AdminRoleResponse>> response = Response.<List<AdminRoleResponse>>builder()
+                .data(adminRoleService.findAllRoles())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
