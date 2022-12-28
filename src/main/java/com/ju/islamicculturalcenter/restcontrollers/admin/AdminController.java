@@ -128,9 +128,11 @@ public class AdminController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Response<List<AdminResponseDto>>> searchByName(@RequestParam String keyword){
+    public ResponseEntity<Response<List<AdminResponseDto>>> searchByName(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                                                         @RequestParam(required = false, defaultValue = "20") Integer size,
+                                                                         @RequestParam String keyword){
         Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
-                .data(adminService.searchAdminByName(keyword))
+                .data(adminService.searchAdminByName(page, size, keyword))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

@@ -23,6 +23,8 @@ import com.ju.islamicculturalcenter.service.iservice.MailService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -145,7 +147,10 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
     }
 
     @Override
-    public List<AdminResponseDto> searchAdminByName(String name) {
+    public List<AdminResponseDto> searchAdminByName(Integer page, Integer size, String name) {
+
+        PageRequest pageRequest = PageRequest.of(page + 1, size);
+        Pageable pageable = pageRequest.previous();
 
         List<String> violations = new CompositeValidator<String, String>()
                 .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
@@ -153,7 +158,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
                 .validate(name);
         validate(violations);
 
-        return adminRepo.searchByName(name).stream()
+        return adminRepo.searchByName(name, pageable).stream()
                 .map(adminMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }
