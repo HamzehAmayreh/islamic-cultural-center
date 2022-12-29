@@ -77,6 +77,7 @@ public class AdminCourseMapper implements BaseMapper<CourseEntity, AdminCourseRe
                 .updateDate(courseEntity.getUpdateDate())
                 .createdById(courseEntity.getCreatedById())
                 .updatedById(courseEntity.getUpdatedById())
+                .isActive(courseEntity.getIsActive())
                 .name(courseEntity.getName())
                 .description(courseEntity.getDescription())
                 .duration(courseEntity.getDuration())
