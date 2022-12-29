@@ -146,6 +146,17 @@ public class AdminController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/roles/admin")
+    public ResponseEntity<Response<List<AdminRoleResponse>>> getAllAdminRoles(){
+        Response<List<AdminRoleResponse>> response = Response.<List<AdminRoleResponse>>builder()
+                .data(adminRoleService.findAllAdminRoles())
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @GetMapping("/roles")
     public ResponseEntity<Response<List<AdminRoleResponse>>> getAllRoles(){
         Response<List<AdminRoleResponse>> response = Response.<List<AdminRoleResponse>>builder()

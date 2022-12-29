@@ -7,4 +7,6 @@ import java.util.List;
 public interface AdminRoleService {
 
     List<AdminRoleResponse> findAllRoles();
+
+    List<AdminRoleResponse> findAllAdminRoles();
 }

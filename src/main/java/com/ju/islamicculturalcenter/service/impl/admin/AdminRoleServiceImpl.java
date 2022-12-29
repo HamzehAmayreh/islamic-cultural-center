@@ -1,6 +1,7 @@
 package com.ju.islamicculturalcenter.service.impl.admin;
 
 import com.ju.islamicculturalcenter.dto.response.admin.AdminRoleResponse;
+import com.ju.islamicculturalcenter.entity.enums.Group;
 import com.ju.islamicculturalcenter.entity.enums.UserRoleEntity;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminRoleService;
@@ -22,6 +23,15 @@ public class AdminRoleServiceImpl implements AdminRoleService {
     @Override
     public List<AdminRoleResponse> findAllRoles() {
         return userRoleRepo.findAll(Example.of(UserRoleEntity.builder().isActive(true).build()))
+                .stream().map(r -> AdminRoleResponse.builder()
+                        .id(r.getId())
+                        .name(r.getTitle())
+                        .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AdminRoleResponse> findAllAdminRoles() {
+        return userRoleRepo.findAll(Example.of(UserRoleEntity.builder().groups(Group.ADMINS).isActive(true).build()))
                 .stream().map(r -> AdminRoleResponse.builder()
                         .id(r.getId())
                         .name(r.getTitle())
