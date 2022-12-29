@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminResetPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdatePasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
 import com.ju.islamicculturalcenter.entity.UserEntity;
@@ -23,6 +24,7 @@ import com.ju.islamicculturalcenter.service.iservice.MailService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -147,7 +149,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
     }
 
     @Override
-    public List<AdminResponseDto> searchAdminByName(Integer page, Integer size, String name) {
+    public ResponseList<AdminResponseDto> searchAdminByName(Integer page, Integer size, String name) {
 
         PageRequest pageRequest = PageRequest.of(page + 1, size);
         Pageable pageable = pageRequest.previous();
@@ -158,9 +160,15 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
                 .validate(name);
         validate(violations);
 
-        return adminRepo.searchByName(name, pageable).stream()
+        Page<AdminEntity> adminEntities = adminRepo.searchByName(name, pageable);
+        List<AdminResponseDto> responseDtoList = adminEntities.stream()
                 .map(adminMapper::mapEntityToDto)
                 .collect(Collectors.toList());
+
+        return ResponseList.<AdminResponseDto>builder()
+                .data(responseDtoList)
+                .totalElements(adminEntities.getTotalElements())
+                .build();
     }
 
     @Override

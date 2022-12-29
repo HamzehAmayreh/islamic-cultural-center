@@ -135,11 +135,13 @@ public class AdminController {
     public ResponseEntity<Response<List<AdminResponseDto>>> searchByName(@RequestParam(required = false, defaultValue = "0") Integer page,
                                                                          @RequestParam(required = false, defaultValue = "20") Integer size,
                                                                          @RequestParam String keyword){
+        ResponseList<AdminResponseDto> responseList = adminService.searchAdminByName(page, size, keyword);
         Response<List<AdminResponseDto>> response = Response.<List<AdminResponseDto>>builder()
-                .data(adminService.searchAdminByName(page, size, keyword))
+                .data(responseList.getData())
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)
+                .allRecords(responseList.getTotalElements())
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

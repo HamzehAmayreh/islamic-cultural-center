@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminResetPasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdatePasswordRequestDto;
 import com.ju.islamicculturalcenter.dto.request.admin.admin.AdminUpdateRequestDto;
+import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.admin.AdminResponseDto;
 import com.ju.islamicculturalcenter.entity.AdminEntity;
 import com.ju.islamicculturalcenter.service.IBaseService;
@@ -20,5 +21,5 @@ public interface AdminService extends IBaseService<AdminEntity, AdminRequestDto,
 
     AdminResponseDto viewOwnProfile();
 
-    List<AdminResponseDto> searchAdminByName(Integer page, Integer size, String name1);
+    ResponseList<AdminResponseDto> searchAdminByName(Integer page, Integer size, String name1);
 }
