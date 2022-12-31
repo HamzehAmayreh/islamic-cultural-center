@@ -76,7 +76,6 @@ public class AdminInstructorServiceImpl extends BaseServiceImpl<InstructorEntity
 
         List<String> violations = new CompositeValidator<String, String>()
                 .addValidator(CompositeValidator::hasValue, "keyword cannot be empty")
-                .addValidator(r -> !CompositeValidator.hasValue(r) || r.length() >= 3, "keyword cannot be less than 3 characters")
                 .validate(name);
         validate(violations);
 
