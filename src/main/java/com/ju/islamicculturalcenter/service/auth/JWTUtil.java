@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -51,6 +52,21 @@ public class JWTUtil implements Serializable {
 
         final Claims claims = getAllClaimsFromToken(token);
         claims.setIssuedAt(createdDate);
+        claims.setExpiration(expirationDate);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .signWith(CustomAlgorithm.getAlgorithm(), secret)
+                .compact();
+    }
+
+    public String killToken(String token) {
+        final Date expirationDate = new Date(System.currentTimeMillis());
+
+        token = token.substring(7);
+
+
+        final Claims claims = getAllClaimsFromToken(token);
         claims.setExpiration(expirationDate);
 
         return Jwts.builder()

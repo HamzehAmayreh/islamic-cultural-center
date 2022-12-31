@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,8 +35,8 @@ public class UserAuthentication {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Response<?>> logout(@RequestBody LogoutRequest logoutRequest) {
-        userAuthService.logout(logoutRequest);
+    public ResponseEntity<Response<?>> logout(@RequestParam String token) {
+        userAuthService.logout(token);
         return new ResponseEntity<>(Response.builder()
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())

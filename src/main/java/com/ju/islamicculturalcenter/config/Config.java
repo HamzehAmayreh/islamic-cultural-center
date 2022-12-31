@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.filter.CustomAuthorizationFilter;
+import com.ju.islamicculturalcenter.repos.TokenBlackListRepo;
 import com.ju.islamicculturalcenter.service.auth.CustomUserDetailsService;
 import com.ju.islamicculturalcenter.service.auth.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import java.util.List;
 @Configuration
 public class Config extends WebSecurityConfigurerAdapter {
 
-    public static final String USER_LOGIN_PATH = "/api/v1/user/auth/login";
+    public static final String USER_LOGIN_PATH = "/api/v1/user/auth/**";
     public static final String SUPER_ADMIN_PATH = "/api/v1/admin/admins";
     public static final String ADMIN_INSTRUCTOR_PATH = "/api/v1/admin/instructors/**";
     public static final String ADMIN_STUDENT_PATH = "/api/v1/admin/students/**";

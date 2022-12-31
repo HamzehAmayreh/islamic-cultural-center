@@ -7,5 +7,5 @@ import com.ju.islamicculturalcenter.dto.auth.LogoutRequest;
 public interface UserAuthService{
     AuthenticationResponse login(CreateAuthenticationRequest authenticationRequest);
 
-    void logout(LogoutRequest logoutRequest);
+    void logout(String token);
 }

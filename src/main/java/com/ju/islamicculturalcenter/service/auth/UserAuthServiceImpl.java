@@ -3,12 +3,12 @@ package com.ju.islamicculturalcenter.service.auth;
 import com.ju.islamicculturalcenter.dto.auth.AuthenticationResponse;
 import com.ju.islamicculturalcenter.dto.auth.CreateAuthenticationRequest;
 import com.ju.islamicculturalcenter.dto.auth.CustomUserDetails;
-import com.ju.islamicculturalcenter.dto.auth.LogoutRequest;
+import com.ju.islamicculturalcenter.entity.TokenBlackListEntity;
 import com.ju.islamicculturalcenter.exceptions.AuthenticationException;
 import com.ju.islamicculturalcenter.exceptions.CustomBadCredentialsException;
-import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.UserNotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
+import com.ju.islamicculturalcenter.repos.TokenBlackListRepo;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,17 +16,21 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+
 @Service
 public class UserAuthServiceImpl implements UserAuthService{
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final TokenBlackListRepo tokenBlackListRepo;
 
-    public UserAuthServiceImpl(AuthenticationManager authenticationManager, JWTUtil jwtUtil, CustomUserDetailsService customUserDetailsService) {
+    public UserAuthServiceImpl(AuthenticationManager authenticationManager, JWTUtil jwtUtil, CustomUserDetailsService customUserDetailsService, TokenBlackListRepo tokenBlackListRepo) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.customUserDetailsService = customUserDetailsService;
+        this.tokenBlackListRepo = tokenBlackListRepo;
     }
 
     @Override
@@ -54,8 +58,17 @@ public class UserAuthServiceImpl implements UserAuthService{
     }
 
     @Override
-    public void logout(LogoutRequest logoutRequest) {
-        requiredNonNUll(logoutRequest.getToken(), "token");
+    public void logout(String token) {
+        requiredNonNUll(token, "token");
+
+        tokenBlackListRepo.save(TokenBlackListEntity.builder()
+                        .active(true)
+                        .createdById(UserDetailsUtil.getSuperAdminId())
+                        .updatedById(UserDetailsUtil.getSuperAdminId())
+                        .creationDate(new Timestamp(System.currentTimeMillis()))
+                        .updateDate(new Timestamp(System.currentTimeMillis()))
+                        .token(token)
+                .build());
     }
 
     private void authenticate(String username, String password) {
