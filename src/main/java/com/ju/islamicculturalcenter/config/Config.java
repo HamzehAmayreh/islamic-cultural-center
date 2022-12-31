@@ -49,6 +49,9 @@ public class Config extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
+    @Autowired
+    private TokenBlackListRepo tokenBlackListRepo;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -81,7 +84,7 @@ public class Config extends WebSecurityConfigurerAdapter {
 
                 .anyRequest().authenticated();
 
-        http.addFilterBefore(new CustomAuthorizationFilter(userDetailsService, jwtUtil), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CustomAuthorizationFilter(userDetailsService, jwtUtil, tokenBlackListRepo), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)

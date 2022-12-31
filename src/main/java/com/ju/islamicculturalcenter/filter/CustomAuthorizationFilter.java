@@ -4,7 +4,6 @@ import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.repos.TokenBlackListRepo;
 import com.ju.islamicculturalcenter.service.auth.CustomUserDetailsService;
 import com.ju.islamicculturalcenter.service.auth.JWTUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,13 +26,12 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     public static final String BEARER = "Bearer ";
     private final CustomUserDetailsService userDetailsService;
     private final JWTUtil jwtUtil;
+    private final TokenBlackListRepo tokenBlackListRepo;
 
-    @Autowired
-    private TokenBlackListRepo tokenBlackListRepo;
-
-    public CustomAuthorizationFilter(CustomUserDetailsService userDetailsService, JWTUtil jwtUtil) {
+    public CustomAuthorizationFilter(CustomUserDetailsService userDetailsService, JWTUtil jwtUtil, TokenBlackListRepo tokenBlackListRepo) {
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.tokenBlackListRepo = tokenBlackListRepo;
     }
 
     @Override
