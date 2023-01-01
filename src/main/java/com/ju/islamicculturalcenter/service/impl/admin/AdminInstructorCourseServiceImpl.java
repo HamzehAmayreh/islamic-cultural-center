@@ -5,6 +5,8 @@ import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseRespons
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
+import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
+import com.ju.islamicculturalcenter.entity.StudentEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.mappers.admin.AdminCourseMapper;
@@ -96,6 +98,9 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
                 .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")
                 .addValidator(r -> isNull(r.getInstructorId()) || instructorRepo.findByIdAndIsActive(r.getInstructorId(), true).isPresent(), "no instructor found with this id")
                 .addValidator(r -> isNull(r.getCourseId()) || courseRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no course found with this id")
+                .addValidator(r -> isNull(r.getCourseId()) || isNull(r.getInstructorId()) || instructorCoursesRepo.findAll(Example.of(InstructorCoursesEntity.builder()
+                        .instructor(InstructorEntity.builder().id(r.getInstructorId()).build())
+                        .course(CourseEntity.builder().id(r.getCourseId()).build()).build())).isEmpty(), "already registered")
                 .validate(requestDto);
         validate(violations);
     }

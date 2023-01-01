@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminPaidStu
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.entity.CourseEntity;
+import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
 import com.ju.islamicculturalcenter.entity.StudentEntity;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
@@ -118,6 +119,9 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
                 .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")
                 .addValidator(r -> isNull(r.getStudentId()) || studentRepo.findByIdAndIsActive(r.getStudentId(), true).isPresent(), "no student found with this id")
                 .addValidator(r -> isNull(r.getCourseId()) || courseRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no course found with this id")
+                .addValidator(r -> isNull(r.getCourseId()) || isNull(r.getStudentId()) || studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
+                        .student(StudentEntity.builder().id(r.getStudentId()).build())
+                        .course(CourseEntity.builder().id(r.getCourseId()).build()).build())).isEmpty(), "already registered")
                 .validate(requestDto);
         validate(violations);
     }
