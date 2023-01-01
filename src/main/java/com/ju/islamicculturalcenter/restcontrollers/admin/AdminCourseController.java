@@ -101,7 +101,7 @@ public class AdminCourseController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping( "/instructor")
+    @PatchMapping( "/instructor")
     public ResponseEntity<Response<Void>> unAssignInstructorToCourse(@RequestBody AdminInstructorCourseRequestDto requestDto) {
         adminInstructorCourseService.unAssignInstructorToCourse(requestDto);
         Response<Void> response = Response.<Void>builder()
@@ -123,7 +123,7 @@ public class AdminCourseController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping( "/student")
+    @PatchMapping( "/student")
     public ResponseEntity<Response<Void>> unAssignStudentToCourse(@RequestBody AdminStudentCourseRequestDto requestDto) {
         adminStudentCourseService.unAssignStudentToCourse(requestDto);
         Response<Void> response = Response.<Void>builder()
