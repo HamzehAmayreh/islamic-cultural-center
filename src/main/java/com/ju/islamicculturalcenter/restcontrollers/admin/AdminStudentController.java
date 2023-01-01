@@ -7,6 +7,8 @@ import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.ResponseList;
 import com.ju.islamicculturalcenter.dto.response.admin.AdminStudentResponseDto;
+import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
+import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentCourseService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,11 @@ import java.util.List;
 public class AdminStudentController {
 
     private final AdminStudentService adminStudentService;
+    private final AdminStudentCourseService adminStudentCourseService;
 
-    public AdminStudentController(AdminStudentService adminStudentService) {
+    public AdminStudentController(AdminStudentService adminStudentService, AdminStudentCourseService adminStudentCourseService) {
         this.adminStudentService = adminStudentService;
+        this.adminStudentCourseService = adminStudentCourseService;
     }
 
     @PostMapping
@@ -97,6 +101,17 @@ public class AdminStudentController {
     public ResponseEntity<Response<List<AdminStudentResponseDto>>> searchByName(@RequestParam String keyword){
         Response<List<AdminStudentResponseDto>> response = Response.<List<AdminStudentResponseDto>>builder()
                 .data(adminStudentService.searchStudentByName(keyword))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<Response<List<AdminCourseResponseDto>>> viewCourses(@PathVariable Long id){
+        Response<List<AdminCourseResponseDto>> response = Response.<List<AdminCourseResponseDto>>builder()
+                .data(adminStudentCourseService.viewCoursesByStudent(id))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

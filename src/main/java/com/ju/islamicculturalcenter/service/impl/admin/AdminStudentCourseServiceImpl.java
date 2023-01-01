@@ -2,13 +2,17 @@ package com.ju.islamicculturalcenter.service.impl.admin;
 
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminPaidStudentCourseRequest;
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
 import com.ju.islamicculturalcenter.entity.StudentEntity;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
+import com.ju.islamicculturalcenter.mappers.admin.AdminCourseMapper;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
+import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStudentCourseService;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
@@ -28,11 +33,17 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
     private final StudentCoursesRepo studentCoursesRepo;
     private final CourseRepo courseRepo;
     private final StudentRepo studentRepo;
+    private final InstructorCoursesRepo instructorCoursesRepo;
+    private final AdminCourseMapper adminCourseMapper;
+    private final UserRoleRepo userRoleRepo;
 
-    public AdminStudentCourseServiceImpl(StudentCoursesRepo studentCoursesRepo, CourseRepo courseRepo, StudentRepo studentRepo) {
+    public AdminStudentCourseServiceImpl(StudentCoursesRepo studentCoursesRepo, CourseRepo courseRepo, StudentRepo studentRepo, InstructorCoursesRepo instructorCoursesRepo, UserRoleRepo userRoleRepo) {
         this.studentCoursesRepo = studentCoursesRepo;
         this.courseRepo = courseRepo;
         this.studentRepo = studentRepo;
+        this.instructorCoursesRepo = instructorCoursesRepo;
+        this.userRoleRepo = userRoleRepo;
+        this.adminCourseMapper = new AdminCourseMapper(studentCoursesRepo, instructorCoursesRepo, userRoleRepo);
     }
 
     @Override
@@ -88,6 +99,17 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
 
         studentCoursesEntity.setPaid(true);
         studentCoursesRepo.save(studentCoursesEntity);
+    }
+
+    @Override
+    public List<AdminCourseResponseDto> viewCoursesByStudent(Long studentId) {
+        return studentCoursesRepo.findAll(
+                Example.of(StudentCoursesEntity.builder()
+                                .active(true)
+                                .student(StudentEntity.builder().active(true).id(studentId).build())
+                        .build())).stream()
+                .map(r -> adminCourseMapper.mapEntityToCourseDto(r.getCourse()))
+                .collect(Collectors.toList());
     }
 
     private void validateRequest(AdminStudentCourseRequestDto requestDto) {

@@ -101,6 +101,36 @@ public class AdminCourseMapper implements BaseMapper<CourseEntity, AdminCourseRe
                 .build();
     }
 
+    public AdminCourseResponseDto mapEntityToCourseDto(CourseEntity courseEntity) {
+
+        return AdminCourseResponseDto.builder()
+                .id(courseEntity.getId())
+                .creationDate(courseEntity.getCreationDate())
+                .updateDate(courseEntity.getUpdateDate())
+                .createdById(courseEntity.getCreatedById())
+                .updatedById(courseEntity.getUpdatedById())
+                .isActive(courseEntity.getIsActive())
+                .name(courseEntity.getName())
+                .description(courseEntity.getDescription())
+                .duration(courseEntity.getDuration())
+                .startDate(courseEntity.getStartDate())
+                .endDate(courseEntity.getEndDate())
+                .lectureTime(courseEntity.getLectureTime())
+                .daysOfWeek(courseEntity.getDaysOfWeek())
+                .category(courseEntity.getCategory())
+                .maxParticipants(courseEntity.getMaxParticipants())
+                .isPreRecorded(courseEntity.getIsPreRecorded())
+                .isOnline(courseEntity.getIsOnline())
+                .isFree(courseEntity.getIsFree())
+                .price(courseEntity.getPrice())
+                .classroom(courseEntity.getClassroom())
+                .semester(courseEntity.getSemester())
+                .year(courseEntity.getYear())
+                .teamsLink(courseEntity.getTeamsLink())
+                .lastRegDay(courseEntity.getLastRegDay())
+                .build();
+    }
+
     private List<AdminInstructorResponseDto> mapInstructors(CourseEntity courseEntity) {
         return instructorCoursesRepo.findAll(Example.of(InstructorCoursesEntity.builder()
                         .course(CourseEntity.builder().active(true).id(courseEntity.getId()).build()).build())).stream()

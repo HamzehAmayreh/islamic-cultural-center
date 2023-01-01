@@ -6,7 +6,9 @@ import com.ju.islamicculturalcenter.dto.request.admin.instructor.AdminResetInstr
 import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.ResponseList;
+import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.dto.response.admin.instructor.AdminInstructorResponseDto;
+import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourseService;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +21,11 @@ import java.util.List;
 public class AdminInstructorController {
 
     private final AdminInstructorService adminInstructorService;
+    private final AdminInstructorCourseService adminInstructorCourseService;
 
-    public AdminInstructorController(AdminInstructorService adminInstructorService) {
+    public AdminInstructorController(AdminInstructorService adminInstructorService, AdminInstructorCourseService adminInstructorCourseService) {
         this.adminInstructorService = adminInstructorService;
+        this.adminInstructorCourseService = adminInstructorCourseService;
     }
 
     @PostMapping
@@ -97,6 +101,17 @@ public class AdminInstructorController {
     public ResponseEntity<Response<List<AdminInstructorResponseDto>>> searchByName(@RequestParam String keyword){
         Response<List<AdminInstructorResponseDto>> response = Response.<List<AdminInstructorResponseDto>>builder()
                 .data(adminInstructorService.searchInstructorByName(keyword))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<Response<List<AdminCourseResponseDto>>> viewCourses(@PathVariable Long id){
+        Response<List<AdminCourseResponseDto>> response = Response.<List<AdminCourseResponseDto>>builder()
+                .data(adminInstructorCourseService.viewCoursesByInstructor(id))
                 .code(CODE.OK.getId())
                 .message(CODE.OK.name())
                 .success(true)

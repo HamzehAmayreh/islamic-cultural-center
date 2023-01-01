@@ -1,14 +1,18 @@
 package com.ju.islamicculturalcenter.service.impl.admin;
 
 import com.ju.islamicculturalcenter.dto.request.admin.instructorcourse.AdminInstructorCourseRequestDto;
+import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.entity.CourseEntity;
 import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.exceptions.ValidationException;
+import com.ju.islamicculturalcenter.mappers.admin.AdminCourseMapper;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.InstructorRepo;
+import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
+import com.ju.islamicculturalcenter.repos.UserRoleRepo;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
 import com.ju.islamicculturalcenter.service.helper.CompositeValidator;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminInstructorCourseService;
@@ -18,8 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.ju.islamicculturalcenter.service.helper.NullValidator.validate;
 import static java.lang.String.join;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -31,11 +35,17 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
     private final InstructorCoursesRepo instructorCoursesRepo;
     private final InstructorRepo instructorRepo;
     private final CourseRepo courseRepo;
+    private final AdminCourseMapper adminCourseMapper;
+    private final StudentCoursesRepo studentCoursesRepo;
+    private final UserRoleRepo userRoleRepo;
 
-    public AdminInstructorCourseServiceImpl(InstructorCoursesRepo instructorCoursesRepo, InstructorRepo instructorRepo, CourseRepo courseRepo) {
+    public AdminInstructorCourseServiceImpl(InstructorCoursesRepo instructorCoursesRepo, InstructorRepo instructorRepo, CourseRepo courseRepo, StudentCoursesRepo studentCoursesRepo, UserRoleRepo userRoleRepo) {
         this.instructorCoursesRepo = instructorCoursesRepo;
         this.instructorRepo = instructorRepo;
         this.courseRepo = courseRepo;
+        this.studentCoursesRepo = studentCoursesRepo;
+        this.userRoleRepo = userRoleRepo;
+        this.adminCourseMapper = new AdminCourseMapper(studentCoursesRepo, instructorCoursesRepo, userRoleRepo);
     }
 
     @Override
@@ -66,6 +76,17 @@ public class AdminInstructorCourseServiceImpl implements AdminInstructorCourseSe
                 .orElseThrow(() -> new ValidationException("No Record found for this instructor to this course"));
 
         instructorCoursesRepo.delete(instructorCoursesEntity);
+    }
+
+    @Override
+    public List<AdminCourseResponseDto> viewCoursesByInstructor(Long instructorId) {
+        return instructorCoursesRepo.findAll(
+                        Example.of(InstructorCoursesEntity.builder()
+                                .active(true)
+                                .instructor(InstructorEntity.builder().active(true).id(instructorId).build())
+                                .build())).stream()
+                .map(r -> adminCourseMapper.mapEntityToCourseDto(r.getCourse()))
+                .collect(Collectors.toList());
     }
 
     private void validateRequest(AdminInstructorCourseRequestDto requestDto) {
