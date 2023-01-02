@@ -81,11 +81,10 @@ public class InstructorCoursesServiceImpl implements InstructorCoursesService {
                 .semester(entity.getCourse().getSemester())
                 .lastRegDay(entity.getCourse().getLastRegDay())
                 .teamsLink(entity.getCourse().getTeamsLink())
-                .students(getStudentsByCourseId(entity.getCourse().getId()))
                 .build();
     }
 
-    private List<InstructorStudentResponseDto> getStudentsByCourseId(Long courseId) {
+    public List<InstructorStudentResponseDto> getStudentsByCourseId(Long courseId) {
         return studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
                         .active(true)
                         .course(CourseEntity.builder().id(courseId).build())
