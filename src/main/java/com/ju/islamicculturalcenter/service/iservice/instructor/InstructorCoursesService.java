@@ -9,4 +9,6 @@ public interface InstructorCoursesService {
     List<InstructorCourseResponseDto> myCourses();
 
     List<InstructorCourseResponseDto> searchCourseByName(String name);
+
+    InstructorCourseResponseDto viewCourseDetails(Long courseId);
 }

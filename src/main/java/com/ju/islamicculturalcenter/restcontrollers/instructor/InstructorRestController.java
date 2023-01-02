@@ -73,6 +73,17 @@ public class InstructorRestController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/courses/{id}")
+    public ResponseEntity<Response<InstructorCourseResponseDto>> viewCourseDetails(@PathVariable Long id){
+        Response<InstructorCourseResponseDto> response= Response.<InstructorCourseResponseDto>builder()
+                .data(instructorCoursesService.viewCourseDetails(id))
+                .code(CODE.OK.getId())
+                .message(CODE.OK.name())
+                .success(true)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/course/search")
     public ResponseEntity<Response<List<InstructorCourseResponseDto>>> searchCourse(@RequestParam String keyword){
         Response<List<InstructorCourseResponseDto>> response= Response.<List<InstructorCourseResponseDto>>builder()

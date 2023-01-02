@@ -7,7 +7,7 @@ import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
 import com.ju.islamicculturalcenter.entity.UserEntity;
-import com.ju.islamicculturalcenter.exceptions.ValidationException;
+import com.ju.islamicculturalcenter.exceptions.NotFoundException;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.service.auth.UserDetailsUtil;
@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.isNull;
 
 @Service
 public class InstructorCoursesServiceImpl implements InstructorCoursesService {
@@ -50,6 +48,18 @@ public class InstructorCoursesServiceImpl implements InstructorCoursesService {
         return instructorCoursesRepo.findAllByInstructor_User_IdAndCourse_NameLike(UserDetailsUtil.userDetails().getId(), name).stream()
                 .map(this::mapEntityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public InstructorCourseResponseDto viewCourseDetails(Long courseId) {
+
+        InstructorCoursesEntity instructorCoursesEntity = instructorCoursesRepo.findOne(Example.of(InstructorCoursesEntity.builder()
+                .course(CourseEntity.builder().active(true).id(courseId).build())
+                .instructor(InstructorEntity.builder().active(true).user(UserEntity.builder().active(true).id(UserDetailsUtil.userDetails().getId()).build()).build())
+                .build()))
+                .orElseThrow(() -> new NotFoundException("No Course Found for this instructor with this id"));
+
+        return mapEntityToDto(instructorCoursesEntity);
     }
 
     private InstructorCourseResponseDto mapEntityToDto(InstructorCoursesEntity entity) {
