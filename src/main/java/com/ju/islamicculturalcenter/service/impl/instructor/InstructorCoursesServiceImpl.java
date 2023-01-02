@@ -66,6 +66,7 @@ public class InstructorCoursesServiceImpl implements InstructorCoursesService {
     private InstructorCourseResponseDto mapEntityToDto(InstructorCoursesEntity entity) {
         return InstructorCourseResponseDto.builder()
                 .id(entity.getId())
+                .courseId(entity.getCourse().getId())
                 .name(entity.getCourse().getName())
                 .description(entity.getCourse().getDescription())
                 .category(entity.getCourse().getCategory())

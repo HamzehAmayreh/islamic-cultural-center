@@ -25,6 +25,8 @@ public class InstructorCourseResponseDto implements BaseResponseDto {
 
     private Long id;
 
+    private Long courseId;
+
     private String name;
 
     private String description;

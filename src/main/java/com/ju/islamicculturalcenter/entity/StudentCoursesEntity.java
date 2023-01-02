@@ -35,7 +35,6 @@ public class StudentCoursesEntity extends BaseEntity {
     private InstructorEntity instructor;
 
     @Builder
-
     public StudentCoursesEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, Boolean paid, CourseEntity course, StudentEntity student, InstructorEntity instructor) {
         super(creationDate, createdById, updateDate, updatedById, active);
         this.id = id;
