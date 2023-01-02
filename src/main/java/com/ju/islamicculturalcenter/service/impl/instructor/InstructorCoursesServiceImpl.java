@@ -34,6 +34,7 @@ public class InstructorCoursesServiceImpl implements InstructorCoursesService {
 
         List<InstructorCoursesEntity> entities = instructorCoursesRepo.findAll(Example.of(InstructorCoursesEntity.builder()
                 .active(true)
+                .course(CourseEntity.builder().active(true).build())
                 .instructor(InstructorEntity.builder().user(UserEntity.builder().id(UserDetailsUtil.userDetails().getId()).build()).build())
                 .build()));
 
