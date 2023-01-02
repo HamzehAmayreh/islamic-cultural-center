@@ -46,8 +46,6 @@ public class InstructorCoursesServiceImpl implements InstructorCoursesService {
 
     @Override
     public List<InstructorCourseResponseDto> searchCourseByName(String name) {
-        if (isNull(name) || name.length() < 3)
-            throw new ValidationException("Name cannot be empty or less than 3 characters");
 
         return instructorCoursesRepo.findAllByInstructor_User_IdAndCourse_NameLike(UserDetailsUtil.userDetails().getId(), name).stream()
                 .map(this::mapEntityToDto)
