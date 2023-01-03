@@ -49,7 +49,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
 
     @Override
     public void assignStudentToCourse(AdminStudentCourseRequestDto requestDto) {
-        validateRequest(requestDto);
+        validateCreateRequest(requestDto);
 
         studentCoursesRepo.save(StudentCoursesEntity.builder()
                 .active(true)
@@ -114,6 +114,16 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
     }
 
     private void validateRequest(AdminStudentCourseRequestDto requestDto) {
+        List<String> violations = new CompositeValidator<AdminStudentCourseRequestDto, String>()
+                .addValidator(r -> nonNull(r.getStudentId()), "Student Id cannot be null")
+                .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")
+                .addValidator(r -> isNull(r.getStudentId()) || studentRepo.findByIdAndIsActive(r.getStudentId(), true).isPresent(), "no student found with this id")
+                .addValidator(r -> isNull(r.getCourseId()) || courseRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no course found with this id")
+                .validate(requestDto);
+        validate(violations);
+    }
+
+    private void validateCreateRequest(AdminStudentCourseRequestDto requestDto) {
         List<String> violations = new CompositeValidator<AdminStudentCourseRequestDto, String>()
                 .addValidator(r -> nonNull(r.getStudentId()), "Student Id cannot be null")
                 .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")
