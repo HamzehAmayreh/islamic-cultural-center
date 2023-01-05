@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -13,4 +14,6 @@ public interface InstructorRepo extends BaseRepo<InstructorEntity, Long> {
 
     @Query("Select a from InstructorEntity a where a.user.firstName like %:name%")
     List<InstructorEntity> searchByName(String name);
+
+    Long countAllByIsActiveAndCreationDateGreaterThanEqual(Boolean isActive, Timestamp creationDate);
 }

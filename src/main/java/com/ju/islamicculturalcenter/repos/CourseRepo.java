@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.entity.CourseEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +15,6 @@ public interface CourseRepo extends BaseRepo<CourseEntity, Long> {
     List<CourseEntity> searchByName(String name);
 
     Optional<CourseEntity> findByName(String name);
+
+    Long countAllByIsActiveAndCreationDateGreaterThanEqual(Boolean isActive, Timestamp creationDate);
 }

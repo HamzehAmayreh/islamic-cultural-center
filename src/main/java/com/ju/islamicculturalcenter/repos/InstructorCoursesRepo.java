@@ -2,6 +2,7 @@ package com.ju.islamicculturalcenter.repos;
 
 import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,4 +11,7 @@ import java.util.List;
 public interface InstructorCoursesRepo extends BaseRepo<InstructorCoursesEntity, Long> {
 
     List<InstructorCoursesEntity> findAllByInstructor_User_IdAndCourse_NameLike(Long instructorId, String name);
+
+    @Query("select count(distinct instructor) from InstructorCoursesEntity where isActive = true")
+    Long findAssignedInstructors();
 }
