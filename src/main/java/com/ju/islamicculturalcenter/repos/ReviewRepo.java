@@ -12,8 +12,11 @@ public interface ReviewRepo extends BaseRepo<ReviewEntity, Long>{
     @Query("select r from ReviewEntity r ORDER BY r.creationDate desc")
     List<ReviewEntity> findTopRating(Pageable pageable);
 
+    @Query("select r from ReviewEntity r where r.creationDate <:date ORDER BY r.creationDate desc")
+    List<ReviewEntity> findTopRatingWithDate(Timestamp date, Pageable pageable);
+
     @Query("SELECT AVG(r.rating) from ReviewEntity r where r.isActive = true")
     Double findAverage();
 
-    Long countAllByIsActiveAndCreationDateGreaterThanEqual(Boolean isActive, Timestamp creationDate);
+    Long countAllByIsActiveAndCreationDateLessThanEqual(Boolean isActive, Timestamp creationDate);
 }

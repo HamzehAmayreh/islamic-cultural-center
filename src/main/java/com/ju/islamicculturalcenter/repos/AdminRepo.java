@@ -14,5 +14,5 @@ public interface AdminRepo extends BaseRepo<AdminEntity, Long> {
     @Query("Select a from AdminEntity a where a.user.firstName like %:name%")
     Page<AdminEntity> searchByName(String name, Pageable pageable);
 
-    Long countAllByIsActiveAndCreationDateGreaterThanEqual(Boolean isActive, Timestamp creationDate);
+    Long countAllByIsActiveAndCreationDateLessThanEqual(Boolean isActive, Timestamp creationDate);
 }

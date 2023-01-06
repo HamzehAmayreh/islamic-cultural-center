@@ -15,5 +15,5 @@ public interface InstructorRepo extends BaseRepo<InstructorEntity, Long> {
     @Query("Select a from InstructorEntity a where a.user.firstName like %:name%")
     List<InstructorEntity> searchByName(String name);
 
-    Long countAllByIsActiveAndCreationDateGreaterThanEqual(Boolean isActive, Timestamp creationDate);
+    Long countAllByIsActiveAndCreationDateLessThanEqual(Boolean isActive, Timestamp creationDate);
 }

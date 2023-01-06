@@ -16,5 +16,5 @@ public interface CourseRepo extends BaseRepo<CourseEntity, Long> {
 
     Optional<CourseEntity> findByName(String name);
 
-    Long countAllByIsActiveAndCreationDateGreaterThanEqual(Boolean isActive, Timestamp creationDate);
+    Long countAllByIsActiveAndCreationDateLessThanEqual(Boolean isActive, Timestamp creationDate);
 }

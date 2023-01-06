@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.dto.response.CODE;
 import com.ju.islamicculturalcenter.dto.response.Response;
 import com.ju.islamicculturalcenter.dto.response.admin.StatisticsResponse;
 import com.ju.islamicculturalcenter.service.iservice.admin.AdminStatisticsService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,8 @@ public class AdminStatisticsController {
     }
 
     @GetMapping
-    public ResponseEntity<Response<StatisticsResponse>> getAllStats(@RequestParam(required = false) LocalDate date){
+    public ResponseEntity<Response<StatisticsResponse>> getAllStats(@RequestParam(required = false)
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
 
         Response<StatisticsResponse> response = Response.<StatisticsResponse>builder()
                 .data(adminStatisticsService.findAllAdminStatistics(date))

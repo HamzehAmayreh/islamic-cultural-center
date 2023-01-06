@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.stream.Collectors;
 
 import static java.util.Objects.nonNull;
@@ -56,15 +57,15 @@ public class AdminStatisticsServiceImpl implements AdminStatisticsService {
         Pageable pageable = pageRequest.previous();
         if (nonNull(date)) {
             return StatisticsResponse.builder()
-                    .adminsCount(adminRepo.countAllByIsActiveAndCreationDateGreaterThanEqual(true, Timestamp.valueOf(date.atStartOfDay())))
-                    .instructorsCount(instructorRepo.countAllByIsActiveAndCreationDateGreaterThanEqual(true, Timestamp.valueOf(date.atStartOfDay())))
-                    .coursesCount(courseRepo.countAllByIsActiveAndCreationDateGreaterThanEqual(true, Timestamp.valueOf(date.atStartOfDay())))
-                    .studentsCount(studentRepo.countAllByIsActiveAndCreationDateGreaterThanEqual(true, Timestamp.valueOf(date.atStartOfDay())))
-                    .instructorsWithCoursesCount(instructorCoursesRepo.findAssignedInstructors())
-                    .studentWithCoursesCount(studentCoursesRepo.findAssignedStudents())
+                    .adminsCount(adminRepo.countAllByIsActiveAndCreationDateLessThanEqual(true, Timestamp.valueOf(date.atTime(LocalTime.MAX))))
+                    .instructorsCount(instructorRepo.countAllByIsActiveAndCreationDateLessThanEqual(true, Timestamp.valueOf(date.atTime(LocalTime.MAX))))
+                    .coursesCount(courseRepo.countAllByIsActiveAndCreationDateLessThanEqual(true, Timestamp.valueOf(date.atTime(LocalTime.MAX))))
+                    .studentsCount(studentRepo.countAllByIsActiveAndCreationDateLessThanEqual(true, Timestamp.valueOf(date.atTime(LocalTime.MAX))))
+                    .instructorsWithCoursesCount(instructorCoursesRepo.findAssignedInstructorsWithDate(Timestamp.valueOf(date.atTime(LocalTime.MAX))))
+                    .studentWithCoursesCount(studentCoursesRepo.findAssignedStudentsWithDate(Timestamp.valueOf(date.atTime(LocalTime.MAX))))
                     .averageReviews(reviewRepo.findAverage())
-                    .reviewsCount(reviewRepo.countAllByIsActiveAndCreationDateGreaterThanEqual(true, Timestamp.valueOf(date.atStartOfDay())))
-                    .topReviews(reviewRepo.findTopRating(pageable).stream().map(studentReviewMapper::mapEntityToDto).collect(Collectors.toList()))
+                    .reviewsCount(reviewRepo.countAllByIsActiveAndCreationDateLessThanEqual(true, Timestamp.valueOf(date.atTime(LocalTime.MAX))))
+                    .topReviews(reviewRepo.findTopRatingWithDate(Timestamp.valueOf(date.atTime(LocalTime.MAX)), pageable).stream().map(studentReviewMapper::mapEntityToDto).collect(Collectors.toList()))
                     .build();
         }
         return StatisticsResponse.builder()
