@@ -78,6 +78,7 @@ public class StudentReviewMapper implements BaseMapper<ReviewEntity, CreateRevie
                 .id(reviewEntity.getId())
                 .rating(reviewEntity.getRating())
                 .comment(reviewEntity.getComment())
+                .date(reviewEntity.getCreationDate().toLocalDateTime().toLocalDate())
                 .course(StudentCourseResponse.builder()
                         .id(reviewEntity.getCourse().getId())
                         .name(reviewEntity.getCourse().getName())
