@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ReviewRepo extends BaseRepo<ReviewEntity, Long>{
 
-    @Query("select r from ReviewEntity r ORDER BY r.rating desc")
+    @Query("select r from ReviewEntity r ORDER BY r.creationDate desc")
     List<ReviewEntity> findTopRating(Pageable pageable);
 
     @Query("SELECT AVG(r.rating) from ReviewEntity r where r.isActive = true")
