@@ -157,7 +157,7 @@ public class AdminCourseServiceImpl extends BaseServiceImpl<CourseEntity, AdminC
                 .addValidator(r -> CompositeValidator.hasValue(r.getClassroom()), "classroom cannot be null")
                 .addValidator(r -> CompositeValidator.hasValue(r.getSemester()), "semester cannot be null")
                 .addValidator(r -> nonNull(r.getYear()), "year cannot be null")
-                .addValidator(r -> isNull(r.getYear()) || !r.getYear().isBefore(LocalDate.now()), "year cannot be in the past")
+                .addValidator(r -> isNull(r.getYear()) || !r.getYear().with(lastDayOfYear()).isBefore(LocalDate.now()), "year cannot be in the past")
                 .addValidator(r -> nonNull(r.getLastRegDay()), "lastRegDay cannot be null")
                 .addValidator(r -> isNull(r.getLastRegDay()) || !r.getLastRegDay().isBefore(LocalDate.now().plusDays(1L)), "lastRegDay cannot be in the past or 1 day from now")
                 .validate(dto);

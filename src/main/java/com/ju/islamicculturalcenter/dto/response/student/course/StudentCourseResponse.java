@@ -32,6 +32,8 @@ public class StudentCourseResponse implements BaseResponseDto {
 
     private Double duration;
 
+    private Double price;
+
     private LocalDate startDate;
 
     private LocalDate endDate;

@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface CourseRepo extends BaseRepo<CourseEntity, Long> {
 
-    @Query("Select a from CourseEntity a where a.name like %:name%")
+    @Query("Select a from CourseEntity a where a.name like %:name% and a.isActive=true")
     List<CourseEntity> searchByName(String name);
 
     Optional<CourseEntity> findByName(String name);
