@@ -14,6 +14,8 @@ import org.springframework.data.domain.Example;
 
 import java.sql.Timestamp;
 
+import static java.util.Objects.nonNull;
+
 public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, AdminResponseDto> {
 
     private final UserRoleRepo userRoleRepo;
@@ -43,7 +45,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                         .phoneNumber(adminRequestDto.getPhoneNumber())
                         .facebookUrl(adminRequestDto.getFacebookUrl())
                         .role(getAdminRole(adminRequestDto.getRoleId()))
-                        .imageUrl(adminRequestDto.getImageUrl())
+                        .imageUrl(nonNull(adminRequestDto.getImageUrl()) ? adminRequestDto.getImageUrl(): "https://islamic-cultural-center-files.s3.amazonaws.com/585e4bf3cb11b227491c339a2023-01-10T22:08:45.380.png")
                         .build())
                 .address(adminRequestDto.getAddress())
                 .iban(adminRequestDto.getIban())
@@ -68,7 +70,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .role(adminEntity.getUser().getRole())
                 .address(adminEntity.getAddress())
                 .iban(adminEntity.getIban())
-                .imageUrl(adminEntity.getUser().getImageUrl())
+                .imageUrl(nonNull(adminEntity.getUser().getImageUrl()) ? adminEntity.getUser().getImageUrl(): "https://islamic-cultural-center-files.s3.amazonaws.com/585e4bf3cb11b227491c339a2023-01-10T22:08:45.380.png")
                 .build();
     }
 
