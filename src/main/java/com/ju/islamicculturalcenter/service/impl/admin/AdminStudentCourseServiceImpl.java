@@ -4,6 +4,7 @@ import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminPaidStu
 import com.ju.islamicculturalcenter.dto.request.admin.studentcourse.AdminStudentCourseRequestDto;
 import com.ju.islamicculturalcenter.dto.response.admin.course.AdminCourseResponseDto;
 import com.ju.islamicculturalcenter.entity.CourseEntity;
+import com.ju.islamicculturalcenter.entity.InstructorCoursesEntity;
 import com.ju.islamicculturalcenter.entity.InstructorEntity;
 import com.ju.islamicculturalcenter.entity.StudentCoursesEntity;
 import com.ju.islamicculturalcenter.entity.StudentEntity;
@@ -11,6 +12,7 @@ import com.ju.islamicculturalcenter.exceptions.ValidationException;
 import com.ju.islamicculturalcenter.mappers.admin.AdminCourseMapper;
 import com.ju.islamicculturalcenter.repos.CourseRepo;
 import com.ju.islamicculturalcenter.repos.InstructorCoursesRepo;
+import com.ju.islamicculturalcenter.repos.InstructorRepo;
 import com.ju.islamicculturalcenter.repos.StudentCoursesRepo;
 import com.ju.islamicculturalcenter.repos.StudentRepo;
 import com.ju.islamicculturalcenter.repos.UserRoleRepo;
@@ -34,14 +36,16 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
     private final StudentCoursesRepo studentCoursesRepo;
     private final CourseRepo courseRepo;
     private final StudentRepo studentRepo;
+    private final InstructorRepo instructorRepo;
     private final InstructorCoursesRepo instructorCoursesRepo;
     private final AdminCourseMapper adminCourseMapper;
     private final UserRoleRepo userRoleRepo;
 
-    public AdminStudentCourseServiceImpl(StudentCoursesRepo studentCoursesRepo, CourseRepo courseRepo, StudentRepo studentRepo, InstructorCoursesRepo instructorCoursesRepo, UserRoleRepo userRoleRepo) {
+    public AdminStudentCourseServiceImpl(StudentCoursesRepo studentCoursesRepo, CourseRepo courseRepo, StudentRepo studentRepo, InstructorRepo instructorRepo, InstructorCoursesRepo instructorCoursesRepo, UserRoleRepo userRoleRepo) {
         this.studentCoursesRepo = studentCoursesRepo;
         this.courseRepo = courseRepo;
         this.studentRepo = studentRepo;
+        this.instructorRepo = instructorRepo;
         this.instructorCoursesRepo = instructorCoursesRepo;
         this.userRoleRepo = userRoleRepo;
         this.adminCourseMapper = new AdminCourseMapper(studentCoursesRepo, instructorCoursesRepo, userRoleRepo);
@@ -59,6 +63,7 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
                 .updateDate(new Timestamp(System.currentTimeMillis()))
                 .student(StudentEntity.builder().id(requestDto.getStudentId()).build())
                 .course(CourseEntity.builder().id(requestDto.getCourseId()).build())
+                .instructor(InstructorEntity.builder().id(requestDto.getInstructorId()).build())
                 .paid(false)
                 .build());
 
@@ -127,8 +132,13 @@ public class AdminStudentCourseServiceImpl implements AdminStudentCourseService 
         List<String> violations = new CompositeValidator<AdminStudentCourseRequestDto, String>()
                 .addValidator(r -> nonNull(r.getStudentId()), "Student Id cannot be null")
                 .addValidator(r -> nonNull(r.getCourseId()), "course Id cannot be null")
+                .addValidator(r -> nonNull(r.getInstructorId()), "instructor Id cannot be null")
                 .addValidator(r -> isNull(r.getStudentId()) || studentRepo.findByIdAndIsActive(r.getStudentId(), true).isPresent(), "no student found with this id")
                 .addValidator(r -> isNull(r.getCourseId()) || courseRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no course found with this id")
+                .addValidator(r -> isNull(r.getInstructorId()) || instructorRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no instructor found with this id")
+                .addValidator(r -> isNull(r.getInstructorId()) || isNull(r.getCourseId()) || instructorCoursesRepo.exists(Example.of(InstructorCoursesEntity.builder()
+                        .instructor(InstructorEntity.builder().active(true).id(r.getInstructorId()).build())
+                        .course(CourseEntity.builder().id(r.getCourseId()).active(true).build()).build())), "instructor is not assigned to course")
                 .addValidator(r -> isNull(r.getCourseId()) || isNull(r.getStudentId()) || studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
                         .student(StudentEntity.builder().id(r.getStudentId()).build())
                         .course(CourseEntity.builder().id(r.getCourseId()).build()).build())).isEmpty(), "already registered")

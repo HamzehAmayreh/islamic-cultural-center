@@ -25,4 +25,6 @@ public interface StudentService extends IBaseService<StudentEntity, StudentSignU
     StudentCourseResponse viewCourseDetails(Long courseId);
 
     ResponseList<StudentCourseResponse> viewRegisteredCourses(Integer page, Integer size);
+
+    StudentCourseResponse viewRegisteredCourseDetails(Long courseId);
 }

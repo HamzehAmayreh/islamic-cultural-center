@@ -14,5 +14,7 @@ public class AdminStudentCourseRequestDto implements BaseRequestDto {
 
     private Long studentId;
 
+    private Long instructorId;
+
     private Long courseId;
 }

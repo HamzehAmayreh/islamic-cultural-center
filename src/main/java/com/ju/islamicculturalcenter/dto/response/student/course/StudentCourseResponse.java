@@ -61,5 +61,7 @@ public class StudentCourseResponse implements BaseResponseDto {
 
     private List<InstructorResponseDto> instructors;
 
+    private InstructorResponseDto instructor;
+
     private List<InstructorMaterialResponseDto> materials;
 }

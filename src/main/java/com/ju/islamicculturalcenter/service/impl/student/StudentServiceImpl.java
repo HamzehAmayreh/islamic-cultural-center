@@ -188,6 +188,9 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                 .addValidator(r -> nonNull(r.getInstructorId()), "instructorId cannot be null")
                 .addValidator(r -> isNull(r.getCourseId()) || courseRepo.findByIdAndIsActive(r.getCourseId(), true).isPresent(), "no course found with ID :" + requestDto.getCourseId())
                 .addValidator(r -> isNull(r.getInstructorId()) || instructorRepo.findByIdAndIsActive(r.getInstructorId(), true).isPresent(), "no instructor found with ID :" + requestDto.getInstructorId())
+                .addValidator(r -> isNull(r.getCourseId()) || studentCoursesRepo.findAll(Example.of(StudentCoursesEntity.builder()
+                        .student(StudentEntity.builder().user(UserEntity.builder().id(UserDetailsUtil.userDetails().getId()).build()).build())
+                        .course(CourseEntity.builder().id(r.getCourseId()).build()).build())).isEmpty(), "already registered")
                 .validate(requestDto);
         validate(violations);
 
@@ -226,8 +229,10 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
 
     @Override
     public StudentCourseResponse viewCourseDetails(Long courseId) {
-        return mapAvailableCourses(courseRepo.findByIdAndIsActive(courseId, true)
-                .orElseThrow(() -> new NotFoundException("No Course found with ID:" + courseId)));
+        return mapAvailableCourses(courseRepo.findOne(Example.of(CourseEntity.builder()
+                .active(true).id(courseId)
+                .build()))
+                .orElseThrow(() -> new NotFoundException("No Course Found with this ID")));
     }
 
     @Override
@@ -243,13 +248,25 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                 .build()), pageable);
 
         List<StudentCourseResponse> responseList = courseEntities.stream()
-                .map(r -> mapRegisteredCourses(r.getCourse()))
+                .map(r -> mapRegisteredCourses(r.getCourse(), r.getInstructor()))
                 .collect(Collectors.toList());
 
         return ResponseList.<StudentCourseResponse>builder()
                 .data(responseList)
                 .totalElements(courseEntities.getTotalElements())
                 .build();
+    }
+
+    @Override
+    public StudentCourseResponse viewRegisteredCourseDetails(Long courseId) {
+        StudentCoursesEntity coursesEntity = studentCoursesRepo.findOne(Example.of(StudentCoursesEntity.builder()
+                        .active(true)
+                        .student(StudentEntity.builder().active(true).user(UserEntity.builder().active(true).id(UserDetailsUtil.userDetails().getId()).build()).build())
+                        .course(CourseEntity.builder().active(true).id(courseId).build())
+                        .build()))
+                .orElseThrow(() -> new NotFoundException("No Course Found with this ID for this student"));
+
+        return mapRegisteredCourses(coursesEntity.getCourse(), coursesEntity.getInstructor());
     }
 
     private StudentCourseResponse mapAvailableCourses(CourseEntity course) {
@@ -281,7 +298,7 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                 .build();
     }
 
-    private StudentCourseResponse mapRegisteredCourses(CourseEntity course) {
+    private StudentCourseResponse mapRegisteredCourses(CourseEntity course, InstructorEntity instructor) {
         return StudentCourseResponse.builder()
                 .id(course.getId())
                 .name(course.getName())
@@ -300,6 +317,7 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                 .year(course.getYear())
                 .teamsLink(course.getTeamsLink())
                 .lastRegDay(course.getLastRegDay())
+                .instructor(instructorMapper.mapEntityToDto(instructor))
                 .materials(materialRepo.findAll(Example.of(MaterialEntity.builder()
                                 .active(true)
                                 .course(CourseEntity.builder().id(course.getId()).build())
@@ -309,19 +327,19 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentEntity, StudentSi
                 .build();
     }
 
-    private CourseEntity getCourseById(Long id){
+    private CourseEntity getCourseById(Long id) {
         return courseRepo.findByIdAndIsActive(id, true)
                 .orElseThrow(() -> new NotFoundException("No course found with ID:" + id));
     }
 
-    private InstructorEntity getInstructorById(Long id){
+    private InstructorEntity getInstructorById(Long id) {
         return instructorRepo.findByIdAndIsActive(id, true)
                 .orElseThrow(() -> new NotFoundException("No instructor found with ID:" + id));
     }
 
-    private StudentEntity getStudentByUserId(Long id){
+    private StudentEntity getStudentByUserId(Long id) {
         return studentRepo.findOne(Example.of(StudentEntity.builder()
-                .user(UserEntity.builder().active(true).id(id).build()).build()))
+                        .user(UserEntity.builder().active(true).id(id).build()).build()))
                 .orElseThrow(() -> new NotFoundException("No student found with session"));
     }
 }

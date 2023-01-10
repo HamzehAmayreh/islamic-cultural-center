@@ -29,7 +29,7 @@ import java.util.List;
 @Configuration
 public class Config extends WebSecurityConfigurerAdapter {
 
-    public static final String USER_LOGIN_PATH = "/api/v1/user/auth/**";
+    public static final String USER_LOGIN_PATH = "/api/v1/user/**";
     public static final String SUPER_ADMIN_PATH = "/api/v1/admin/admins";
     public static final String ADMIN_INSTRUCTOR_PATH = "/api/v1/admin/instructors/**";
     public static final String ADMIN_STUDENT_PATH = "/api/v1/admin/students/**";
