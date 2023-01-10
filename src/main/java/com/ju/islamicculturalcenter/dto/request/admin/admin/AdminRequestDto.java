@@ -26,5 +26,7 @@ public class AdminRequestDto implements BaseRequestDto {
 
     private String iban;
 
+    private String imageUrl;
+
     private Long roleId;
 }

@@ -52,13 +52,16 @@ public class UserEntity extends BaseEntity {
     @Column(name = "facebook_url")
     private String facebookUrl;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @JoinColumn(name = "role_id", nullable = false)
     @OneToOne
     @Cascade(CascadeType.PERSIST)
     private UserRoleEntity role;
 
     @Builder
-    public UserEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, UserRoleEntity role) {
+    public UserEntity(Timestamp creationDate, Long createdById, Timestamp updateDate, Long updatedById, Boolean active, Long id, String firstName, String lastName, String userName, String email, String password, String phoneNumber, String facebookUrl, String imageUrl, UserRoleEntity role) {
         super(creationDate, createdById, updateDate, updatedById, active);
         this.id = id;
         this.firstName = firstName;
@@ -68,6 +71,7 @@ public class UserEntity extends BaseEntity {
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.facebookUrl = facebookUrl;
+        this.imageUrl = imageUrl;
         this.role = role;
     }
 }

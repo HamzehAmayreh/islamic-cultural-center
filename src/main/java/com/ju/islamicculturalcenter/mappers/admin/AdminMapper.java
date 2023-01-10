@@ -43,6 +43,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                         .phoneNumber(adminRequestDto.getPhoneNumber())
                         .facebookUrl(adminRequestDto.getFacebookUrl())
                         .role(getAdminRole(adminRequestDto.getRoleId()))
+                        .imageUrl(adminRequestDto.getImageUrl())
                         .build())
                 .address(adminRequestDto.getAddress())
                 .iban(adminRequestDto.getIban())
@@ -67,6 +68,7 @@ public class AdminMapper implements BaseMapper<AdminEntity, AdminRequestDto, Adm
                 .role(adminEntity.getUser().getRole())
                 .address(adminEntity.getAddress())
                 .iban(adminEntity.getIban())
+                .imageUrl(adminEntity.getUser().getImageUrl())
                 .build();
     }
 

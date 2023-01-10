@@ -33,10 +33,12 @@ public class AdminResponseDto extends BaseAdminResponse implements BaseResponseD
 
     private String address;
 
+    private String imageUrl;
+
     private String iban;
 
     @Builder
-    public AdminResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, UserRoleEntity role, String address, String iban) {
+    public AdminResponseDto(Long id, Long createdById, Long updatedById, Timestamp creationDate, Timestamp updateDate, Boolean isActive, String firstName, String lastName, String userName, String email, String phoneNumber, String facebookUrl, UserRoleEntity role, String address, String imageUrl, String iban) {
         super(id, createdById, updatedById, creationDate, updateDate, isActive);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,6 +48,7 @@ public class AdminResponseDto extends BaseAdminResponse implements BaseResponseD
         this.facebookUrl = facebookUrl;
         this.role = role;
         this.address = address;
+        this.imageUrl = imageUrl;
         this.iban = iban;
     }
 }
