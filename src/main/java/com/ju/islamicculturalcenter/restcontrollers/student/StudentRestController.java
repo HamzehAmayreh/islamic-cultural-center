@@ -118,6 +118,19 @@ public class StudentRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/my-courses/{id}")
+    public ResponseEntity<Response<StudentCourseResponse>> viewRegisteredCourseDetails(@PathVariable Long id) {
+
+        Response<StudentCourseResponse> response = Response.<StudentCourseResponse>builder()
+                .data(studentService.viewRegisteredCourseDetails(id))
+                .message(CODE.OK.name())
+                .code(CODE.OK.getId())
+                .success(true)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/courses")
     public ResponseEntity<Response<List<StudentCourseResponse>>> registerToCourse(@RequestBody StudentCourseRequestDto requestDto) {
         studentService.registerToCourse(requestDto);
