@@ -129,7 +129,9 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminEntity, AdminRequestD
         entity.getUser().setLastName(isNull(requestDto.getLastName()) ? entity.getUser().getLastName() : requestDto.getLastName());
         entity.getUser().setFacebookUrl(isNull(requestDto.getFacebookUrl()) ? entity.getUser().getFacebookUrl() : requestDto.getFacebookUrl());
         entity.getUser().setPhoneNumber(isNull(requestDto.getPhoneNumber()) ? entity.getUser().getPhoneNumber() : requestDto.getPhoneNumber());
+        entity.getUser().setImageUrl(isNull(requestDto.getImageUrl()) ? entity.getUser().getImageUrl() : requestDto.getImageUrl());
         entity.setIban(isNull(requestDto.getIban()) ? entity.getIban() : requestDto.getIban());
+        entity.setAddress(isNull(requestDto.getAddress()) ? entity.getAddress() : requestDto.getAddress());
         entity.setAddress(isNull(requestDto.getAddress()) ? entity.getAddress() : requestDto.getAddress());
 
         entity.getUser().setUpdateDate(new Timestamp(System.currentTimeMillis()));

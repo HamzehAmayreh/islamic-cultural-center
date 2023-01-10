@@ -22,5 +22,7 @@ public class AdminUpdateRequestDto implements BaseRequestDto {
 
     private String address;
 
+    private String imageUrl;
+
     private String iban;
 }
